@@ -3,6 +3,8 @@ import Question from '../../components/Question';
 import TeamName from '../../components/TeamName';
 import Constants from '../../constants';
 
+// @TODO Broken for now
+
 export default function Boverview({
   name,
 }: {
@@ -10,7 +12,7 @@ export default function Boverview({
   // questions: Array<{ id: string; content: string; answer: string }>;
 }) {
   const questions: Array<{ id: string; content: string; answer: string }> = [
-    { id: 1, content: 'Whoes Joe', answer: 'Ble' },
+    { id: '1', content: 'Whoes Joe', answer: 'Ble' },
   ];
 
   return (
