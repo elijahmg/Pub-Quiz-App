@@ -15,6 +15,9 @@ import {
   HStack,
   PinInput,
   Center,
+  Text,
+  Box,
+  Flex,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 export default function Home() {
@@ -27,11 +30,36 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main className={styles.main}>
-        <Heading as="h1" size="3xl" noOfLines={1}>
-          Welcome to Pub Quiz 💻
-        </Heading>
-        <Button onClick={() => changeModalStatus(true)}>Join!</Button>
-        <Button>Create!</Button>
+        <Box mb={98}>
+          <Flex alignItems="center" flexDirection="column">
+            <Heading as="h1" size="3xl" color="green.100" mb={200}>
+              Hello there
+            </Heading>
+            <Heading as="h2" textAlign="center" mb={2}>
+              Looks like you’re ready to have a great time.
+            </Heading>
+            <Text color="gray.400" align="center">
+              Time to enter your quiz’s PIN and let’s get started.
+            </Text>
+          </Flex>
+        </Box>
+        <Button
+          w="100%"
+          onClick={() => changeModalStatus(true)}
+          color="white"
+          bgColor="green.100"
+          mb={2}
+        >
+          Enter PIN
+        </Button>
+        <Button
+          variant="outline"
+          borderColor="green.100"
+          w="100%"
+          color="green.100"
+        >
+          Admin dashboard
+        </Button>
         <Modal isOpen={modalStatus} onClose={() => changeModalStatus(false)}>
           <ModalOverlay />
           <ModalContent>
