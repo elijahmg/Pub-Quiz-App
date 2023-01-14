@@ -6,8 +6,10 @@ import {
   Heading,
   Input,
   Stack,
+  Text,
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
+
 const Welcome = (): JSX.Element => {
   const [value, setValue] = React.useState<string>(``);
   const [buttonStatus, setButtonStatus] = React.useState<boolean>(true);
@@ -22,11 +24,20 @@ const Welcome = (): JSX.Element => {
       setErrorMessage(`Invalid Name`);
     }
   }, [value, buttonStatus]);
+
   return (
     <Center h={`100vh`} p={`20px`}>
       <Stack spacing={8}>
-        <Heading>Now enter your name please…</Heading>
+        <Heading>Welcome</Heading>
+        <Heading>How about we add your team name?</Heading>
+        <Text>
+          You can name your team however you want. important thing is to have
+          fun
+        </Text>
         <FormControl id="first-name" isInvalid={buttonStatus}>
+          <Heading as="h3" mb={4}>
+            Team name
+          </Heading>
           <Input
             placeholder="Your Name"
             value={value}
