@@ -39,10 +39,10 @@ export default function AnswersCheck() {
     results[questionIndex] = value;
     setResults(results);
     const updatedSum = Object.values(results).reduce(
-      (a: any, b: any): number =>
+      (a: any, b: any): any =>
         Number(a) + Number(b),
       0,
-    ) as number;
+    );
     setSum(updatedSum);
   };
 
