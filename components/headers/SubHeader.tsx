@@ -5,9 +5,5 @@ interface SubHeader {
 }
 
 export default function SubHeader({ label }: SubHeader) {
-  return (
-    <Heading as="h2" textAlign="center" mb={2}>
-      {label}
-    </Heading>
-  );
+  return <Heading as="h2">{label}</Heading>;
 }
