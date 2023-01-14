@@ -11,7 +11,7 @@ export default function Waiting() {
           maxW={400}
         />
         <Text>
-          Don\'t worry Quirky Owls, the quiz will start in a few moments.
+          Don&apos;t worry Quirky Owls, the quiz will start in a few moments.
         </Text>
         <Text>Grab a drink in the meantime!</Text>
       </Stack>
