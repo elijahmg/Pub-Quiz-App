@@ -23,6 +23,8 @@ import { useState } from 'react';
 import Header from '../components/headers/Header';
 import SubHeader from '../components/headers/SubHeader';
 import SubTitle from '../components/headers/SubTitle';
+import PrimaryButton from '../components/buttons/PrimaryButton';
+import SecondaryButton from '../components/buttons/SecondaryButton';
 export default function Home() {
   const [modalStatus, changeModalStatus] = useState<boolean>(false);
   return (
@@ -44,23 +46,12 @@ export default function Home() {
             />
           </Flex>
         </Box>
-        <Button
-          w="100%"
-          onClick={() => changeModalStatus(true)}
-          color="white"
-          bgColor="green.100"
-          mb={2}
-        >
-          Enter PIN
-        </Button>
-        <Button
-          variant="outline"
-          borderColor="green.100"
-          w="100%"
-          color="green.100"
-        >
-          Admin dashboard
-        </Button>
+
+        <PrimaryButton
+          label={'Enter PIN'}
+          changeModalStatus={changeModalStatus}
+        />
+        <SecondaryButton label={'Admin dashboard'} />
         <Modal isOpen={modalStatus} onClose={() => changeModalStatus(false)}>
           <ModalOverlay />
           <ModalContent>
