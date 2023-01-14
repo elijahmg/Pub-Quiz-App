@@ -6,9 +6,5 @@ interface SubHeader {
 }
 
 export default function SubHeader({ children }: SubHeader) {
-  return (
-    <Heading as="h2" textAlign="center" mb={2}>
-      {children}
-    </Heading>
-  );
+  return <Heading as="h2">{children}</Heading>;
 }
