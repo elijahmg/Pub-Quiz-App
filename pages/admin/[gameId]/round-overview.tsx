@@ -4,25 +4,34 @@ import { useRouter } from 'next/router';
 export default function RoundOverview() {
   const router = useRouter();
 
+  const rounds = [
+    {
+      id: 1,
+      name: 'Music',
+      questions: [
+        {
+          id: 1,
+          content: 'Where is John',
+          answer: 'here',
+        },
+      ],
+    },
+  ];
+
   return (
     <Stack>
       <Flex justifyContent="flex-start">
-        <Box>
-          <Text>Round 1</Text>
-          <Text>Question 1</Text>
-          <Text>Question 2</Text>
-          <Text>Question 3</Text>
-          <Text>Question 4</Text>
-          <Text>Answer</Text>
-        </Box>
-        <Box>
-          <Text>Round 2</Text>
-          <Text>Question 1</Text>
-          <Text>Question 2</Text>
-          <Text>Question 3</Text>
-          <Text>Question 4</Text>
-          <Text>Answer</Text>
-        </Box>
+        {rounds.map((round) => (
+          <Box key={round.id}>
+            <Text>Round {round.name}</Text>
+            {round.questions.map((question) => (
+              <Box key={question.id}>
+                <Text>{question.content}</Text>
+                <Text>{question.answer}</Text>
+              </Box>
+            ))}
+          </Box>
+        ))}
       </Flex>
       {/** @TODO game id is dynamic **/}
       <Button onClick={() => router.push(`/admin/${3}/teams-check`)}>
