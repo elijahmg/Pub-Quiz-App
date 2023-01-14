@@ -34,7 +34,7 @@ export const NewGameModal = (props: NewGameModalProps): JSX.Element => {
   const setState = (
     prevState: GameData | undefined,
     name: string,
-    newVal: any,
+    newVal: string | number,
   ) => {
     setData((prevState: GameData) => ({
       ...prevState,
@@ -43,12 +43,12 @@ export const NewGameModal = (props: NewGameModalProps): JSX.Element => {
   };
 
   function sendData() {
-    console.log({ data });
     props.onClose();
+    return data;
   }
 
   return (
-    <Modal isOpen={props.isOpen} onClose={() => props.onClose()}>
+    <Modal isOpen={props.isOpen} onClose={props.onClose()}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Set Game Data</ModalHeader>
@@ -71,10 +71,10 @@ export const NewGameModal = (props: NewGameModalProps): JSX.Element => {
           />
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={() => props.onClose()}>
+          <Button colorScheme="blue" mr={3} onClick={props.onClose()}>
             Close
           </Button>
-          <Button variant="ghost" onClick={() => sendData()}>
+          <Button variant="ghost" onClick={sendData}>
             Submit
           </Button>
         </ModalFooter>
