@@ -26,7 +26,7 @@ function Topic({ topicName }: TopicProps) {
 export default function QuizHead({
   teamName,
   round,
-  topicName
+  topicName,
 }: QuizHeadProps) {
   return (
     <Box>
