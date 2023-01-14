@@ -17,14 +17,14 @@ import {
 
 interface ModalProps {
   modalStatus: boolean;
-  changeModalStatus: Function;
+  onClickHandle: Function;
 }
 export default function ModalComponent({
   modalStatus,
-  changeModalStatus,
+  onClickHandle,
 }: ModalProps) {
   return (
-    <Modal isOpen={modalStatus} onClose={() => changeModalStatus(false)}>
+    <Modal isOpen={modalStatus} onClose={() => onClickHandle(false)}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Login</ModalHeader>
@@ -52,11 +52,11 @@ export default function ModalComponent({
           <Button
             colorScheme="blue"
             mr={3}
-            onClick={() => changeModalStatus(false)}
+            onClick={() => onClickHandle(false)}
           >
             Join
           </Button>
-          <Button onClick={() => changeModalStatus(false)} variant="ghost">
+          <Button onClick={() => onClickHandle(false)} variant="ghost">
             Close
           </Button>
         </ModalFooter>
