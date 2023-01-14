@@ -127,14 +127,14 @@ export default function Overview() {
 
       <Box p={4} pt={10}>
         <Flex alignItems="center" flexDirection="column">
-          <SubHeader label={'This Round’s Score'} />
-          <Header label={calculateSum(answers).toString()} />
+          <SubHeader>This Round’s Score</SubHeader>
+          <Header>{calculateSum(answers).toString()}</Header>
         </Flex>
       </Box>
       <hr />
       <Box p={4}>
         <Flex alignItems="center" flexDirection="column">
-          <SubHeader label="Totol score" />
+          <SubHeader>Totol score</SubHeader>
           <Text color={'green.100'}>50</Text>
         </Flex>
       </Box>
