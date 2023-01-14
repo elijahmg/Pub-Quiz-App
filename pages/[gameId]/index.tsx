@@ -30,9 +30,7 @@ const Welcome = (): JSX.Element => {
           <Input
             placeholder="Your Name"
             value={value}
-            onChange={(e: React.FormEvent<HTMLInputElement>) =>
-              setValue(e.target.value)
-            }
+            onChange={(e) => setValue(e.target.value)}
           />
         </FormControl>
         <Button isDisabled={buttonStatus}>
