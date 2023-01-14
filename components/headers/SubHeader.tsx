@@ -1,13 +1,13 @@
 import { Heading } from '@chakra-ui/react';
 
 interface SubHeader {
-  subHeaderText: string;
+  label: string;
 }
 
-export default function SubHeader({ subHeaderText }: SubHeader) {
+export default function SubHeader({ label }: SubHeader) {
   return (
     <Heading as="h2" textAlign="center" mb={2}>
-      {subHeaderText}
+      {label}
     </Heading>
   );
 }

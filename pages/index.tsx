@@ -35,14 +35,12 @@ export default function Home() {
       <main className={styles.main}>
         <Box mb={98}>
           <Flex alignItems="center" flexDirection="column">
-            <Header headerText={'Hello there'} />
+            <Header label={'Hello there'} />
             <SubHeader
-              subHeaderText={'Looks like you’re ready to have a great time.'}
+              label={'Looks like you’re ready to have a great time.'}
             />
             <SubTitle
-              subTitleText={
-                'Time to enter your quiz’s PIN and let’s get started.'
-              }
+              label={'Time to enter your quiz’s PIN and let’s get started.'}
             />
           </Flex>
         </Box>
