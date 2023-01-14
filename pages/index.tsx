@@ -20,6 +20,9 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { useState } from 'react';
+import Header from '../components/headers/Header';
+import SubHeader from '../components/headers/SubHeader';
+import SubTitle from '../components/headers/SubTitle';
 export default function Home() {
   const [modalStatus, changeModalStatus] = useState<boolean>(false);
   return (
@@ -32,15 +35,15 @@ export default function Home() {
       <main className={styles.main}>
         <Box mb={98}>
           <Flex alignItems="center" flexDirection="column">
-            <Heading as="h1" size="3xl" color="green.100" mb={200}>
-              Hello there
-            </Heading>
-            <Heading as="h2" textAlign="center" mb={2}>
-              Looks like you’re ready to have a great time.
-            </Heading>
-            <Text color="gray.400" align="center">
-              Time to enter your quiz’s PIN and let’s get started.
-            </Text>
+            <Header headerText={'Hello there'} />
+            <SubHeader
+              subHeaderText={'Looks like you’re ready to have a great time.'}
+            />
+            <SubTitle
+              subTitleText={
+                'Time to enter your quiz’s PIN and let’s get started.'
+              }
+            />
           </Flex>
         </Box>
         <Button
