@@ -1,13 +1,13 @@
-import { Heading } from '@chakra-ui/react';
+import { Heading, HeadingProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 interface Header {
   children: ReactNode;
 }
 
-export default function Header({ children }: Header) {
+export default function Header({ children, ...props}: Header & HeadingProps) {
   return (
-    <Heading as="h1" size="3xl" color="green.100">
+    <Heading as="h1" size="3xl" color="green.100" {...props}>
       {children}
     </Heading>
   );

@@ -1,10 +1,10 @@
-import { Heading } from '@chakra-ui/react';
+import { Heading, HeadingProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 interface SubHeader {
   children: ReactNode;
 }
 
-export default function SubHeader({ children }: SubHeader) {
-  return <Heading as="h2">{children}</Heading>;
+export default function SubHeader({ children, ...props }: SubHeader & HeadingProps) {
+  return <Heading as="h2" {...props}>{children}</Heading>;
 }
