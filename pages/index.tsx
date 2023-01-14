@@ -1,15 +1,19 @@
+import { useState } from 'react';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { Box, Flex } from '@chakra-ui/react';
-import { useState } from 'react';
 import Header from '../components/headers/Header';
 import SubHeader from '../components/headers/SubHeader';
 import SubTitle from '../components/headers/SubTitle';
 import PrimaryButton from '../components/buttons/PrimaryButton';
 import SecondaryButton from '../components/buttons/SecondaryButton';
 import ModalComponent from '../components/ModalComponent';
+import { useRouter } from 'next/router';
+
 export default function Home() {
   const [modalStatus, changeModalStatus] = useState<boolean>(false);
+  const router = useRouter();
+
   return (
     <>
       <Head>
@@ -28,10 +32,10 @@ export default function Home() {
           </Flex>
         </Box>
 
-        <PrimaryButton onClick={() => changeModalStatus(true)}>
+        <PrimaryButton onClick={() => router.push('add-pin')} w="100%" mb={2}>
           Enter PIN
         </PrimaryButton>
-        <SecondaryButton>Admin dashboard</SecondaryButton>
+        <SecondaryButton w="100%">Admin dashboard</SecondaryButton>
         <ModalComponent
           modalStatus={modalStatus}
           onClickHandle={changeModalStatus}

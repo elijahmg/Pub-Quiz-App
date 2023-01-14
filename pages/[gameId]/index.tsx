@@ -5,13 +5,14 @@ import {
   FormControl,
   Heading,
   Input,
-  Stack,
+  Flex,
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import Header from '../../components/headers/Header';
 import SubHeader from '../../components/headers/SubHeader';
 import SubTitle from '../../components/headers/SubTitle';
 import DummyPeople from '../../components/images/dummy-people';
+import PrimaryButton from '../../components/buttons/PrimaryButton';
 
 const Welcome = (): JSX.Element => {
   const [value, setValue] = React.useState<string>(``);
@@ -29,30 +30,29 @@ const Welcome = (): JSX.Element => {
   }, [value, buttonStatus]);
 
   return (
-    <Center h={`100vh`} p={`20px`}>
-      <Stack spacing={8}>
-        <Header>Welcome</Header>
-        <SubHeader>How about we add your team name?</SubHeader>
-        <SubTitle>
-          You can name your team however you want. important thing is to have
-          fun
-        </SubTitle>
-        <DummyPeople />
+    <Flex flexDirection="column" p={6} height="100vh">
+      <Header textAlign="center" my={8}>
+        Welcome
+      </Header>
+      <SubHeader>How about we add your team name?</SubHeader>
+      <SubTitle mb={6}>
+        You can name your team however you want. important thing is to have fun
+      </SubTitle>
+      <DummyPeople />
         <FormControl id="first-name" isInvalid={buttonStatus}>
-          <Heading as="h3" mb={4}>
-            Team name
-          </Heading>
-          <Input
-            placeholder="Your awesome team name"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-          />
-        </FormControl>
-        <Button isDisabled={buttonStatus}>
-          {buttonStatus ? errorMessage : 'Submit'}
-        </Button>
-      </Stack>
-    </Center>
+        <Heading as="h3" mb={4}>
+          Team name
+        </Heading>
+        <Input
+          placeholder="Your awesome team name"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+      </FormControl>
+      <PrimaryButton isDisabled={buttonStatus} mt={4}>
+        {buttonStatus ? errorMessage : 'Submit'}
+      </PrimaryButton>
+    </Flex>
   );
 };
 export default Welcome;
