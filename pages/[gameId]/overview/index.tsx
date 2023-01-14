@@ -1,18 +1,14 @@
 import {
   VStack,
-  Box,
   StackDivider,
   Table,
   Thead,
   Tbody,
   Tr,
   Td,
-  Th,
-  Text,
   Heading,
   Tfoot,
 } from '@chakra-ui/react';
-import { string } from 'prop-types';
 
 interface Answer {
   title: string;
@@ -53,8 +49,10 @@ export default function Overview() {
 
       <Table>
         <Thead>
-          <Th>Answer</Th>
-          <Th isNumeric>Points</Th>
+          <Tr>
+            <Td>Answer</Td>
+            <Td isNumeric>Points</Td>
+          </Tr>
         </Thead>
         <Tbody>
           {answers.map((value) => (
@@ -66,7 +64,9 @@ export default function Overview() {
         </Tbody>
         <Tfoot>
           <Tr>
-            <Heading size={'md'}>Total: {calculateSum(answers)}</Heading>
+            <Td>
+              <Heading size={'md'}>Total: {calculateSum(answers)}</Heading>
+            </Td>
           </Tr>
         </Tfoot>
       </Table>
