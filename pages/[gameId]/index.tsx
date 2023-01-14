@@ -8,6 +8,10 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
+import Header from '../../components/headers/Header';
+import SubHeader from '../../components/headers/SubHeader';
+import SubTitle from '../../components/headers/SubTitle';
+
 const Welcome = (): JSX.Element => {
   const [value, setValue] = React.useState<string>(``);
   const [buttonStatus, setButtonStatus] = React.useState<boolean>(true);
@@ -22,13 +26,22 @@ const Welcome = (): JSX.Element => {
       setErrorMessage(`Invalid Name`);
     }
   }, [value, buttonStatus]);
+
   return (
     <Center h={`100vh`} p={`20px`}>
       <Stack spacing={8}>
-        <Heading>Now enter your name please…</Heading>
+        <Header label="Welcome" />
+        <SubHeader label="How about we add your team name?" />
+        <SubTitle
+          label="You can name your team however you want. important thing is to have
+          fun"
+        />
         <FormControl id="first-name" isInvalid={buttonStatus}>
+          <Heading as="h3" mb={4}>
+            Team name
+          </Heading>
           <Input
-            placeholder="Your Name"
+            placeholder="Your awesome team name"
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />

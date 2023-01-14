@@ -2,7 +2,6 @@ import { Badge, Box, Flex, Input, Spacer, Stack, Text } from "@chakra-ui/react";
 import { ChangeEvent } from "react";
 import QuizHead from "../../../components/headers/quiz-head";
 
-const teamName = 'TeamName';
 const questions = [
   {
     number: 1,
@@ -45,7 +44,7 @@ const questions = [
 const handleChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
   questions[index].answer = e.target.value;
   console.log(questions);
-}
+};
 
 function QuestionList() {
   return (
