@@ -6,9 +6,5 @@ interface SubText {
 }
 
 export default function SubTitle({ children }: SubText) {
-  return (
-    <Text color="gray.400" align="center">
-      {children}
-    </Text>
-  );
+  return <Text color="gray.400">{children}</Text>;
 }
