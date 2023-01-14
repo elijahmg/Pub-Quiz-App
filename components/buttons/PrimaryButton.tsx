@@ -1,4 +1,4 @@
-import { Button } from '@chakra-ui/react';
+import { Button, ButtonProps as ChakraButtonProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 interface ButtonProps {
@@ -9,9 +9,15 @@ interface ButtonProps {
 export default function PrimaryButton({
   children,
   onClickHandle,
-}: ButtonProps) {
+  ...props
+}: ButtonProps & ChakraButtonProps) {
   return (
-    <Button color="white" onClick={() => onClickHandle()} bgColor="green.100">
+    <Button
+      color="white"
+      onClick={() => onClickHandle()}
+      bgColor="green.100"
+      {...props}
+    >
       {children}
     </Button>
   );
