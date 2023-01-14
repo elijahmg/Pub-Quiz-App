@@ -29,8 +29,10 @@ export default function AnswersCheck() {
     },
   ];
 
-  const resultList = {};
-  questions.forEach((question) => resultList[question.id] = '0');
+  const resultList = questions.reduce((acc, question) => {
+    acc[question.id] = '0';
+    return acc;
+  }, {} as any);
 
   const [sum, setSum] = useState(0);
   const [results, setResults] = useState(resultList);
@@ -39,8 +41,7 @@ export default function AnswersCheck() {
     results[questionIndex] = value;
     setResults(results);
     const updatedSum = Object.values(results).reduce(
-      (a: any, b: any): any =>
-        Number(a) + Number(b),
+      (a: any, b: any): any => Number(a) + Number(b),
       0,
     );
     setSum(updatedSum as number);
