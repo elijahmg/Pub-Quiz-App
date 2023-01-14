@@ -43,7 +43,7 @@ export default function AnswersCheck() {
         Number(a) + Number(b),
       0,
     );
-    setSum(updatedSum);
+    setSum(updatedSum as number);
   };
 
   function RadioComponent(props: any) {
