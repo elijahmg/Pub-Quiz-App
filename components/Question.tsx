@@ -1,5 +1,13 @@
-import { Center, Stack, Text, Input, Button, Flex } from '@chakra-ui/react';
 import { BaseSyntheticEvent, useCallback, useRef, useState } from 'react';
+import {
+  Center,
+  Stack,
+  Text,
+  Input,
+  Button,
+  Flex,
+  FormControl,
+} from '@chakra-ui/react';
 import Constants from '../constants';
 
 export default function Question({
@@ -19,26 +27,26 @@ export default function Question({
     },
     [setValue],
   );
+  const onHandleAnswer = useCallback(() => {
+    handleAnswer(input.current?.value ?? '');
+  }, [handleAnswer]);
   return (
     <Center>
       <Stack spacing={Constants.StackSpacing}>
         <Flex justifyContent="flex-start">
           <Text fontSize="5xl">{question}</Text>
-          <Input
-            size="lg"
-            ref={input}
-            value={value}
-            placeholder="Do you think you know the answer?"
-            onInput={inputHandler}
-          />
-          <Button
-            size="lg"
-            onClick={() => {
-              handleAnswer(input.current?.value ?? '');
-            }}
-          >
-            {'Say what?!'}
-          </Button>
+          <FormControl>
+            <Input
+              size="lg"
+              ref={input}
+              value={value}
+              placeholder="Do you think you know the answer?"
+              onInput={inputHandler}
+            />
+            <Button size="lg" onClick={onHandleAnswer}>
+              {'Say what?!'}
+            </Button>
+          </FormControl>
         </Flex>
       </Stack>
     </Center>
