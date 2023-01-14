@@ -20,24 +20,19 @@ export default function Home() {
       <main className={styles.main}>
         <Box mb={98}>
           <Flex alignItems="center" flexDirection="column">
-            <Header label={'Hello there'} />
-            <SubHeader
-              label={'Looks like you’re ready to have a great time.'}
-            />
-            <SubTitle
-              label={'Time to enter your quiz’s PIN and let’s get started.'}
-            />
+            <Header>Hello there</Header>
+            <SubHeader>Looks like you’re ready to have a great time.</SubHeader>
+            <SubTitle>
+              Time to enter your quiz’s PIN and let’s get started.
+            </SubTitle>
           </Flex>
         </Box>
 
-        <PrimaryButton
-          label={'Enter PIN'}
-          changeModalStatus={changeModalStatus}
-        />
-        <SecondaryButton label={'Admin dashboard'} />
+        <PrimaryButton label={'Enter PIN'} onClickHandle={changeModalStatus} />
+        <SecondaryButton>Admin dashboard</SecondaryButton>
         <ModalComponent
           modalStatus={modalStatus}
-          changeModalStatus={changeModalStatus}
+          onClickHandle={changeModalStatus}
         />
       </main>
     </>

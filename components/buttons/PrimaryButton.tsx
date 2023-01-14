@@ -2,21 +2,12 @@ import { Button } from '@chakra-ui/react';
 
 interface ButtonProps {
   label: string;
-  changeModalStatus: Function;
+  onClickHandle: Function;
 }
 
-export default function PrimaryButton({
-  label,
-  changeModalStatus,
-}: ButtonProps) {
+export default function PrimaryButton({ label, onClickHandle }: ButtonProps) {
   return (
-    <Button
-      w="100%"
-      onClick={() => changeModalStatus(true)}
-      color="white"
-      bgColor="green.100"
-      mb={2}
-    >
+    <Button color="white" onClick={() => onClickHandle()} bgColor="green.100">
       {label}
     </Button>
   );

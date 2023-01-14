@@ -1,9 +1,14 @@
 import { Text } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
 interface SubText {
-  label: string;
+  children: ReactNode;
 }
 
-export default function SubTitle({ label }: SubText) {
-  return <Text color="gray.400">{label}</Text>;
+export default function SubTitle({ children }: SubText) {
+  return (
+    <Text color="gray.400" align="center">
+      {children}
+    </Text>
+  );
 }

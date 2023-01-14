@@ -1,9 +1,14 @@
 import { Heading } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
 interface SubHeader {
-  label: string;
+  children: ReactNode;
 }
 
-export default function SubHeader({ label }: SubHeader) {
-  return <Heading as="h2">{label}</Heading>;
+export default function SubHeader({ children }: SubHeader) {
+  return (
+    <Heading as="h2" textAlign="center" mb={2}>
+      {children}
+    </Heading>
+  );
 }
