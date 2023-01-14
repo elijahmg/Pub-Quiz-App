@@ -28,7 +28,7 @@ export default function Home() {
           </Flex>
         </Box>
 
-        <PrimaryButton onClickHandle={() => changeModalStatus(true)}>
+        <PrimaryButton onClick={() => changeModalStatus(true)}>
           Enter PIN
         </PrimaryButton>
         <SecondaryButton>Admin dashboard</SecondaryButton>
