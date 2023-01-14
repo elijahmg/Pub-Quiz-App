@@ -63,19 +63,6 @@ function QuestionList() {
   );
 }
 
-function Topic() {
-  return (
-    <Box pt={4} pb={4}>
-      <Input
-        backgroundColor={'#edf2f7'}
-        style={{ opacity: 1 }}
-        value="Topic name"
-        disabled
-      />
-    </Box>
-  );
-}
-
 export default function Page() {
   return (
     <Box p={4}>
