@@ -62,10 +62,10 @@ export default function Home() {
                 mr={3}
                 onClick={() => changeModalStatus(false)}
               >
-                Close
+                Join
               </Button>
               <Button onClick={() => changeModalStatus(false)} variant="ghost">
-                Join
+                Close
               </Button>
             </ModalFooter>
           </ModalContent>
