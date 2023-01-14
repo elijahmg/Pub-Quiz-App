@@ -1,13 +1,13 @@
 import { Heading } from '@chakra-ui/react';
 
 interface Header {
-  headerText: string;
+  label: string;
 }
 
-export default function Header({ headerText }: Header) {
+export default function Header({ label }: Header) {
   return (
     <Heading as="h1" size="3xl" color="green.100" mb={200}>
-      {headerText}
+      {label}
     </Heading>
   );
 }

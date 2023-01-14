@@ -1,13 +1,13 @@
 import { Text } from '@chakra-ui/react';
 
 interface SubText {
-  subTitleText: string;
+  label: string;
 }
 
-export default function SubTitle({ subTitleText }: SubText) {
+export default function SubTitle({ label }: SubText) {
   return (
     <Text color="gray.400" align="center">
-      {subTitleText}
+      {label}
     </Text>
   );
 }
