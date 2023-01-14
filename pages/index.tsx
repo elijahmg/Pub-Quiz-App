@@ -28,7 +28,9 @@ export default function Home() {
           </Flex>
         </Box>
 
-        <PrimaryButton label={'Enter PIN'} onClickHandle={changeModalStatus} />
+        <PrimaryButton onClickHandle={() => changeModalStatus(true)}>
+          Enter PIN
+        </PrimaryButton>
         <SecondaryButton>Admin dashboard</SecondaryButton>
         <ModalComponent
           modalStatus={modalStatus}

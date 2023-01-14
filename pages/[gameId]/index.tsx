@@ -30,12 +30,12 @@ const Welcome = (): JSX.Element => {
   return (
     <Center h={`100vh`} p={`20px`}>
       <Stack spacing={8}>
-        <Header label="Welcome" />
-        <SubHeader label="How about we add your team name?" />
-        <SubTitle
-          label="You can name your team however you want. important thing is to have
-          fun"
-        />
+        <Header>Welcome</Header>
+        <SubHeader>How about we add your team name?</SubHeader>
+        <SubTitle>
+          You can name your team however you want. important thing is to have
+          fun
+        </SubTitle>
         <FormControl id="first-name" isInvalid={buttonStatus}>
           <Heading as="h3" mb={4}>
             Team name
