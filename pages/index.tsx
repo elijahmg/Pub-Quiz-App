@@ -9,6 +9,8 @@ import PrimaryButton from '../components/buttons/PrimaryButton';
 import SecondaryButton from '../components/buttons/SecondaryButton';
 import ModalComponent from '../components/ModalComponent';
 import { useRouter } from 'next/router';
+import DummyPeople from '../components/images/dummy-people';
+import * as React from 'react';
 
 export default function Home() {
   const [modalStatus, changeModalStatus] = useState<boolean>(false);
@@ -23,15 +25,19 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <Box mb={98}>
-          <Flex alignItems="center" flexDirection="column">
+          <Flex alignItems="center" flexDirection="column" textAlign="center">
             <Header>Hello there</Header>
-            <SubHeader>Looks like you’re ready to have a great time.</SubHeader>
+            <Box my={10}>
+              <DummyPeople />
+            </Box>
+            <SubHeader mb="4">
+              Looks like you’re ready to have a great time.
+            </SubHeader>
             <SubTitle>
               Time to enter your quiz’s PIN and let’s get started.
             </SubTitle>
           </Flex>
         </Box>
-
         <PrimaryButton onClick={() => router.push('add-pin')} w="100%" mb={2}>
           Enter PIN
         </PrimaryButton>

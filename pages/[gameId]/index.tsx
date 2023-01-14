@@ -1,12 +1,5 @@
 import * as React from 'react';
-import {
-  Button,
-  Center,
-  FormControl,
-  Heading,
-  Input,
-  Flex,
-} from '@chakra-ui/react';
+import { FormControl, Heading, Input, Flex } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import Header from '../../components/headers/Header';
 import SubHeader from '../../components/headers/SubHeader';
@@ -38,8 +31,7 @@ const Welcome = (): JSX.Element => {
       <SubTitle mb={6}>
         You can name your team however you want. important thing is to have fun
       </SubTitle>
-      <DummyPeople />
-        <FormControl id="first-name" isInvalid={buttonStatus}>
+      <FormControl id="first-name" isInvalid={buttonStatus}>
         <Heading as="h3" mb={4}>
           Team name
         </Heading>
