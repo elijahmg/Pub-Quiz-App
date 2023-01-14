@@ -12,7 +12,7 @@ import Link from 'next/link';
 
 import { BaseSyntheticEvent, useCallback, useMemo, useState } from 'react';
 import TopicName from '../components/TopicName';
-import Constants from '../constants';
+import Constants from '../common/constants';
 import { Round, Topic } from '../types/main';
 
 export type AdminTopicsProps = {

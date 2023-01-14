@@ -1,17 +1,17 @@
+import * as Schema from '@prisma/client';
+
 export type Question = {
-  id: number;
-  content: string;
   answer: string;
-};
+} & Schema.Question;
 
 export type Topic = {
-  id: number;
-  name: string;
   questions: Question[];
-};
+} & Schema.Topic;
 
 export type Round = {
   id: number;
   topics: Topic[];
   name: string;
 };
+
+export type GameWithTopics = Schema.Game & { topics: number[] };

@@ -8,7 +8,7 @@ import {
   Flex,
   FormControl,
 } from '@chakra-ui/react';
-import Constants from '../constants';
+import Constants from '../common/constants';
 
 export default function Question({
   question,

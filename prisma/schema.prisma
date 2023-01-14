@@ -1,14 +1,59 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model Game {
+  id         Int        @id @default(autoincrement())
+  gameStatus GameStatus
+  password   String
+  teams      Team[]
+  topics     Topic[]
+}
+
+model Topic {
+  id          Int           @id @default(autoincrement())
+  name        String
+  gameId      Int?
+  questions   Question[]
+  teamAnswers TeamAnswers[]
+  game        Game?         @relation(fields: [gameId], references: [id])
+}
+
+model Question {
+  id            Int       @id @default(autoincrement())
+  content       String
+  correctAnswer String
+  media         MediaType
+  mediaLink     String
+  Topic         Topic?    @relation(fields: [topicId], references: [id])
+  topicId       Int?
+  teamAnswer    TeamAnswers[]
+}
+
+model Team {
+  id      Int           @id @default(autoincrement())
+  name    String
+  gameId  Int?
+  game    Game?         @relation(fields: [gameId], references: [id])
+  answers TeamAnswers[]
+}
+
+model TeamAnswers {
+  id      Int    @id @default(autoincrement())
+  topicId Int
+  answer  String
+  score   Float
+  questionId Int
+  teamId Int
+  question Question @relation(fields: [questionId], references: [id])
+  team    Team?  @relation(fields: [teamId], references: [id])
+  topic   Topic  @relation(fields: [topicId], references: [id])
 }
 
 enum GameStatus {
@@ -25,49 +70,4 @@ enum MediaType {
   IMAGE
   VIDEO
   AUDIO
-}
-
-model Game {
-  id         Int        @id @default(autoincrement())
-  teams      Team[]
-  gameStatus GameStatus
-  topics     Topic[]
-  password   String
-}
-
-model Topic {
-  id          Int           @id @default(autoincrement())
-  name        String
-  questions   Question[]
-  game        Game?         @relation(fields: [gameId], references: [id])
-  gameId      Int?
-  teamAnswers TeamAnswers[]
-}
-
-model Question {
-  id            Int       @id @default(autoincrement())
-  content       String
-  correctAnswer String
-  media         MediaType
-  mediaLink     String
-  Topic         Topic?    @relation(fields: [topicId], references: [id])
-  topicId       Int?
-}
-
-model Team {
-  id      Int           @id @default(autoincrement())
-  name    String
-  answers TeamAnswers[]
-  game    Game?         @relation(fields: [gameId], references: [id])
-  gameId  Int?
-}
-
-model TeamAnswers {
-  id      Int    @id @default(autoincrement())
-  topicId Int
-  topic   Topic  @relation(fields: [topicId], references: [id])
-  answer  String
-  score   Float
-  team    Team?  @relation(fields: [teamId], references: [id])
-  teamId  Int?
 }

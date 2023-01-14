@@ -15,7 +15,6 @@ import {
   HStack,
   PinInput,
   Center,
-  Text,
   Box,
   Flex,
 } from '@chakra-ui/react';
@@ -25,6 +24,7 @@ import SubHeader from '../components/headers/SubHeader';
 import SubTitle from '../components/headers/SubTitle';
 export default function Home() {
   const [modalStatus, changeModalStatus] = useState<boolean>(false);
+
   return (
     <>
       <Head>
@@ -74,7 +74,7 @@ export default function Home() {
                   </Heading>
                   <Center>
                     <HStack>
-                      <PinInput type="alphanumeric">
+                      <PinInput type="alphanumeric" mask>
                         <PinInputField />
                         <PinInputField />
                         <PinInputField />

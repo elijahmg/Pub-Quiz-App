@@ -6,72 +6,78 @@ import {
   Radio,
   RadioGroup,
 } from '@chakra-ui/react';
+import { Question, Team, TeamAnswers } from '@prisma/client';
+import { GetServerSidePropsContext } from 'next';
 import React from 'react';
 import { useState } from 'react';
+import { prisma } from '../../../../common/prisma-client';
+import TeamName from '../../../../components/TeamName';
 
-export default function AnswersCheck() {
-  // TODO: USE REAL DATA THEN
-  const questions = [
-    {
-      id: 1,
-      content: 'Where is John',
-      answer: 'here',
-    },
-    {
-      id: 2,
-      content: 'Where is Johnny',
-      answer: 'there',
-    },
-    {
-      id: 3,
-      content: 'Where is Johnny Cash',
-      answer: 'everywhere',
-    },
-  ];
+type QuestionResultList = Record<Question['id'], number>;
 
-  const resultList = questions.reduce((acc, question) => {
-    acc[question.id] = '0';
-    return acc;
-  }, {} as any);
+function RadioComponent(props: {
+  questionIndex: number;
+  results: QuestionResultList;
+  onChange: (v: string, idx: number) => void;
+}) {
+  return (
+    <RadioGroup
+      value={String(props.results[props.questionIndex])}
+      onChange={(value) => props.onChange(value, props.questionIndex)}
+    >
+      <Stack>
+        <Radio value="1">1</Radio>
+        <Radio value="0.5">0.5</Radio>
+        <Radio value="0">0</Radio>
+      </Stack>
+    </RadioGroup>
+  );
+}
 
+export default function AnswersCheck({
+  team,
+  answers,
+  questions,
+}: {
+  team: Team;
+  answers: TeamAnswers[];
+  questions: Question[];
+}) {
   const [sum, setSum] = useState(0);
-  const [results, setResults] = useState(resultList);
+  const [results, setResults] = useState(() =>
+    questions.reduce((acc, question) => {
+      acc[question.id] = 0;
+      return acc;
+    }, {} as QuestionResultList),
+  );
 
-  const updatePoints = (value: string, questionIndex: number) => {
-    results[questionIndex] = value;
+  const updatePoints = (value: string, questionIndex: Question['id']) => {
+    results[questionIndex] = Number(value);
     setResults(results);
     const updatedSum = Object.values(results).reduce(
-      (a: any, b: any): any => Number(a) + Number(b),
+      (a: number, b: number): number => a + b,
       0,
     );
     setSum(updatedSum as number);
   };
 
-  function RadioComponent(props: any) {
-    return (
-      <RadioGroup
-        value={results[props.questionIndex]}
-        onChange={(value) => updatePoints(value, props.questionIndex)}
-      >
-        <Stack>
-          <Radio value="1">1</Radio>
-          <Radio value="0.5">0.5</Radio>
-          <Radio value="0">0</Radio>
-        </Stack>
-      </RadioGroup>
-    );
-  }
-
   return (
     <Stack>
       <Stack>
-        <Heading as="h2">Team name</Heading>
-        {questions.map(({ content, id, answer }) => (
+        <TeamName name={team.name} />
+        {questions.map(({ content, id, teamAnswers }) => (
           <React.Fragment key={id}>
             <Text>
-              Question {id}: {content}. Answer: {answer}
+              Question {id}: {content}. Answer:{' '}
+              {teamAnswers?.find(
+                ({ teamId }: TeamAnswers) => teamId === team.id,
+              ) ?? ''}
             </Text>
-            <RadioComponent questionIndex={id} />
+            <RadioComponent
+              questionIndex={id}
+              onChange={updatePoints}
+              results={results}
+            />
           </React.Fragment>
         ))}
         <Text>Total {sum}</Text>
@@ -80,4 +86,49 @@ export default function AnswersCheck() {
       <Button>Next team</Button>
     </Stack>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { gameId, teamId } = context.query;
+  const game = await prisma.game.findUnique({
+    include: {
+      topics: {
+        include: {
+          questions: {
+            include: {
+              teamAnswers: true,
+            },
+          },
+          teamAnswers: true,
+        },
+      },
+      teams: {
+        where: {
+          id: Number(teamId),
+        },
+      },
+    },
+    where: {
+      id: Number(gameId),
+    },
+  });
+
+  return {
+    props: {
+      team: game?.teams?.[0],
+      answers:
+        game?.topics?.reduce(
+          (acc: TeamAnswers[], { teamAnswers = [] }) => [
+            ...acc,
+            ...teamAnswers,
+          ],
+          [] as TeamAnswers[],
+        ) ?? [],
+      questions:
+        game?.topics?.reduce(
+          (acc, { questions }) => [...acc, ...questions],
+          [] as Question[],
+        ) ?? [],
+    },
+  };
 }
