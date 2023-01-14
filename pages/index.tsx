@@ -1,30 +1,13 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import {
-  Heading,
-  Button,
-  Modal,
-  ModalOverlay,
-  ModalBody,
-  ModalHeader,
-  ModalContent,
-  ModalFooter,
-  ModalCloseButton,
-  Stack,
-  PinInputField,
-  HStack,
-  PinInput,
-  Center,
-  Text,
-  Box,
-  Flex,
-} from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { useState } from 'react';
 import Header from '../components/headers/Header';
 import SubHeader from '../components/headers/SubHeader';
 import SubTitle from '../components/headers/SubTitle';
 import PrimaryButton from '../components/buttons/PrimaryButton';
 import SecondaryButton from '../components/buttons/SecondaryButton';
+import ModalComponent from '../components/ModalComponent';
 export default function Home() {
   const [modalStatus, changeModalStatus] = useState<boolean>(false);
   return (
@@ -52,44 +35,10 @@ export default function Home() {
           changeModalStatus={changeModalStatus}
         />
         <SecondaryButton label={'Admin dashboard'} />
-        <Modal isOpen={modalStatus} onClose={() => changeModalStatus(false)}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Login</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Center>
-                <Stack>
-                  <Heading as="h3" size="md">
-                    Please enter PIN of the game you want to enter:
-                  </Heading>
-                  <Center>
-                    <HStack>
-                      <PinInput type="alphanumeric">
-                        <PinInputField />
-                        <PinInputField />
-                        <PinInputField />
-                        <PinInputField />
-                      </PinInput>
-                    </HStack>
-                  </Center>
-                </Stack>
-              </Center>
-            </ModalBody>
-            <ModalFooter>
-              <Button
-                colorScheme="blue"
-                mr={3}
-                onClick={() => changeModalStatus(false)}
-              >
-                Join
-              </Button>
-              <Button onClick={() => changeModalStatus(false)} variant="ghost">
-                Close
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+        <ModalComponent
+          modalStatus={modalStatus}
+          changeModalStatus={changeModalStatus}
+        />
       </main>
     </>
   );
