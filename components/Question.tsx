@@ -1,15 +1,22 @@
 import { Center, Stack, Text, Input, Button, Flex } from '@chakra-ui/react';
 import { BaseSyntheticEvent, useCallback, useRef, useState } from 'react';
 import Constants from '../constants';
+import QuizHead from './headers/QuizHead';
 
 export default function Question({
   question,
   handleAnswer,
   answer = '',
+  round,
+  teamName,
+  topicName,
 }: {
   question: string;
   answer?: string;
   handleAnswer: (s: string) => void;
+  round?: string;
+  teamName?: string;
+  topicName?: string;
 }) {
   const input = useRef<HTMLInputElement | null>(null);
   const [value, setValue] = useState(answer);
@@ -21,6 +28,7 @@ export default function Question({
   );
   return (
     <Center>
+      <QuizHead round={'1'} teamName={'Boba'} topicName={'Name'} />
       <Stack spacing={Constants.StackSpacing}>
         <Flex justifyContent="flex-start">
           <Text fontSize="5xl">{question}</Text>

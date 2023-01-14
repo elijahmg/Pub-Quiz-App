@@ -7,8 +7,7 @@ import {
   InputGroup,
   Flex,
 } from '@chakra-ui/react';
-import QuizHead from '../../../components/headers/quiz-head';
-import { DragHandleIcon } from '@chakra-ui/icons';
+import QuizHead from '../../../components/headers/QuizHead';
 import SubHeader from '../../../components/headers/SubHeader';
 import Header from '../../../components/headers/Header';
 
