@@ -1,6 +1,9 @@
 import { Button, Stack, Text, Box, Flex } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 
 export default function RoundOverview() {
+  const router = useRouter();
+
   return (
     <Stack>
       <Flex justifyContent="flex-start">
@@ -21,7 +24,10 @@ export default function RoundOverview() {
           <Text>Answer</Text>
         </Box>
       </Flex>
-      <Button>Check answers</Button>
+      {/** @TODO game id is dynamic **/}
+      <Button onClick={() => router.push(`/admin/${3}/teams-check`)}>
+        Check answers
+      </Button>
     </Stack>
   );
 }
