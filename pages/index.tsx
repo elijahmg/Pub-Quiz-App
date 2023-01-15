@@ -11,7 +11,7 @@ import ModalComponent from '../components/ModalComponent';
 import { useRouter } from 'next/router';
 import DummyPeople from '../components/images/dummy-people';
 import * as React from 'react';
-import { MainPageWrapper } from '../components/main-page-wrapper';
+import { MainPageWrapper } from '../components/wrappers/main-page-wrapper';
 
 export default function Home() {
   const [modalStatus, changeModalStatus] = useState<boolean>(false);

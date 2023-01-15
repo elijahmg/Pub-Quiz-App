@@ -1,6 +1,6 @@
 import { Text, Stack, Image, Center } from '@chakra-ui/react';
 import { AlienTaken } from '../../components/images/alien-taken';
-import { MainPageWrapper } from '../../components/main-page-wrapper';
+import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
 import Header from '../../components/headers/Header';
 import SubHeader from '../../components/headers/SubHeader';
 import SubTitle from '../../components/headers/SubTitle';

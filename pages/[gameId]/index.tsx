@@ -5,7 +5,7 @@ import Header from '../../components/headers/Header';
 import SubHeader from '../../components/headers/SubHeader';
 import SubTitle from '../../components/headers/SubTitle';
 import PrimaryButton from '../../components/buttons/PrimaryButton';
-import { MainPageWrapper } from '../../components/main-page-wrapper';
+import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
 import { useRouter } from 'next/router';
 
 const Welcome = (): JSX.Element => {

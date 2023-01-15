@@ -8,7 +8,7 @@ import {
 import Header from '../components/headers/Header';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { MainPageWrapper } from '../components/main-page-wrapper';
+import { MainPageWrapper } from '../components/wrappers/main-page-wrapper';
 
 export default function InputPin() {
   const router = useRouter();
