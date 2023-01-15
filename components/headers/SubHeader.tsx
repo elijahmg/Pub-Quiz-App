@@ -5,6 +5,13 @@ interface SubHeader {
   children: ReactNode;
 }
 
-export default function SubHeader({ children, ...props }: SubHeader & HeadingProps) {
-  return <Heading as="h2" {...props}>{children}</Heading>;
+export default function SubHeader({
+  children,
+  ...props
+}: SubHeader & HeadingProps) {
+  return (
+    <Heading as="h2" size="lg" {...props}>
+      {children}
+    </Heading>
+  );
 }

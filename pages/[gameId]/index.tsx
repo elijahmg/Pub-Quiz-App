@@ -4,11 +4,13 @@ import { useEffect } from 'react';
 import Header from '../../components/headers/Header';
 import SubHeader from '../../components/headers/SubHeader';
 import SubTitle from '../../components/headers/SubTitle';
-import DummyPeople from '../../components/images/dummy-people';
 import PrimaryButton from '../../components/buttons/PrimaryButton';
 import { MainPageWrapper } from '../../components/main-page-wrapper';
+import { useRouter } from 'next/router';
 
 const Welcome = (): JSX.Element => {
+  const router = useRouter();
+
   const [value, setValue] = React.useState<string>(``);
   const [buttonStatus, setButtonStatus] = React.useState<boolean>(true);
   const [errorMessage, setErrorMessage] =
@@ -23,6 +25,10 @@ const Welcome = (): JSX.Element => {
     }
   }, [value, buttonStatus]);
 
+  function onSubmitHandler() {
+    router.push(`/3/waiting`);
+  }
+
   return (
     <MainPageWrapper>
       <Header textAlign="center" mb={10}>
@@ -32,7 +38,13 @@ const Welcome = (): JSX.Element => {
       <SubTitle mb={10}>
         You can name your team however you want. important thing is to have fun
       </SubTitle>
-      <FormControl id="first-name">
+      <FormControl
+        id="first-name"
+        onSubmit={() => {
+          console.log('Submi');
+          router.push(`/3/waiting`);
+        }}
+      >
         <Heading as="h3" mb={4}>
           Team name
         </Heading>
@@ -42,7 +54,7 @@ const Welcome = (): JSX.Element => {
           onChange={(e) => setValue(e.target.value)}
         />
       </FormControl>
-      <PrimaryButton isDisabled={buttonStatus} mt={4}>
+      <PrimaryButton isDisabled={buttonStatus} mt={4} onClick={onSubmitHandler}>
         {buttonStatus ? errorMessage : 'Submit'}
       </PrimaryButton>
     </MainPageWrapper>

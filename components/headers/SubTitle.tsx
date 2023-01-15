@@ -7,7 +7,7 @@ interface SubText {
 
 export default function SubTitle({ children, ...props }: SubText & TextProps) {
   return (
-    <Text color="gray.400" {...props}>
+    <Text color="gray.400" fontSize="md" {...props}>
       {children}
     </Text>
   );

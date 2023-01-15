@@ -7,7 +7,7 @@ interface Header {
 
 export default function Header({ children, ...props }: Header & HeadingProps) {
   return (
-    <Heading size="3xl" color="green.100" {...props}>
+    <Heading size="2xl" color="green.100" {...props}>
       {children}
     </Heading>
   );
