@@ -5,8 +5,11 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 export default function App({ Component, pageProps }: AppProps) {
   const theme = extendTheme({
     colors: {
+      gray: {
+        100: '#F1F1F1',
+      },
       red: {
-        100: '#E53E3E'
+        100: '#E53E3E',
       },
       green: {
         100: '#38A169',

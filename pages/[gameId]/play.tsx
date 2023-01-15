@@ -1,8 +1,8 @@
 import { Progress, Center, Stack } from '@chakra-ui/react';
 import { useCallback, useEffect, useState } from 'react';
 import Question from '../../components/Question';
-import TeamName from '../../components/TeamName';
 import Constants from '../../constants';
+import { SecondaryWrapper } from '../../components/wrappers/secondary-wrapper';
 
 function Play({ channel }: { channel: any }) {
   const [stateIndex, setStateIndex] = useState<number>(0);
@@ -37,21 +37,14 @@ function Play({ channel }: { channel: any }) {
   // );
 
   return (
-    <Center>
-      <Stack spacing={Constants.StackSpacing}>
-        <TeamName name="Dummy Team" />
-
+    <SecondaryWrapper>
+      <Stack mt={10} spacing={Constants.StackSpacing}>
         <Question
-          question={round.questions[stateIndex].content}
+          question={`Q1: ${round.questions[stateIndex].content}`}
           handleAnswer={console.log}
         />
-
-        <Progress
-          size="lg"
-          value={Math.ceil((stateIndex + 1) / (round.questions.length ?? 1))}
-        />
       </Stack>
-    </Center>
+    </SecondaryWrapper>
   );
 }
 
