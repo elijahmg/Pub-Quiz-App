@@ -7,6 +7,8 @@ import {
 } from '@chakra-ui/react';
 import Header from '../components/headers/Header';
 import { useRouter } from 'next/router';
+import React from 'react';
+import { MainPageWrapper } from '../components/main-page-wrapper';
 
 export default function InputPin() {
   const router = useRouter();
@@ -18,22 +20,18 @@ export default function InputPin() {
   }
 
   return (
-    <Flex h="100vh">
-      <Flex w="100%" alignItems="center" flexDirection="column">
-        <Header mt={16} alignSelf="center">
-          Enter PIN
-        </Header>
-        <Center mt={8}>
-          <HStack>
-            <PinInput type="alphanumeric" onChange={handlePin}>
-              <PinInputField />
-              <PinInputField />
-              <PinInputField />
-              <PinInputField />
-            </PinInput>
-          </HStack>
-        </Center>
-      </Flex>
-    </Flex>
+    <MainPageWrapper>
+      <Header alignSelf="center">Enter PIN</Header>
+      <Center mt={8}>
+        <HStack>
+          <PinInput type="alphanumeric" onChange={handlePin}>
+            <PinInputField />
+            <PinInputField />
+            <PinInputField />
+            <PinInputField />
+          </PinInput>
+        </HStack>
+      </Center>
+    </MainPageWrapper>
   );
 }

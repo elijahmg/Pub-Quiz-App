@@ -6,6 +6,7 @@ import SubHeader from '../../components/headers/SubHeader';
 import SubTitle from '../../components/headers/SubTitle';
 import DummyPeople from '../../components/images/dummy-people';
 import PrimaryButton from '../../components/buttons/PrimaryButton';
+import { MainPageWrapper } from '../../components/main-page-wrapper';
 
 const Welcome = (): JSX.Element => {
   const [value, setValue] = React.useState<string>(``);
@@ -18,20 +19,20 @@ const Welcome = (): JSX.Element => {
       setButtonStatus(false);
     } else {
       setButtonStatus(true);
-      setErrorMessage(`Invalid Name`);
+      setErrorMessage(`Pleaaaase enter your team name`);
     }
   }, [value, buttonStatus]);
 
   return (
-    <Flex flexDirection="column" p={6} height="100vh">
-      <Header textAlign="center" my={8}>
+    <MainPageWrapper>
+      <Header textAlign="center" mb={10}>
         Welcome
       </Header>
-      <SubHeader>How about we add your team name?</SubHeader>
-      <SubTitle mb={6}>
+      <SubHeader mb={2}>How about we add your team name?</SubHeader>
+      <SubTitle mb={10}>
         You can name your team however you want. important thing is to have fun
       </SubTitle>
-      <FormControl id="first-name" isInvalid={buttonStatus}>
+      <FormControl id="first-name">
         <Heading as="h3" mb={4}>
           Team name
         </Heading>
@@ -44,7 +45,7 @@ const Welcome = (): JSX.Element => {
       <PrimaryButton isDisabled={buttonStatus} mt={4}>
         {buttonStatus ? errorMessage : 'Submit'}
       </PrimaryButton>
-    </Flex>
+    </MainPageWrapper>
   );
 };
 export default Welcome;

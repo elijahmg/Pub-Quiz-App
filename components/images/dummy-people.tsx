@@ -1,8 +1,8 @@
 export default function DummyPeople() {
   return (
     <svg
-      width="325"
-      height="254"
+      width="311"
+      height="240"
       viewBox="0 0 325 254"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

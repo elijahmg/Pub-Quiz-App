@@ -18,23 +18,23 @@ function Play({ channel }: { channel: any }) {
       },
     ],
   };
-  useEffect(() => {
-    channel.subscribe((status: any) => {
-      setStateIndex(Number(status));
-    });
-    return () => channel.unsubscribe();
-  }, [setStateIndex, channel]);
+  // useEffect(() => {
+  //   channel.subscribe((status: any) => {
+  //     setStateIndex(Number(status));
+  //   });
+  //   return () => channel.unsubscribe();
+  // }, [setStateIndex, channel]);
 
-  const userDidAnswer = useCallback(
-    (answer: string) => {
-      channel.send({
-        question: round.questions[stateIndex],
-        user: userName,
-        answer,
-      });
-    },
-    [channel, round.questions, stateIndex],
-  );
+  // const userDidAnswer = useCallback(
+  //   (answer: string) => {
+  //     channel.send({
+  //       question: round.questions[stateIndex],
+  //       user: userName,
+  //       answer,
+  //     });
+  //   },
+  //   [channel, round.questions, stateIndex],
+  // );
 
   return (
     <Center>
@@ -43,7 +43,7 @@ function Play({ channel }: { channel: any }) {
 
         <Question
           question={round.questions[stateIndex].content}
-          handleAnswer={userDidAnswer}
+          handleAnswer={console.log}
         />
 
         <Progress
