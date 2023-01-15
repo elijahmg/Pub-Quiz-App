@@ -24,7 +24,7 @@ export default function InputPin() {
       <Header alignSelf="center">Enter PIN</Header>
       <Center mt={8}>
         <HStack>
-          <PinInput type="alphanumeric" onChange={handlePin}>
+          <PinInput type="number" onChange={handlePin}>
             <PinInputField />
             <PinInputField />
             <PinInputField />

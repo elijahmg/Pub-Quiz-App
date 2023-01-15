@@ -31,7 +31,7 @@ export default function Home() {
             <Box my={10}>
               <DummyPeople />
             </Box>
-            <SubHeader mb="4">
+            <SubHeader size="lg" mb="4">
               Looks like you’re ready to have a great time.
             </SubHeader>
             <SubTitle>

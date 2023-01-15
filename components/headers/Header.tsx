@@ -5,9 +5,9 @@ interface Header {
   children: ReactNode;
 }
 
-export default function Header({ children, ...props}: Header & HeadingProps) {
+export default function Header({ children, ...props }: Header & HeadingProps) {
   return (
-    <Heading as="h1" size="3xl" color="green.100" {...props}>
+    <Heading size="3xl" color="green.100" {...props}>
       {children}
     </Heading>
   );
