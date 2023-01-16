@@ -7,14 +7,12 @@ import SubHeader from '../components/headers/SubHeader';
 import SubTitle from '../components/headers/SubTitle';
 import PrimaryButton from '../components/buttons/PrimaryButton';
 import SecondaryButton from '../components/buttons/SecondaryButton';
-import ModalComponent from '../components/ModalComponent';
 import { useRouter } from 'next/router';
 import DummyPeople from '../components/images/dummy-people';
 import * as React from 'react';
 import { MainPageWrapper } from '../components/wrappers/main-page-wrapper';
 
 export default function Home() {
-  const [modalStatus, changeModalStatus] = useState<boolean>(false);
   const router = useRouter();
 
   return (
@@ -43,10 +41,6 @@ export default function Home() {
           Enter PIN
         </PrimaryButton>
         <SecondaryButton w="100%">Admin dashboard</SecondaryButton>
-        <ModalComponent
-          modalStatus={modalStatus}
-          onClickHandle={changeModalStatus}
-        />
       </MainPageWrapper>
     </>
   );
