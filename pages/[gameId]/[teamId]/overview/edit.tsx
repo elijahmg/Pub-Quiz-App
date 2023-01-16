@@ -1,10 +1,10 @@
 import { Question } from '@prisma/client';
-import { GetServerSidePropsContext } from 'next/types';
+import { GetServerSidePropsContext } from 'next';
 import { prisma } from '../../../../common/prisma-client';
 import TeamOverviewTable from '../../../../components/TeamOverviewTable';
 import { QuestionWithTeamAnswer } from '../../../../types/main';
 
-export default function Overview({
+export default function OverviewEdit({
   name,
   questions = [],
   teamId,
@@ -14,7 +14,12 @@ export default function Overview({
   teamId: number;
 }) {
   return (
-    <TeamOverviewTable name={name} questions={questions} teamId={teamId} />
+    <TeamOverviewTable
+      name={name}
+      teamId={teamId}
+      questions={questions}
+      allowEdit
+    />
   );
 }
 

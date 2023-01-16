@@ -1,24 +1,25 @@
 import { BaseSyntheticEvent, useCallback, useRef, useState } from 'react';
 import {
-  Center,
-  Stack,
   Text,
   Input,
   Button,
-  Flex,
   FormControl,
+  Stack,
+  Center,
 } from '@chakra-ui/react';
-import Constants from '../common/constants';
 import { Question as QuestionType } from '@prisma/client';
+import constants from '../common/constants';
 
 export default function Question({
   question,
   handleAnswer,
   answer = '',
+  allowEdit,
 }: {
   question: QuestionType;
   answer?: string;
   handleAnswer: (s: string, id: number) => void;
+  allowEdit: boolean;
 }) {
   const input = useRef<HTMLInputElement | null>(null);
   const [value, setValue] = useState(answer);
@@ -30,25 +31,25 @@ export default function Question({
   );
   const onHandleAnswer = useCallback(() => {
     handleAnswer(input.current?.value ?? '', question.id);
-  }, [handleAnswer]);
+  }, [handleAnswer, question.id]);
   return (
     <Center>
-      <Stack spacing={Constants.StackSpacing}>
-        <Flex justifyContent="flex-start">
-          <Text fontSize="5xl">{question.content}</Text>
-          <FormControl>
-            <Input
-              size="lg"
-              ref={input}
-              value={value}
-              placeholder="Do you think you know the answer?"
-              onInput={inputHandler}
-            />
+      <Stack spacing={constants.StackSpacing}>
+        <Text fontSize="5xl">{question.content}</Text>
+        <FormControl>
+          <Input
+            size="lg"
+            ref={input}
+            value={value}
+            placeholder="Do you think you know the answer?"
+            onInput={inputHandler}
+          />
+          {allowEdit && (
             <Button size="lg" onClick={onHandleAnswer}>
               {'Say what?!'}
             </Button>
-          </FormControl>
-        </Flex>
+          )}
+        </FormControl>
       </Stack>
     </Center>
   );
