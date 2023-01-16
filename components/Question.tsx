@@ -9,15 +9,16 @@ import {
   FormControl,
 } from '@chakra-ui/react';
 import Constants from '../common/constants';
+import { Question as QuestionType } from '@prisma/client';
 
 export default function Question({
   question,
   handleAnswer,
   answer = '',
 }: {
-  question: string;
+  question: QuestionType;
   answer?: string;
-  handleAnswer: (s: string) => void;
+  handleAnswer: (s: string, id: number) => void;
 }) {
   const input = useRef<HTMLInputElement | null>(null);
   const [value, setValue] = useState(answer);
@@ -28,13 +29,13 @@ export default function Question({
     [setValue],
   );
   const onHandleAnswer = useCallback(() => {
-    handleAnswer(input.current?.value ?? '');
+    handleAnswer(input.current?.value ?? '', question.id);
   }, [handleAnswer]);
   return (
     <Center>
       <Stack spacing={Constants.StackSpacing}>
         <Flex justifyContent="flex-start">
-          <Text fontSize="5xl">{question}</Text>
+          <Text fontSize="5xl">{question.content}</Text>
           <FormControl>
             <Input
               size="lg"

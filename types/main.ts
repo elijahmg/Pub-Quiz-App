@@ -14,4 +14,8 @@ export type Round = {
   name: string;
 };
 
+export type QuestionWithTeamAnswer = {
+  teamAnswers: Schema.TeamAnswers[];
+} & Schema.Question;
+
 export type GameWithTopics = Schema.Game & { topics: number[] };

@@ -1,9 +1,9 @@
 import { Center, Flex, Stack } from '@chakra-ui/react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import * as QuestionComponent from '../../../components/Question';
 import TeamName from '../../../components/TeamName';
 import Constants from '../../../common/constants';
-import { Question } from '../../../types/main';
+import { Question } from '@prisma/client';
 import { prisma } from '../../../common/prisma-client';
 
 export default function Overview({
@@ -17,25 +17,28 @@ export default function Overview({
     questions ?? ([] as Question[]),
   );
 
-  useEffect(() => {}, [allQuestions]);
+  const onHandleAnswer = useCallback(
+    (answer: string, id: number) => {
+      setAllQuestions((oldQuestions) =>
+        oldQuestions.map((question) =>
+          question.id === id ? { ...question, answer } : question,
+        ),
+      );
+    },
+    [setAllQuestions],
+  );
   return (
     <Center>
       <Stack spacing={Constants.StackSpacing}>
         <Flex justifyContent="flex-start">
-          <TeamName name="Dummy Team" />
+          <TeamName name={name} />
           <Stack>
-            {allQuestions.map(({ id, content }) => {
+            {allQuestions.map((question) => {
               return (
                 <QuestionComponent.default
-                  key={id}
-                  question={content}
-                  handleAnswer={(answer) => {
-                    setAllQuestions(
-                      allQuestions.map((question) =>
-                        question.id === id ? { ...question, answer } : question,
-                      ),
-                    );
-                  }}
+                  key={question.id}
+                  question={question}
+                  handleAnswer={onHandleAnswer}
                 />
               );
             })}
@@ -48,11 +51,25 @@ export default function Overview({
 
 export async function getServerSideProps(context: any) {
   const { gameId, teamId } = context.query;
-  const [questions, game, teamName] = await Promise.all([
-    prisma.question.findMany(),
+  const [game, team] = await Promise.all([
     prisma.game.findUnique({
       where: {
         id: Number(gameId),
+      },
+      include: {
+        topics: {
+          include: {
+            questions: {
+              include: {
+                teamAnswers: {
+                  where: {
+                    teamId: Number(teamId),
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     }),
     prisma.team.findUnique({
@@ -62,17 +79,14 @@ export async function getServerSideProps(context: any) {
     }),
   ]);
 
-  console.log({
-    gameId,
-    name: teamName,
-    questions,
-  });
-  // Pass data to the page via props
   return {
     props: {
       gameId,
-      name: teamName,
-      questions,
+      name: team?.name ?? '',
+      questions:
+        game?.topics.reduce((acc, { questions }) => {
+          return [...acc, ...questions];
+        }, [] as Question[]) ?? [],
     },
   };
 }

@@ -1,10 +1,10 @@
 import {
   Button,
   Stack,
-  Heading,
   Text,
   Radio,
   RadioGroup,
+  Heading,
 } from '@chakra-ui/react';
 import { Question, Team, TeamAnswers } from '@prisma/client';
 import { GetServerSidePropsContext } from 'next';
@@ -12,6 +12,7 @@ import React from 'react';
 import { useState } from 'react';
 import { prisma } from '../../../../common/prisma-client';
 import TeamName from '../../../../components/TeamName';
+import { QuestionWithTeamAnswer } from '../../../../types/main';
 
 type QuestionResultList = Record<Question['id'], number>;
 
@@ -41,7 +42,7 @@ export default function AnswersCheck({
 }: {
   team: Team;
   answers: TeamAnswers[];
-  questions: Question[];
+  questions: QuestionWithTeamAnswer[];
 }) {
   const [sum, setSum] = useState(0);
   const [results, setResults] = useState(() =>
@@ -67,12 +68,14 @@ export default function AnswersCheck({
         <TeamName name={team.name} />
         {questions.map(({ content, id, teamAnswers }) => (
           <React.Fragment key={id}>
-            <Text>
-              Question {id}: {content}. Answer:{' '}
-              {teamAnswers?.find(
-                ({ teamId }: TeamAnswers) => teamId === team.id,
-              ) ?? ''}
-            </Text>
+            <Heading as="h3" size="2xl">
+              Question {id}:
+            </Heading>
+            <Text>{content}.</Text>
+            <Heading as="h3" size="2xl">
+              Answer:{' '}
+            </Heading>
+            <Text>{teamAnswers[0].answer}</Text>
             <RadioComponent
               questionIndex={id}
               onChange={updatePoints}
@@ -99,7 +102,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
               teamAnswers: true,
             },
           },
-          teamAnswers: true,
+          teamAnswers: {
+            where: {
+              teamId: Number(teamId),
+            },
+          },
         },
       },
       teams: {

@@ -33,7 +33,7 @@ model Question {
   mediaLink     String
   Topic         Topic?    @relation(fields: [topicId], references: [id])
   topicId       Int?
-  teamAnswer    TeamAnswers[]
+  teamAnswers    TeamAnswers[]
 }
 
 model Team {
