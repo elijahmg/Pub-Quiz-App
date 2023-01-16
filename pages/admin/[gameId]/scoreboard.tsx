@@ -8,33 +8,33 @@ import {
   Stack,
   Button,
 } from '@chakra-ui/react';
+import { Game, Team } from '@prisma/client';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { GetServerSidePropsContext } from 'next/types';
+import { useMemo } from 'react';
+import { prisma } from '../../../common/prisma-client';
+import createSupabaseClient from '../../../common/supabase-client';
+import TeamName from '../../../components/TopicName';
+import { GameWithTeams } from '../../../types/main';
 
-export default function Scoreboard() {
-  const teamData = [
-    {
-      id: 1,
-      name: 'Team 1',
-      score: 3, // @TODO might be a need to calculate on client side
+export default function Scoreboard({
+  game,
+  client,
+}: {
+  game: GameWithTeams;
+  client: SupabaseClient;
+}) {
+  const gotToNextQuestion = useMemo(
+    () => () => {
+      client.channel('question').send({
+        type: 'Question',
+      });
     },
-    {
-      id: 2,
-      name: 'Team Vojtiticku',
-      score: 27, // @TODO might be a need to calculate on client side
-    },
-    {
-      id: 3,
-      name: 'Team 2',
-      score: 2, // @TODO might be a need to calculate on client side
-    },
-  ];
-
-  function handleNextRound() {
-    console.log('Start next round');
-  }
-
+    [client],
+  );
   return (
     <Stack>
-      <Heading as="h2">Scoreboard after Round 1</Heading>
+      <Heading as="h2">Scoreboard</Heading>
       <Table>
         <Thead>
           <Tr>
@@ -43,15 +43,51 @@ export default function Scoreboard() {
           </Tr>
         </Thead>
         <Tbody>
-          {teamData.map((team) => (
+          {game.teams.map((team) => (
             <Tr key={team.id}>
-              <Td>{team.name}</Td>
-              <Td>{team.score}</Td>
+              <Td>
+                <TeamName name={team.name} />
+              </Td>
+              <Td>
+                {team.answers.reduce((acc: number, { score }) => {
+                  return acc + (score ?? 0);
+                }, 0)}
+              </Td>
             </Tr>
           ))}
         </Tbody>
       </Table>
-      <Button onClick={handleNextRound}> Start next round</Button>
+      <Button onClick={gotToNextQuestion}>Next question</Button>
     </Stack>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { gameId, id } = context.query;
+  const client = createSupabaseClient();
+  const game = await prisma.game.findUnique({
+    where: {
+      id: Number(gameId),
+    },
+    include: {
+      teams: {
+        include: {
+          answers: true,
+        },
+      },
+      topics: {
+        include: {
+          questions: true,
+        },
+      },
+    },
+  });
+  return {
+    props: {
+      client,
+      gameId,
+      id,
+      game,
+    },
+  };
 }

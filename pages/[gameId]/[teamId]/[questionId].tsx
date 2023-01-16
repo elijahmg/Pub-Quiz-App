@@ -5,10 +5,9 @@ import TeamName from '../../../components/TeamName';
 import Constants from '../../../common/constants';
 import { prisma } from '../../../common/prisma-client';
 import createSupabaseClient from '../../../common/supabase-client';
-import { GameWithTopics, Question } from '../../../types/main';
+import { GameWithTopics, QuestionWithAnswer } from '../../../types/main';
 import { GetServerSidePropsContext } from 'next';
 import { SupabaseClient } from '@supabase/supabase-js';
-import EditTopic from '../../admin/[gameId]/edit/topics/[id]';
 
 function Play({
   question,
@@ -21,7 +20,7 @@ function Play({
   game: GameWithTopics;
   teamId: number;
   questions: number[];
-  question: Question;
+  question: QuestionWithAnswer;
 }) {
   const toast = useToast();
 
@@ -75,6 +74,7 @@ function Play({
         <QuestionComponent.default
           question={question}
           handleAnswer={userDidAnswer}
+          allowEdit
         />
 
         <Progress
@@ -132,7 +132,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
               answer: '',
             })),
           ],
-          [] as Question[],
+          [] as QuestionWithAnswer[],
         ) ?? [],
       teamId,
     },

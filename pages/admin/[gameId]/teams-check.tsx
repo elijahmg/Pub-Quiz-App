@@ -1,12 +1,9 @@
 import { Button, Stack, Heading } from '@chakra-ui/react';
+import { Team } from '@prisma/client';
+import { GetServerSidePropsContext } from 'next';
+import { prisma } from '../../../common/prisma-client';
 
-export default function TeamsCheck() {
-  const teams = [
-    { id: 1, name: 'Team 1' },
-    { id: 2, name: 'Team 2' },
-    { id: 3, name: 'Team 3' },
-  ];
-
+export default function TeamsCheck({ teams }: { teams: Team[] }) {
   return (
     <Stack>
       <Stack>
@@ -18,4 +15,18 @@ export default function TeamsCheck() {
       <Button>Check answers</Button>
     </Stack>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { gameId } = context.query;
+  const teams = await prisma.team.findMany({
+    where: {
+      gameId: Number(gameId),
+    },
+  });
+  return {
+    props: {
+      teams,
+    },
+  };
 }

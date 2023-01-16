@@ -1,21 +1,26 @@
+import { SupabaseClient } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
+import { GetServerSidePropsContext } from 'next/types';
+import { prisma } from '../../../../../common/prisma-client';
+import createSupabaseClient from '../../../../../common/supabase-client';
 import AdminTopicForm from '../../../../../components/AdminTopicForm';
-import { Round } from '../../../../../types/main';
+import { GameWithTopics, TopicWithQuestions } from '../../../../../types/main';
 
 export type CreateTopicProps = {
-  round?: Round;
-  client: any;
+  game?: GameWithTopics;
+  client: SupabaseClient;
 };
 
-export default function CreateTopic({ round, client }: CreateTopicProps) {
+export default function CreateTopic({ game, client }: CreateTopicProps) {
   const { gameId } = useRouter().query;
   return (
     <AdminTopicForm
-      round={
-        round ?? {
-          name: 'empty',
+      game={
+        game ?? {
           id: -1,
-          topics: [],
+          topics: [] as TopicWithQuestions[],
+          gameStatus: 'CREATION',
+          password: '',
         }
       }
       client={client}
@@ -23,4 +28,29 @@ export default function CreateTopic({ round, client }: CreateTopicProps) {
       topicId={''}
     />
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { gameId, id } = context.query;
+  const client = createSupabaseClient();
+  const game = await prisma.game.findUnique({
+    where: {
+      id: Number(gameId),
+    },
+    include: {
+      topics: {
+        include: {
+          questions: true,
+        },
+      },
+    },
+  });
+  return {
+    props: {
+      client,
+      gameId,
+      id,
+      game,
+    },
+  };
 }
