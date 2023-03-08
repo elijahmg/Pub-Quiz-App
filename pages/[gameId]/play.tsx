@@ -1,7 +1,7 @@
 import { Progress, Center, Stack } from '@chakra-ui/react';
 import { useCallback, useEffect, useState } from 'react';
 import Question from '../../components/Question';
-import Constants from '../../constants';
+import { STACK_SPACING } from '../../constants';
 import { SecondaryWrapper } from '../../components/wrappers/secondary-wrapper';
 import { QUESTIONS } from '../../mock-data';
 
@@ -33,7 +33,7 @@ function Play({ channel }: { channel: any }) {
 
   return (
     <SecondaryWrapper>
-      <Stack mt={10} spacing={Constants.StackSpacing}>
+      <Stack mt={10} spacing={STACK_SPACING}>
         <Question
           question={`Q${stateIndex + 1}: ${
             round.questions[stateIndex].content

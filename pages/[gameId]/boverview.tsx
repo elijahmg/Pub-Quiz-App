@@ -1,8 +1,8 @@
 import { Stack } from '@chakra-ui/react';
 import { useState } from 'react';
-import OverviewQuestion from '../../components/OverviewQuestion';
+import BOverviewQuestion from '../../components/bOverviewQuestion';
 import { SecondaryWrapper } from '../../components/wrappers/secondary-wrapper';
-import Constants from '../../constants';
+import { STACK_SPACING } from '../../constants';
 import { QUESTIONS } from '../../mock-data';
 
 export default function Boverview({
@@ -15,10 +15,10 @@ export default function Boverview({
 
   return (
     <SecondaryWrapper>
-      <Stack mt={10} spacing={Constants.StackSpacing}>
+      <Stack mt={10} spacing={STACK_SPACING}>
         {questionsState.map(({ id, content, answer }, index) => {
           return (
-            <OverviewQuestion
+            <BOverviewQuestion
               key={id}
               question={`Q${index + 1}: ${content}`}
               answer={answer}

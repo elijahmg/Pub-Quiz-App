@@ -2,74 +2,48 @@ import {
   Stack,
   Text,
   Input,
-  Button,
   InputGroup,
   InputRightElement,
 } from '@chakra-ui/react';
-import { BaseSyntheticEvent, useEffect, useState } from 'react';
-import Constants from '../constants';
-import { CheckCircleIcon, EditIcon } from '@chakra-ui/icons';
-import PrimaryButton from './buttons/PrimaryButton';
+import { POINTS_OPTIONS, STACK_SPACING } from '../constants';
+
+const ACTIVE_POINTS_COLORS: { [key: number]: string } = {
+  0: 'red.100',
+  0.5: 'green.100',
+  1: 'green.100',
+};
+
+const DEFAULT_COLOR = 'brand.900';
 
 export default function OverviewQuestion({
   question,
-  handleAnswer,
-  answer = '',
+  answer,
+  points,
 }: {
   question: string;
+  points: number;
   answer?: string;
-  handleAnswer: (s: string) => void;
 }) {
-  const [value, setValue] = useState(answer);
-  const inputHandler = (e: BaseSyntheticEvent<InputEvent>) => {
-    setValue(e.target.value);
-  };
-
-  const [isEditable, setIsEditable] = useState(false);
-  const toggleEditable = () => {
-    setIsEditable((cur) => !cur);
-  };
-  const saveChange = () => {
-    handleAnswer(value);
-    toggleEditable();
-  };
-
-  useEffect(() => {
-    setValue(answer);
-  }, [answer]);
-
   return (
-    <Stack spacing={Constants.StackSpacing}>
+    <Stack spacing={STACK_SPACING}>
       <Text>{question}</Text>
-      <InputGroup>
-        <Input
-          value={value}
-          onInput={inputHandler}
-          placeholder="Do you think you know the answer?"
-        />
-        {!isEditable ? (
-          <InputRightElement width="80px">
-            <Button
-              leftIcon={<EditIcon />}
-              size="xs"
-              variant="ghost"
-              onClick={toggleEditable}
+      <InputGroup size="md">
+        <Input disabled placeholder="Enter the answer" value={answer} />
+        <InputRightElement width="auto" pr={2} gap={2}>
+          {POINTS_OPTIONS.map((pointsOption) => (
+            <Text
+              key={pointsOption}
+              color={
+                points === pointsOption
+                  ? ACTIVE_POINTS_COLORS[pointsOption]
+                  : DEFAULT_COLOR
+              }
             >
-              Edit
-            </Button>
-          </InputRightElement>
-        ) : null}
+              {`${pointsOption}pct`}
+            </Text>
+          ))}
+        </InputRightElement>
       </InputGroup>
-      {isEditable ? (
-        <PrimaryButton
-          leftIcon={<CheckCircleIcon />}
-          size="xs"
-          alignSelf="end"
-          onClick={saveChange}
-        >
-          Save change
-        </PrimaryButton>
-      ) : null}
     </Stack>
   );
 }
