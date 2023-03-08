@@ -11,7 +11,9 @@ export default function Waiting() {
       <Header mb={14} alignSelf="center">
         Getting Ready
       </Header>
-      <AlienTaken />
+      <Center>
+        <AlienTaken />
+      </Center>
       <SubHeader mt={6} mb={2}>
         Don&apos;t worry Quirky Owls, the quiz will start in a few moments.
       </SubHeader>
