@@ -1,43 +1,38 @@
-import { Center, Flex, Stack } from '@chakra-ui/react';
-import Question from '../../components/Question';
-import TeamName from '../../components/TeamName';
+import { Stack } from '@chakra-ui/react';
+import { useState } from 'react';
+import OverviewQuestion from '../../components/OverviewQuestion';
+import { SecondaryWrapper } from '../../components/wrappers/secondary-wrapper';
 import Constants from '../../constants';
-
-// @TODO Broken for now
+import { QUESTIONS } from '../../mock-data';
 
 export default function Boverview({
   name,
 }: {
   name: string;
-  // questions: Array<{ id: string; content: string; answer: string }>;
+  questions: Array<{ id: string; content: string; answer: string }>;
 }) {
-  const questions: Array<{ id: string; content: string; answer: string }> = [
-    { id: '1', content: 'Whoes Joe', answer: 'Ble' },
-  ];
+  const [questionsState, setQuestionsState] = useState(QUESTIONS);
 
   return (
-    <Center>
-      <Stack spacing={Constants.StackSpacing}>
-        <Flex justifyContent="flex-start">
-          <TeamName name="Dummy Team" />
-          <Stack>
-            {questions.map(({ id, content, answer }, idx) => {
-              return (
-                <Question
-                  key={id}
-                  question={content}
-                  handleAnswer={(answer) => {
-                    questions[idx] = {
-                      ...questions[idx],
-                      answer,
-                    };
-                  }}
-                />
-              );
-            })}
-          </Stack>
-        </Flex>
+    <SecondaryWrapper>
+      <Stack mt={10} spacing={Constants.StackSpacing}>
+        {questionsState.map(({ id, content, answer }, index) => {
+          return (
+            <OverviewQuestion
+              key={id}
+              question={`Q${index + 1}: ${content}`}
+              answer={answer}
+              handleAnswer={(answer) => {
+                setQuestionsState((curQuestions) =>
+                  curQuestions.map((question, i) =>
+                    i === index ? { ...question, answer } : question,
+                  ),
+                );
+              }}
+            />
+          );
+        })}
       </Stack>
-    </Center>
+    </SecondaryWrapper>
   );
 }

@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Question from '../../components/Question';
 import Constants from '../../constants';
 import { SecondaryWrapper } from '../../components/wrappers/secondary-wrapper';
+import { QUESTIONS } from '../../mock-data';
 
 function Play({ channel }: { channel: any }) {
   const [stateIndex, setStateIndex] = useState<number>(0);
@@ -10,13 +11,7 @@ function Play({ channel }: { channel: any }) {
   const round = {
     id: 1,
     name: 'Music',
-    questions: [
-      {
-        id: 1,
-        content: 'Where is John',
-        answer: 'here',
-      },
-    ],
+    questions: QUESTIONS,
   };
   // useEffect(() => {
   //   channel.subscribe((status: any) => {
@@ -40,7 +35,9 @@ function Play({ channel }: { channel: any }) {
     <SecondaryWrapper>
       <Stack mt={10} spacing={Constants.StackSpacing}>
         <Question
-          question={`Q1: ${round.questions[stateIndex].content}`}
+          question={`Q${stateIndex + 1}: ${
+            round.questions[stateIndex].content
+          }`}
           handleAnswer={console.log}
         />
       </Stack>
