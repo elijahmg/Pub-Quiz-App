@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { FormControl, Heading, Input, Flex } from '@chakra-ui/react';
 import { useEffect } from 'react';
-import Header from '../../components/headers/Header';
-import SubHeader from '../../components/headers/SubHeader';
-import SubTitle from '../../components/headers/SubTitle';
-import PrimaryButton from '../../components/buttons/PrimaryButton';
+import Header from '../../components/headers/header';
+import SubHeader from '../../components/headers/sub-header';
+import SubTitle from '../../components/headers/sub-title';
+import PrimaryButton from '../../components/buttons/primary-button';
 import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
 import { useRouter } from 'next/router';
 
@@ -31,9 +31,7 @@ const Welcome = (): JSX.Element => {
 
   return (
     <MainPageWrapper>
-      <Header textAlign="center" mb={10}>
-        Welcome
-      </Header>
+      <Header mb={10}>Welcome</Header>
       <SubHeader mb={2}>How about we add your team name?</SubHeader>
       <SubTitle mb={10}>
         You can name your team however you want. important thing is to have fun

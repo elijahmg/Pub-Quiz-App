@@ -1,6 +1,6 @@
 import { Badge, Box, Flex, Input, Spacer, Stack, Text } from '@chakra-ui/react';
 import { ChangeEvent } from 'react';
-import QuizHead from '../../../components/headers/QuizHead';
+import QuizHead from '../../../components/headers/quiz-head';
 
 const questions = [
   {

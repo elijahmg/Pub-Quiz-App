@@ -5,7 +5,7 @@ import {
   Flex,
   Center,
 } from '@chakra-ui/react';
-import Header from '../components/headers/Header';
+import Header from '../components/headers/header';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { MainPageWrapper } from '../components/wrappers/main-page-wrapper';
