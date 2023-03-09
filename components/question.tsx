@@ -1,8 +1,7 @@
 import { Center, Stack, Text, Input, Button, Flex } from '@chakra-ui/react';
 import { BaseSyntheticEvent, useCallback, useEffect, useState } from 'react';
 import { STACK_SPACING } from '../constants';
-import QuizHead from './headers/QuizHead';
-import PrimaryButton from './buttons/PrimaryButton';
+import PrimaryButton from './buttons/primary-button';
 
 export default function Question({
   question,

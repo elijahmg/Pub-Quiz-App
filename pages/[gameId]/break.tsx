@@ -1,7 +1,7 @@
 import { Center, Flex } from '@chakra-ui/react';
-import Header from '../../components/headers/Header';
-import SubHeader from '../../components/headers/SubHeader';
-import SubTitle from '../../components/headers/SubTitle';
+import Header from '../../components/headers/header';
+import SubHeader from '../../components/headers/sub-header';
+import SubTitle from '../../components/headers/sub-title';
 import { Alcoholism } from '../../components/images/alcoholism';
 import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
 
