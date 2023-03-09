@@ -28,13 +28,17 @@ export default function Overview() {
         <Box mt={16}>
           <Flex alignItems="center" flexDirection="column" gap={4}>
             <SubHeader>This Round’s Score</SubHeader>
-            <Header>{calculatePoints(QUESTIONS_WITH_POINTS).toString()}</Header>
+            <Header size="4xl">
+              {calculatePoints(QUESTIONS_WITH_POINTS).toString()}
+            </Header>
           </Flex>
         </Box>
         <Divider />
         <Flex alignItems="center" flexDirection="column" gap={1}>
           <SubHeader>Total score</SubHeader>
-          <Text color={'green.100'}>50</Text>
+          <Text color={'green.100'} fontSize="xl" fontWeight="semibold">
+            50
+          </Text>
         </Flex>
       </Flex>
     </SecondaryWrapper>

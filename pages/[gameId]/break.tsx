@@ -8,9 +8,7 @@ import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
 export default function Break() {
   return (
     <MainPageWrapper>
-      <Header textAlign="center" mb={10}>
-        Checking answers
-      </Header>
+      <Header mb={10}>Checking answers</Header>
       <Center flexDirection="column">
         <Flex justifyContent="center" width="100%">
           <Alcoholism />
@@ -20,7 +18,7 @@ export default function Break() {
         </SubHeader>
         <SubTitle>
           Your quizmasters is checking your answers. In the meantime, have a
-          chat and/or drink, we don’t judge :)
+          chat and/or drink, we don&apos;t judge :)
         </SubTitle>
       </Center>
     </MainPageWrapper>

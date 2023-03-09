@@ -10,7 +10,7 @@ export default function SubHeader({
   ...props
 }: SubHeader & HeadingProps) {
   return (
-    <Heading as="h2" size="lg" {...props}>
+    <Heading as="h2" size="lg" textAlign="center" {...props}>
       {children}
     </Heading>
   );
