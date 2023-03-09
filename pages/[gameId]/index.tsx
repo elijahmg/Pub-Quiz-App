@@ -31,9 +31,7 @@ const Welcome = (): JSX.Element => {
 
   return (
     <MainPageWrapper>
-      <Header textAlign="center" mb={10}>
-        Welcome
-      </Header>
+      <Header mb={10}>Welcome</Header>
       <SubHeader mb={2}>How about we add your team name?</SubHeader>
       <SubTitle mb={10}>
         You can name your team however you want. important thing is to have fun

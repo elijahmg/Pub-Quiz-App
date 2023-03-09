@@ -1,4 +1,4 @@
-import { Text, Stack, Image, Center } from '@chakra-ui/react';
+import { Center } from '@chakra-ui/react';
 import { AlienTaken } from '../../components/images/alien-taken';
 import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
 import Header from '../../components/headers/Header';
@@ -11,13 +11,13 @@ export default function Waiting() {
       <Header mb={14} alignSelf="center">
         Getting Ready
       </Header>
-      <Center>
+      <Center flexDirection="column">
         <AlienTaken />
+        <SubHeader mt={6} mb={2}>
+          Don&apos;t worry Quirky Owls, the quiz will start in a few moments.
+        </SubHeader>
+        <SubTitle>Grab a drink in the meantime!</SubTitle>
       </Center>
-      <SubHeader mt={6} mb={2}>
-        Don&apos;t worry Quirky Owls, the quiz will start in a few moments.
-      </SubHeader>
-      <SubTitle>Grab a drink in the meantime!</SubTitle>
     </MainPageWrapper>
   );
 }
