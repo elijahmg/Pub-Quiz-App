@@ -9,9 +9,9 @@ import {
 import { BaseSyntheticEvent, useEffect, useState } from 'react';
 import { STACK_SPACING } from '../constants';
 import { CheckCircleIcon, EditIcon } from '@chakra-ui/icons';
-import PrimaryButton from './buttons/PrimaryButton';
+import PrimaryButton from './buttons/primary-button';
 
-export default function BOverviewQuestion({
+export default function QuestionsOverviewQuestion({
   question,
   handleAnswer,
   answer = '',
