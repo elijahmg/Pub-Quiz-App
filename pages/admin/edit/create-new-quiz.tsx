@@ -1,6 +1,6 @@
-import TeamName from '../../../components/TeamName';
+import TeamName from '../../../components/team-name';
 import { Button } from '@chakra-ui/react';
-import { NewGameModal } from '../../../components/NewGameModal';
+import { NewGameModal } from '../../../components/new-game-modal';
 import { useState } from 'react';
 
 export default function CreateNewQuiz(name: string) {
