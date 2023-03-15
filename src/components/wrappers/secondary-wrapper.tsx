@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Flex } from '@chakra-ui/react';
 import QuizHead from '../headers/quiz-head';
-import { TEAM_NAME } from '../../mock-data';
+import { TEAM_NAME } from '../../../mock-data';
 
 interface Props {
   children: ReactNode;

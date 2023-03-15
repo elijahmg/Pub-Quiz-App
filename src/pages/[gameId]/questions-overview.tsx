@@ -2,8 +2,8 @@ import { Stack } from '@chakra-ui/react';
 import { useState } from 'react';
 import QuestionsOverviewQuestion from '../../components/questions-overview-question';
 import { SecondaryWrapper } from '../../components/wrappers/secondary-wrapper';
-import { STACK_SPACING } from '../../constants';
-import { QUESTIONS } from '../../mock-data';
+import { STACK_SPACING } from '../../../constants';
+import { QUESTIONS } from '../../../mock-data';
 
 export default function Boverview({
   name,

@@ -1,8 +1,9 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { trpc } from '../utils/trcp';
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   const theme = extendTheme({
     colors: {
       gray: {
@@ -28,3 +29,5 @@ export default function App({ Component, pageProps }: AppProps) {
     </ChakraProvider>
   );
 }
+
+export default trpc.withTRPC(App);

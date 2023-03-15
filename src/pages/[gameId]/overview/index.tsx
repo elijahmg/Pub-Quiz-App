@@ -2,10 +2,10 @@ import { Text, Box, Flex, Divider } from '@chakra-ui/react';
 import SubHeader from '../../../components/headers/sub-header';
 import Header from '../../../components/headers/header';
 import { SecondaryWrapper } from '../../../components/wrappers/secondary-wrapper';
-import { Answer } from '../../../types';
+import { Answer } from '../../../../types';
 import OverviewQuestion from '../../../components/overview-question';
-import { QUESTIONS_WITH_POINTS } from '../../../mock-data';
-import { STACK_SPACING } from '../../../constants';
+import { QUESTIONS_WITH_POINTS } from '../../../../mock-data';
+import { STACK_SPACING } from '../../../../constants';
 
 const calculatePoints = (answers: Answer[]) => {
   return answers.reduce((total, answer) => {

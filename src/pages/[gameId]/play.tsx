@@ -1,9 +1,9 @@
 import { Progress, Center, Stack } from '@chakra-ui/react';
 import { useCallback, useEffect, useState } from 'react';
 import Question from '../../components/question';
-import { STACK_SPACING } from '../../constants';
+import { STACK_SPACING } from '../../../constants';
 import { SecondaryWrapper } from '../../components/wrappers/secondary-wrapper';
-import { QUESTIONS } from '../../mock-data';
+import { QUESTIONS } from '../../../mock-data';
 
 function Play({ channel }: { channel: any }) {
   const [stateIndex, setStateIndex] = useState<number>(0);
