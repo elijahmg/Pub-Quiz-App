@@ -5,7 +5,7 @@ import {
   InputGroup,
   InputRightElement,
 } from '@chakra-ui/react';
-import { POINTS_OPTIONS, STACK_SPACING } from '../constants';
+import { POINTS_OPTIONS, STACK_SPACING } from '../../constants';
 
 const ACTIVE_POINTS_COLORS: { [key: number]: string } = {
   0: 'red.100',

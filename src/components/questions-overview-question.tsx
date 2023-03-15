@@ -7,7 +7,7 @@ import {
   InputRightElement,
 } from '@chakra-ui/react';
 import { BaseSyntheticEvent, useEffect, useState } from 'react';
-import { STACK_SPACING } from '../constants';
+import { STACK_SPACING } from '../../constants';
 import { CheckCircleIcon, EditIcon } from '@chakra-ui/icons';
 import PrimaryButton from './buttons/primary-button';
 

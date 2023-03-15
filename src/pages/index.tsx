@@ -1,6 +1,4 @@
-import { useState } from 'react';
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
 import { Box, Flex } from '@chakra-ui/react';
 import Header from '../components/headers/header';
 import SubHeader from '../components/headers/sub-header';
@@ -11,8 +9,17 @@ import { useRouter } from 'next/router';
 import DummyPeople from '../components/images/dummy-people';
 import * as React from 'react';
 import { MainPageWrapper } from '../components/wrappers/main-page-wrapper';
+import { trpc } from '../utils/trcp';
 
 export default function Home() {
+  // This is just an example how to call tRPC
+  // if you need lazily call the query set enabled to false
+  // and use refetch function
+  const { data, refetch } = trpc.hello.useQuery(
+    { text: 'Gww' },
+    { enabled: false },
+  );
+
   const router = useRouter();
 
   return (
