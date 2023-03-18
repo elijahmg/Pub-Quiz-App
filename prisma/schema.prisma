@@ -41,27 +41,27 @@ model Topic {
   id          Int           @id @default(autoincrement())
   name        String
   questions   Question[]
-  game        Game?         @relation(fields: [gameId], references: [id])
-  gameId      Int?
+  game        Game         @relation(fields: [gameId], references: [id])
+  gameId      Int
   teamAnswers TeamAnswers[]
 }
 
 model Question {
   id            Int       @id @default(autoincrement())
   content       String
-  correctAnswer String
-  media         MediaType
-  mediaLink     String
-  Topic         Topic?    @relation(fields: [topicId], references: [id])
-  topicId       Int?
+  answer        String
+  media         MediaType?
+  mediaLink     String?
+  Topic         Topic    @relation(fields: [topicId], references: [id])
+  topicId       Int
 }
 
 model Team {
   id      Int           @id @default(autoincrement())
   name    String
   answers TeamAnswers[]
-  game    Game?         @relation(fields: [gameId], references: [id])
-  gameId  Int?
+  game    Game         @relation(fields: [gameId], references: [id])
+  gameId  Int
 }
 
 model TeamAnswers {
@@ -70,6 +70,6 @@ model TeamAnswers {
   topic   Topic  @relation(fields: [topicId], references: [id])
   answer  String
   score   Float
-  team    Team?  @relation(fields: [teamId], references: [id])
-  teamId  Int?
+  team    Team  @relation(fields: [teamId], references: [id])
+  teamId  Int
 }

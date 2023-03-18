@@ -19,9 +19,26 @@ export default function Home() {
   //   { text: 'Gww' },
   //   { enabled: false },
   // );
-  const { mutate, data } = trpc.admin.createQuiz.useMutation();
+  const { mutate: createQuiz, data: quizData } =
+    trpc.admin.createQuiz.useMutation();
+
+  const { mutate: createTopic, data: topicData } =
+    trpc.admin.createTopic.useMutation();
 
   const router = useRouter();
+
+  async function handleCreateTopic() {
+    // const res = createQuiz({
+    //   name: 'Pub first',
+    //   pin: '1111',
+    //   password: '1222',
+    // });
+
+    createTopic({
+      name: 'Movies',
+      gameId: 1,
+    });
+  }
 
   return (
     <>
@@ -48,7 +65,9 @@ export default function Home() {
         <PrimaryButton onClick={() => router.push('add-pin')} w="100%" mb={2}>
           Enter PIN
         </PrimaryButton>
-        <SecondaryButton w="100%">Admin dashboard</SecondaryButton>
+        <SecondaryButton w="100%" onClick={handleCreateTopic}>
+          Admin dashboard
+        </SecondaryButton>
       </MainPageWrapper>
     </>
   );
