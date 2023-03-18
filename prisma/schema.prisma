@@ -50,8 +50,8 @@ model Question {
   id            Int       @id @default(autoincrement())
   content       String
   answer        String
-  media         MediaType?
-  mediaLink     String?
+  mediaType     MediaType?
+  mediaURL      String?
   Topic         Topic    @relation(fields: [topicId], references: [id])
   topicId       Int
 }

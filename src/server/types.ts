@@ -7,3 +7,9 @@ export enum GameStatuses {
   SCORE_VIEWING = 'SCORE_VIEWING',
   END_QUIZ = 'END_QUIZ',
 }
+
+export enum MediaTypes {
+  IMAGE = 'IMAGE',
+  VIDEO = 'VIDEO',
+  AUDIO = 'AUDIO',
+}

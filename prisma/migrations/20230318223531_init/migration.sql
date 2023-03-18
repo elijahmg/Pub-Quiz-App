@@ -28,9 +28,9 @@ CREATE TABLE "Topic" (
 CREATE TABLE "Question" (
     "id" SERIAL NOT NULL,
     "content" TEXT NOT NULL,
-    "correctAnswer" TEXT NOT NULL,
-    "media" "MediaType" NOT NULL,
-    "mediaLink" TEXT NOT NULL,
+    "answer" TEXT NOT NULL,
+    "mediaType" "MediaType",
+    "mediaURL" TEXT,
     "topicId" INTEGER NOT NULL,
 
     CONSTRAINT "Question_pkey" PRIMARY KEY ("id")
@@ -40,7 +40,7 @@ CREATE TABLE "Question" (
 CREATE TABLE "Team" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "gameId" INTEGER,
+    "gameId" INTEGER NOT NULL,
 
     CONSTRAINT "Team_pkey" PRIMARY KEY ("id")
 );
@@ -63,7 +63,7 @@ ALTER TABLE "Topic" ADD CONSTRAINT "Topic_gameId_fkey" FOREIGN KEY ("gameId") RE
 ALTER TABLE "Question" ADD CONSTRAINT "Question_topicId_fkey" FOREIGN KEY ("topicId") REFERENCES "Topic"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Team" ADD CONSTRAINT "Team_gameId_fkey" FOREIGN KEY ("gameId") REFERENCES "Game"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Team" ADD CONSTRAINT "Team_gameId_fkey" FOREIGN KEY ("gameId") REFERENCES "Game"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "TeamAnswers" ADD CONSTRAINT "TeamAnswers_topicId_fkey" FOREIGN KEY ("topicId") REFERENCES "Topic"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
