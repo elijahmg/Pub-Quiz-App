@@ -15,10 +15,11 @@ export default function Home() {
   // This is just an example how to call tRPC
   // if you need lazily call the query set enabled to false
   // and use refetch function
-  const { data, refetch } = trpc.hello.useQuery(
-    { text: 'Gww' },
-    { enabled: false },
-  );
+  // const { data, refetch } = trpc.hello.useQuery(
+  //   { text: 'Gww' },
+  //   { enabled: false },
+  // );
+  const { mutate, data } = trpc.admin.createQuiz.useMutation();
 
   const router = useRouter();
 

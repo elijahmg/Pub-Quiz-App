@@ -9,6 +9,8 @@ CREATE TABLE "Game" (
     "id" SERIAL NOT NULL,
     "gameStatus" "GameStatus" NOT NULL,
     "password" TEXT NOT NULL,
+    "pin" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
 
     CONSTRAINT "Game_pkey" PRIMARY KEY ("id")
 );

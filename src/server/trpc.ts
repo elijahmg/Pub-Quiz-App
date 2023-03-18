@@ -2,7 +2,7 @@ import { type CreateNextContextOptions } from '@trpc/server/adapters/next';
 
 type CreateContextOptions = Record<string, never>;
 
-import { prisma } from '../db';
+import { prisma } from './db';
 
 const createInnerTRPCContext = (_opts: CreateContextOptions) => {
   return {
@@ -34,10 +34,6 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
     return shape;
   },
 });
-
-import { initTRPC } from '@trpc/server';
-
-const t = initTRPC.create();
 
 export const router = t.router;
 export const procedure = t.procedure;
