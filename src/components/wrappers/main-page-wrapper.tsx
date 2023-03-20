@@ -1,20 +1,22 @@
 import { ReactNode } from 'react';
-import { Flex, Box } from '@chakra-ui/react';
-import { Blobs } from '../images/blobs';
+import { Blobs, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../images/blobs';
+import { Wrapper } from './wrapper';
+import type { Props as WrapperProps } from './wrapper';
 
-interface Props {
+interface Props extends WrapperProps {
   children: ReactNode;
 }
 
-export function MainPageWrapper({ children }: Props) {
+export function MainPageWrapper({ children, ...props }: Props) {
   return (
     <>
-      <Box position="absolute" top={0}>
-        <Blobs />
-      </Box>
-      <Flex my={16} flexDirection="column" mx={8}>
-        {children}
-      </Flex>
+      <Blobs
+        position="absolute"
+        top={0}
+        width={{ base: DEFAULT_WIDTH, md: 'auto' }}
+        height={{ base: DEFAULT_HEIGHT, md: '20%' }}
+      />
+      <Wrapper {...props}>{children}</Wrapper>
     </>
   );
 }

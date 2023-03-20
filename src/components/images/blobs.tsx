@@ -1,11 +1,14 @@
-export function Blobs() {
+import { Icon, IconProps } from '@chakra-ui/react';
+
+export function Blobs(props: IconProps) {
   return (
-    <svg
-      width="234"
-      height="126"
+    <Icon
+      width={234}
+      height={126}
       viewBox="0 0 234 126"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <g
         style={{
@@ -57,6 +60,6 @@ export function Blobs() {
           <stop offset="1" stopColor="#92E8BA" />
         </linearGradient>
       </defs>
-    </svg>
+    </Icon>
   );
 }

@@ -1,11 +1,14 @@
-export function Alcoholism() {
+import { Icon, IconProps } from '@chakra-ui/react';
+
+export function Alcoholism(props: IconProps) {
   return (
-    <svg
-      width="325"
-      height="305"
+    <Icon
+      width={325}
+      height={305}
       viewBox="0 0 325 305"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <g clipPath="url(#clip0_52_5280)">
         <path
@@ -244,6 +247,6 @@ export function Alcoholism() {
           <rect width="325" height="305" fill="white" />
         </clipPath>
       </defs>
-    </svg>
+    </Icon>
   );
 }
