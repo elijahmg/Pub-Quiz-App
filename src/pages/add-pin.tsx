@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { PinInput, HStack, PinInputField, Center } from '@chakra-ui/react';
-import Header from '../components/headers/header';
 import { useRouter } from 'next/router';
 import { MainPageWrapper } from '../components/wrappers/main-page-wrapper';
 import { trpc } from '../utils/trcp';
 
-export default function InputPin() {
+const InputPin = () => {
   const [pin, setPin] = useState('');
   const router = useRouter();
 
@@ -25,18 +24,21 @@ export default function InputPin() {
   }
 
   return (
-    <MainPageWrapper>
-      <Header alignSelf="center">Enter PIN</Header>
-      <Center mt={8}>
-        <HStack>
-          <PinInput type="number" onChange={handlePin}>
-            <PinInputField />
-            <PinInputField />
-            <PinInputField />
-            <PinInputField />
-          </PinInput>
-        </HStack>
-      </Center>
-    </MainPageWrapper>
+    <Center mt={8}>
+      <HStack>
+        <PinInput type="number" onChange={handlePin}>
+          <PinInputField />
+          <PinInputField />
+          <PinInputField />
+          <PinInputField />
+        </PinInput>
+      </HStack>
+    </Center>
   );
-}
+};
+
+InputPin.getLayout = function getLayout(pageContent: React.ReactElement) {
+  return <MainPageWrapper header="Enter PIN">{pageContent}</MainPageWrapper>;
+};
+
+export default InputPin;
