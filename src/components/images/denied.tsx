@@ -1,11 +1,14 @@
-export function Denied() {
+import { Icon, IconProps } from '@chakra-ui/react';
+
+export function Denied(props: IconProps) {
   return (
-    <svg
-      width="267"
-      height="340"
+    <Icon
+      width={267}
+      height={340}
       viewBox="0 0 267 340"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <g clipPath="url(#clip0_52_5346)">
         <path
@@ -152,6 +155,6 @@ export function Denied() {
           <rect width="267" height="340" fill="white" />
         </clipPath>
       </defs>
-    </svg>
+    </Icon>
   );
 }

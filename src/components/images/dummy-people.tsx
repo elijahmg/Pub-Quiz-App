@@ -1,10 +1,14 @@
-export default function DummyPeople() {
+import { Icon, IconProps } from '@chakra-ui/react';
+
+export default function DummyPeople(props: IconProps) {
   return (
-    <svg
-      width="230"
+    <Icon
+      width={230}
+      height="auto"
       viewBox="0 0 325 254"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <path
         d="M73.1095 253.552C79.0818 253.552 83.9232 251.732 83.9232 249.487C83.9232 247.242 79.0818 245.423 73.1095 245.423C67.1372 245.423 62.2958 247.242 62.2958 249.487C62.2958 251.732 67.1372 253.552 73.1095 253.552Z"
@@ -114,6 +118,6 @@ export default function DummyPeople() {
         d="M60.7184 85.6369C64.2607 85.6369 67.1323 82.7587 67.1323 79.2082C67.1323 75.6578 64.2607 72.7795 60.7184 72.7795C57.1761 72.7795 54.3046 75.6578 54.3046 79.2082C54.3046 82.7587 57.1761 85.6369 60.7184 85.6369Z"
         fill="#F2F2F2"
       />
-    </svg>
+    </Icon>
   );
 }

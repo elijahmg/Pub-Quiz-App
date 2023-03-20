@@ -1,10 +1,14 @@
-export function AlienTaken() {
+import { Icon, IconProps } from '@chakra-ui/react';
+
+export function AlienTaken(props: IconProps) {
   return (
-    <svg
-      width="300"
+    <Icon
+      width={300}
+      height="auto"
       viewBox="0 0 325 319"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <g clipPath="url(#clip0_52_5248)">
         <path
@@ -135,6 +139,6 @@ export function AlienTaken() {
           <rect width="325" height="319" fill="white" />
         </clipPath>
       </defs>
-    </svg>
+    </Icon>
   );
 }
