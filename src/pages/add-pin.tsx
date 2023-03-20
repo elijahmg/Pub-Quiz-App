@@ -1,22 +1,27 @@
-import {
-  PinInput,
-  HStack,
-  PinInputField,
-  Flex,
-  Center,
-} from '@chakra-ui/react';
+import React, { useState, useEffect } from 'react';
+import { PinInput, HStack, PinInputField, Center } from '@chakra-ui/react';
 import Header from '../components/headers/header';
 import { useRouter } from 'next/router';
-import React from 'react';
 import { MainPageWrapper } from '../components/wrappers/main-page-wrapper';
+import { trpc } from '../utils/trcp';
 
 export default function InputPin() {
+  const [pin, setPin] = useState('');
   const router = useRouter();
 
+  const { data } = trpc.team.joinWithPin.useQuery(
+    { pin },
+    {
+      enabled: pin.length === 4,
+    },
+  );
+
+  useEffect(() => {
+    console.log({ data, pin });
+  }, [data]);
+
   function handlePin(pin: string) {
-    if (pin.length === 4) {
-      router.push('/3');
-    }
+    setPin(pin);
   }
 
   return (
