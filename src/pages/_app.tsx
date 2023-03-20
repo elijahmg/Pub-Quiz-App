@@ -1,11 +1,14 @@
 import '../styles/globals.css';
-import type { AppProps } from 'next/app';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { trpc } from '../utils/trcp';
+import { AppPropsWithLayout } from '../../types';
 
-function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppPropsWithLayout) {
   const theme = extendTheme({
     colors: {
+      secondary: {
+        100: '#1A2330',
+      },
       gray: {
         100: '#F1F1F1',
       },
@@ -23,9 +26,11 @@ function App({ Component, pageProps }: AppProps) {
     },
   });
 
+  const getLayout = Component.getLayout || ((page) => page);
+
   return (
     <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
+      {getLayout(<Component {...pageProps} />)}
     </ChakraProvider>
   );
 }

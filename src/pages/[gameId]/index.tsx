@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { FormControl, Heading, Input, Flex } from '@chakra-ui/react';
+import { FormControl, Heading, Input } from '@chakra-ui/react';
 import { useEffect } from 'react';
-import Header from '../../components/headers/header';
 import SubHeader from '../../components/headers/sub-header';
 import SubTitle from '../../components/headers/sub-title';
 import PrimaryButton from '../../components/buttons/primary-button';
@@ -30,8 +29,7 @@ const Welcome = (): JSX.Element => {
   }
 
   return (
-    <MainPageWrapper>
-      <Header mb={10}>Welcome</Header>
+    <>
       <SubHeader mb={2}>How about we add your team name?</SubHeader>
       <SubTitle mb={10}>
         You can name your team however you want. important thing is to have fun
@@ -55,7 +53,12 @@ const Welcome = (): JSX.Element => {
       <PrimaryButton isDisabled={buttonStatus} mt={4} onClick={onSubmitHandler}>
         {buttonStatus ? errorMessage : 'Submit'}
       </PrimaryButton>
-    </MainPageWrapper>
+    </>
   );
 };
+
+Welcome.getLayout = function getLayout(pageContent: React.ReactElement) {
+  return <MainPageWrapper header="Welcome">{pageContent}</MainPageWrapper>;
+};
+
 export default Welcome;
