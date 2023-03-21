@@ -45,16 +45,16 @@ const Home: NextPageWithLayout = () => {
       <Grid
         templateAreas={{
           base: `
-              "header header"
-              "image image"
-              "text text"
-              "buttons buttons"
-            `,
+            "header header"
+            "image image"
+            "text text"
+            "buttons buttons"
+          `,
           md: `
-              "header image"
-              "text image"
-              "buttons image"
-            `,
+            "header image"
+            "text image"
+            "buttons image"
+          `,
         }}
         gridTemplateColumns="repeat(2, 1fr)"
         alignItems="center"
@@ -62,7 +62,9 @@ const Home: NextPageWithLayout = () => {
         gap={8}
       >
         <GridItem area="header">
-          <Header>Hello there! 👋</Header>
+          <Header textAlign={{ base: 'center', md: 'left' }}>
+            Hello there! 👋
+          </Header>
         </GridItem>
         <GridItem
           area="image"
@@ -73,10 +75,14 @@ const Home: NextPageWithLayout = () => {
           <DummyPeople height={{ md: '100%' }} />
         </GridItem>
         <GridItem area="text">
-          <SubHeader size="lg" mb="4">
+          <SubHeader
+            size="lg"
+            mb="4"
+            textAlign={{ base: 'center', md: 'left' }}
+          >
             Looks like you’re ready to have a great time.
           </SubHeader>
-          <SubTitle>
+          <SubTitle textAlign={{ base: 'center', md: 'left' }}>
             Time to enter your quiz’s PIN and let’s get started.
           </SubTitle>
         </GridItem>
