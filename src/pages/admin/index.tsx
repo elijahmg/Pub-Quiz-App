@@ -41,6 +41,8 @@ AdminHome.getLayout = function getLayout(pageContent: React.ReactElement) {
           &nbsp;QWIZZ!
         </>
       }
+      minHeight="100vh"
+      blobVariant={2}
     >
       {pageContent}
     </MainPageWrapper>

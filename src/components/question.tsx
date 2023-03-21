@@ -1,5 +1,5 @@
-import { Center, Stack, Text, Input, Button, Flex } from '@chakra-ui/react';
-import { BaseSyntheticEvent, useCallback, useEffect, useState } from 'react';
+import { Stack, Text, Input } from '@chakra-ui/react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { STACK_SPACING } from '../../constants';
 import PrimaryButton from './buttons/primary-button';
 
@@ -20,12 +20,9 @@ export default function Question({
 }) {
   const [value, setValue] = useState(answer);
 
-  const inputHandler = useCallback(
-    (e: BaseSyntheticEvent<InputEvent>) => {
-      setValue(e.target.value);
-    },
-    [setValue],
-  );
+  const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
 
   useEffect(() => {
     setValue(answer);
@@ -37,7 +34,7 @@ export default function Question({
       <Input
         value={value}
         placeholder="Do you think you know the answer?"
-        onInput={inputHandler}
+        onChange={inputHandler}
       />
       <PrimaryButton
         onClick={() => {

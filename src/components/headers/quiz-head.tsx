@@ -14,7 +14,7 @@ function Topic({ topicName }: TopicProps) {
   return (
     <Box pt={4} pb={4}>
       <Input
-        backgroundColor="gray.100"
+        bgColor="gray.100"
         style={{ opacity: 1 }}
         value={topicName}
         disabled

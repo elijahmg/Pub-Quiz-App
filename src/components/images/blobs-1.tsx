@@ -1,10 +1,10 @@
 import { Icon, IconProps } from '@chakra-ui/react';
 
-export function Blobs(props: IconProps) {
+export default function Blobs1(props: IconProps) {
   return (
     <Icon
       width={234}
-      height={126}
+      height="auto"
       viewBox="0 0 234 126"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

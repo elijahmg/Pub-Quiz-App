@@ -6,7 +6,7 @@ import {
   InputGroup,
   InputRightElement,
 } from '@chakra-ui/react';
-import { BaseSyntheticEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { STACK_SPACING } from '../../constants';
 import { CheckCircleIcon, EditIcon } from '@chakra-ui/icons';
 import PrimaryButton from './buttons/primary-button';
@@ -21,7 +21,7 @@ export default function QuestionsOverviewQuestion({
   handleAnswer: (s: string) => void;
 }) {
   const [value, setValue] = useState(answer);
-  const inputHandler = (e: BaseSyntheticEvent<InputEvent>) => {
+  const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
@@ -44,7 +44,7 @@ export default function QuestionsOverviewQuestion({
       <InputGroup>
         <Input
           value={value}
-          onInput={inputHandler}
+          onChange={inputHandler}
           readOnly={!isEditable}
           placeholder="Do you think you know the answer?"
         />
