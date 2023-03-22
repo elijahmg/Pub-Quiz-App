@@ -9,6 +9,8 @@ export type Question = {
   // media?: any;
 };
 
+export type CreatorModeQuestion = Omit<Question, 'id'>;
+
 export interface Answer extends Question {
   points: number;
 }
