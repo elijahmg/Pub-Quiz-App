@@ -48,6 +48,7 @@ const Rounds = () => {
 
   const handleNext = () => {
     console.log({ rounds });
+    router.push('questions');
   };
 
   return (
