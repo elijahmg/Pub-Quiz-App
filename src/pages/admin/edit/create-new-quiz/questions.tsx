@@ -35,6 +35,7 @@ const Questions = () => {
 
   const handleNext = () => {
     console.log({ questions });
+    router.push('final');
   };
 
   return (
