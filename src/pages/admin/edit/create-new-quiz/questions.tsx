@@ -1,40 +1,95 @@
 import { AddIcon, ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
-import { Button, Flex, Heading } from '@chakra-ui/react';
-import { useState } from 'react';
+import { Flex, Heading, Select, Text } from '@chakra-ui/react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import SubHeader from '../../../../components/headers/sub-header';
 import { AdminCreatorWrapper } from '../../../../components/wrappers/admin-creator-wrapper';
 import { useRouter } from 'next/router';
 import CreatorQuestion from '../../../../components/creator-question';
 import { CreatorModeQuestion } from '../../../../../types';
+import useCreatorStorage from '../../../../hooks/use-creator-storage';
+import type {
+  StoreRound,
+  StoreQuestion,
+} from '../../../../hooks/use-creator-storage';
+import SecondaryButton from '../../../../components/buttons/secondary-button';
+
+const QUESTION_PRESET = { content: '', answer: '' };
 
 const Questions = () => {
   const router = useRouter();
 
-  const [questions, setQuestions] = useState([{ content: '', answer: '' }]);
+  const { initialData, setData } = useCreatorStorage();
+
+  const [rounds, setRounds] = useState<StoreRound[]>([]);
+
+  // @FIXME This not ideal to do it by index but we dont have ids yet
+  const [selectedRoundIndex, setSelectedRoundIndex] = useState(-1);
+
+  const [questions, setQuestions] = useState<StoreQuestion[][]>();
+
+  useEffect(() => {
+    const rounds = initialData.rounds || [];
+    setRounds(rounds);
+    setQuestions(rounds.map((round) => round.questions ?? []));
+  }, []);
+
+  const handleSelectRound = (e: ChangeEvent<HTMLSelectElement>) => {
+    const roundIndex = e.target.value === '' ? -1 : Number(e.target.value);
+
+    setSelectedRoundIndex(roundIndex);
+
+    if (roundIndex > -1) {
+      setQuestions((currQuestions) => {
+        if (currQuestions?.[roundIndex].length) return currQuestions;
+        const resultQuestions = [...(currQuestions || [])];
+        resultQuestions[roundIndex] = [QUESTION_PRESET];
+        return resultQuestions;
+      });
+    }
+  };
 
   const getHandleQuestionChange = (questionIndex: number) => {
     return (question: CreatorModeQuestion) => {
       setQuestions((currQuestions) => {
-        const resultQuestions = [...currQuestions];
-        resultQuestions[questionIndex] = question;
+        const resultQuestions = [...(currQuestions || [])];
+        resultQuestions[selectedRoundIndex] = [
+          ...resultQuestions[selectedRoundIndex],
+        ];
+        resultQuestions[selectedRoundIndex][questionIndex] = question;
         return resultQuestions;
       });
     };
   };
 
   const handleAddQuestion = () => {
-    setQuestions((currQuestions) => [
-      ...currQuestions,
-      { content: '', answer: '' },
-    ]);
+    setQuestions((currQuestions) => {
+      const resultQuestions = [...(currQuestions || [])];
+      resultQuestions[selectedRoundIndex] = [
+        ...resultQuestions[selectedRoundIndex],
+        { content: '', answer: '' },
+      ];
+      return resultQuestions;
+    });
+  };
+
+  const onNavigate = () => {
+    // @FIXME The data has to be stored at different times. Maybe on unmount?
+    setData({
+      ...initialData,
+      rounds: rounds?.map((round, i) => ({
+        ...round,
+        questions: (questions || [])[i] ?? [],
+      })),
+    });
   };
 
   const handlePrevious = () => {
+    onNavigate();
     router.back();
   };
 
   const handleNext = () => {
-    console.log({ questions });
+    onNavigate();
     router.push('final');
   };
 
@@ -44,10 +99,22 @@ const Questions = () => {
         Creating a new quiz
       </Heading>
       <SubHeader>Questions</SubHeader>
-      <Heading as="h3" size="md" color="secondary.100">
-        Round 1
-      </Heading>
-      {questions.map((question, i) => (
+      <Text>Round</Text>
+      <Select
+        placeholder="Select a round"
+        value={selectedRoundIndex}
+        onChange={handleSelectRound}
+      >
+        {rounds.map(
+          (round, i) =>
+            round && (
+              <option key={i} value={i}>
+                {round.name}
+              </option>
+            ),
+        )}
+      </Select>
+      {questions?.[selectedRoundIndex]?.map((question, i) => (
         <CreatorQuestion
           key={i}
           title={`Question ${i + 1}`}
@@ -55,39 +122,36 @@ const Questions = () => {
           onQuestionChange={getHandleQuestionChange(i)}
         />
       ))}
-      <Button
-        size="sm"
-        variant="outline"
-        borderColor="secondary.100"
-        color="secondary.100"
-        alignSelf="end"
-        leftIcon={<AddIcon />}
-        onClick={handleAddQuestion}
-      >
-        Add question
-      </Button>
+      {selectedRoundIndex > -1 ? (
+        <SecondaryButton
+          size="sm"
+          borderColor="secondary.100"
+          color="secondary.100"
+          alignSelf="end"
+          leftIcon={<AddIcon />}
+          onClick={handleAddQuestion}
+        >
+          Add question
+        </SecondaryButton>
+      ) : null}
 
       <Flex gap={2} mt="auto" alignSelf="end">
-        <Button
-          size="lg"
-          variant="outline"
+        <SecondaryButton
           borderColor="secondary.100"
           color="secondary.100"
           leftIcon={<ArrowBackIcon />}
           onClick={handlePrevious}
         >
           Previous step
-        </Button>
-        <Button
-          size="lg"
-          variant="outline"
+        </SecondaryButton>
+        <SecondaryButton
           borderColor="secondary.100"
           color="secondary.100"
           rightIcon={<ArrowForwardIcon />}
           onClick={handleNext}
         >
           Next step
-        </Button>
+        </SecondaryButton>
       </Flex>
     </Flex>
   );

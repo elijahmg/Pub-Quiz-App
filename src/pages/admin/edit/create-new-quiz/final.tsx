@@ -1,33 +1,48 @@
-import { ArrowBackIcon, ArrowForwardIcon, CloseIcon } from '@chakra-ui/icons';
+import { ArrowBackIcon } from '@chakra-ui/icons';
 import {
-  Button,
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
   Flex,
   Heading,
   Input,
-  InputGroup,
-  InputLeftElement,
-  Tag,
-  TagLabel,
-  TagLeftIcon,
   Text,
 } from '@chakra-ui/react';
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SubHeader from '../../../../components/headers/sub-header';
 import { AdminCreatorWrapper } from '../../../../components/wrappers/admin-creator-wrapper';
-import { ROUNDS } from '../../../../../mock-data';
 import { useRouter } from 'next/router';
 import PrimaryButton from '../../../../components/buttons/primary-button';
+import useCreatorStorage from '../../../../hooks/use-creator-storage';
+import CreatorQuestion from '../../../../components/creator-question';
+import SecondaryButton from '../../../../components/buttons/secondary-button';
 
 const Rounds = () => {
   const router = useRouter();
+
+  const { data } = useCreatorStorage();
+
+  const { name, password, pin, rounds } = data;
 
   const handlePrevious = () => {
     router.back();
   };
 
   const handleCreate = () => {
-    router.push('questions');
+    console.log(data);
+    router.push('success');
   };
+
+  const [isSSR, setIsSSR] = useState(true);
+
+  useEffect(() => {
+    // Workaround for NextJS Hydration since we are using localStorage
+    // (https://nextjs.org/docs/messages/react-hydration-error)
+    setIsSSR(false);
+  }, []);
 
   return (
     <Flex direction="column" gap={4} flexGrow={1}>
@@ -35,20 +50,51 @@ const Rounds = () => {
         Creating a new quiz
       </Heading>
       <SubHeader>Final check & create</SubHeader>
+      <SubHeader size="md">Main info</SubHeader>
+      <Text>Quiz name</Text>
+      <Input value={name} isReadOnly />
+      <Text>Quiz password</Text>
+      <Input value={password} isReadOnly />
+      <Text>Quiz PIN</Text>
+      <Input value={pin} isReadOnly />
+      {!isSSR && rounds?.length && (
+        <Accordion>
+          {rounds.map((round, i) => (
+            <AccordionItem key={i}>
+              <h2>
+                <AccordionButton>
+                  <Box as="span" flex="1" textAlign="left">
+                    {`Round ${i + 1} Questions`}
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                <Text>Name of this round</Text>
+                <Input value={round.name} isReadOnly />
+                {round.questions?.map((question, i) => (
+                  <CreatorQuestion
+                    key={i}
+                    title={`Question ${i + 1}`}
+                    question={question}
+                    isReadOnly
+                  />
+                ))}
+              </AccordionPanel>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      )}
       <Flex gap={2} mt="auto" alignSelf="end">
-        <Button
-          size="lg"
-          variant="outline"
+        <SecondaryButton
           borderColor="secondary.100"
           color="secondary.100"
           leftIcon={<ArrowBackIcon />}
           onClick={handlePrevious}
         >
           Previous step
-        </Button>
-        <PrimaryButton size="lg" onClick={handleCreate}>
-          Create quiz
-        </PrimaryButton>
+        </SecondaryButton>
+        <PrimaryButton onClick={handleCreate}>Create quiz</PrimaryButton>
       </Flex>
     </Flex>
   );

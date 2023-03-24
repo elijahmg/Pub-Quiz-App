@@ -1,73 +1,41 @@
-import { CheckCircleIcon } from '@chakra-ui/icons';
-import { GridProps, Grid, Icon, Text, Box, IconProps } from '@chakra-ui/react';
-import { ReactNode, SVGProps } from 'react';
+import { GridProps, Grid, Box } from '@chakra-ui/react';
+import StepsItem from './steps-item';
+import type { Props as StepsItemProps } from './steps-item';
 
-interface Item {
-  label: ReactNode;
-  value: string | number;
-}
+type Item = Pick<StepsItemProps, 'value' | 'onClick'> & {
+  label: StepsItemProps['children'];
+};
 
 interface Props extends GridProps {
   itemList: Item[];
   activeItemValue?: string | number;
 }
 
-function CircleSvg(props: SVGProps<SVGCircleElement>) {
-  return (
-    <circle
-      {...props}
-      cx="16"
-      cy="16"
-      r="15"
-      fill="transparent"
-      stroke="currentColor"
-      strokeWidth={2}
-    />
-  );
-}
-
-function StepIcon(props: IconProps) {
-  return (
-    <Icon {...props} color="secondary.100" viewBox="0 0 32 32">
-      <CircleSvg />
-    </Icon>
-  );
-}
-
-function StepIconActive(props: IconProps) {
-  return (
-    <Icon {...props} color="secondary.100" viewBox="0 0 32 32">
-      <CircleSvg />
-      <circle cx="16" cy="16" r="5" fill="currentColor" />
-    </Icon>
-  );
-}
-
-function StepIconCompleted(props: IconProps) {
-  return <Icon {...props} as={CheckCircleIcon} color="green.100" />;
-}
-
 export default function Steps({ itemList, activeItemValue, ...props }: Props) {
-  const activeItemIndex = itemList.findIndex(
+  let activeItemIndex = itemList.findIndex(
     (item) => item.value === activeItemValue,
   );
 
-  const itemListNodes = itemList.flatMap((item, i) => {
+  if (activeItemIndex === -1) activeItemIndex = Infinity;
+
+  const itemListNodes = itemList.flatMap(({ value, label, onClick }, i) => {
     const isActive = i === activeItemIndex;
     const isCompleted = i < activeItemIndex;
 
-    let IconComponent = StepIcon;
-    if (isActive) IconComponent = StepIconActive;
-    else if (isCompleted) IconComponent = StepIconCompleted;
-
     return [
-      <IconComponent key={`icon-${item.value}`} boxSize={8} />,
-      <Box key={`label-${item.value}`} as={Text} ml={6} mt={1} gridRow="span 2">
-        {item.label}
-      </Box>,
+      <StepsItem
+        key={value}
+        value={value}
+        isActive={isActive}
+        isCompleted={isCompleted}
+        isDisabled={!isActive && !isCompleted}
+        onClick={onClick}
+      >
+        {label}
+      </StepsItem>,
       i < itemList.length - 1 ? (
         <Box
-          key={`line-${item.value}`}
+          key={`line-${value}`}
           justifySelf="center"
           alignSelf="stretch"
           bgColor={isCompleted ? 'green.100' : 'secondary.100'}
@@ -77,7 +45,7 @@ export default function Steps({ itemList, activeItemValue, ...props }: Props) {
     ];
   });
 
-  const rowCount = itemListNodes.length / 3;
+  const rowCount = itemListNodes.length / 2;
 
   return (
     <Grid

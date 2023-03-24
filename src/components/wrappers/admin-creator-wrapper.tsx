@@ -13,12 +13,14 @@ const STEPS = [
   { value: 'final', label: 'Final check & create' },
 ];
 
-const ROUTE_TO_STEPS: Record<string, string> = {
-  '/admin/edit/create-new-quiz': 'main',
-  '/admin/edit/create-new-quiz/rounds': 'rounds',
-  '/admin/edit/create-new-quiz/questions': 'questions',
-  '/admin/edit/create-new-quiz/final': 'final',
-};
+const BASE_ROUTE = '/admin/edit/create-new-quiz';
+
+const ROUTE_LIST = [
+  `${BASE_ROUTE}`,
+  `${BASE_ROUTE}/rounds`,
+  `${BASE_ROUTE}/questions`,
+  `${BASE_ROUTE}/final`,
+];
 
 export interface Props extends WrapperProps {
   children: ReactNode;
@@ -27,14 +29,19 @@ export interface Props extends WrapperProps {
 export function AdminCreatorWrapper({ children, ...props }: Props) {
   const router = useRouter();
 
-  const activeStepValue = ROUTE_TO_STEPS[router.route];
+  const activeStep = STEPS[ROUTE_LIST.indexOf(router.route)];
+
+  const steps = STEPS.map((step, i) => ({
+    ...step,
+    onClick: () => router.push(ROUTE_LIST[i]),
+  }));
 
   return (
     <Grid templateColumns={{ base: '50% 1fr', md: '33% 1fr' }}>
       <Grid autoFlow="column" templateRows="1fr auto" bgColor="gray.100">
         <Steps
-          itemList={STEPS}
-          activeItemValue={activeStepValue}
+          itemList={steps}
+          activeItemValue={activeStep?.value}
           justifySelf="center"
           pt={16}
           px={8}

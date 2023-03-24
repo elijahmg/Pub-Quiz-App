@@ -1,6 +1,5 @@
 import { ArrowBackIcon, ArrowForwardIcon, CloseIcon } from '@chakra-ui/icons';
 import {
-  Button,
   Flex,
   Heading,
   Input,
@@ -11,17 +10,25 @@ import {
   TagLeftIcon,
   Text,
 } from '@chakra-ui/react';
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import SubHeader from '../../../../components/headers/sub-header';
 import { AdminCreatorWrapper } from '../../../../components/wrappers/admin-creator-wrapper';
-import { ROUNDS } from '../../../../../mock-data';
 import { useRouter } from 'next/router';
+import useCreatorStorage from '../../../../hooks/use-creator-storage';
+import SecondaryButton from '../../../../components/buttons/secondary-button';
 
 const Rounds = () => {
   const router = useRouter();
 
+  const { initialData, setData } = useCreatorStorage();
+
   const [roundName, setRoundName] = useState('');
-  const [rounds, setRounds] = useState<string[]>(ROUNDS.map((it) => it.name));
+  const [rounds, setRounds] = useState<string[]>([]);
+
+  useEffect(
+    () => setRounds((initialData.rounds || []).map((it) => it.name ?? '')),
+    [],
+  );
 
   const handleRoundNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setRoundName(e.target.value);
@@ -42,12 +49,24 @@ const Rounds = () => {
     });
   };
 
+  const onNavigate = () => {
+    // @FIXME The data has to be stored at different times. Maybe on unmount?
+    setData({
+      ...initialData,
+      rounds: rounds.map((round, i) => ({
+        ...(initialData.rounds?.[i] || {}),
+        name: round,
+      })),
+    });
+  };
+
   const handlePrevious = () => {
+    onNavigate();
     router.back();
   };
 
   const handleNext = () => {
-    console.log({ rounds });
+    onNavigate();
     router.push('questions');
   };
 
@@ -94,26 +113,22 @@ const Rounds = () => {
         <Input size="lg" />
       </InputGroup>
       <Flex gap={2} mt="auto" alignSelf="end">
-        <Button
-          size="lg"
-          variant="outline"
+        <SecondaryButton
           borderColor="secondary.100"
           color="secondary.100"
           leftIcon={<ArrowBackIcon />}
           onClick={handlePrevious}
         >
           Previous step
-        </Button>
-        <Button
-          size="lg"
-          variant="outline"
+        </SecondaryButton>
+        <SecondaryButton
           borderColor="secondary.100"
           color="secondary.100"
           rightIcon={<ArrowForwardIcon />}
           onClick={handleNext}
         >
           Next step
-        </Button>
+        </SecondaryButton>
       </Flex>
     </Flex>
   );

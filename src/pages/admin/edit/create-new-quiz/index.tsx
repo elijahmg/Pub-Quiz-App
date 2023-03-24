@@ -1,16 +1,26 @@
 import { ArrowForwardIcon } from '@chakra-ui/icons';
-import { Button, Flex, Heading, Input, Text } from '@chakra-ui/react';
+import { Flex, Heading, Input, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import SecondaryButton from '../../../../components/buttons/secondary-button';
 import SubHeader from '../../../../components/headers/sub-header';
 import { AdminCreatorWrapper } from '../../../../components/wrappers/admin-creator-wrapper';
+import useCreatorStorage from '../../../../hooks/use-creator-storage';
 
 const CreateNewQuiz = () => {
   const router = useRouter();
 
+  const { initialData, setData } = useCreatorStorage();
+
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [pin, setPin] = useState('');
+
+  useEffect(() => {
+    setName(initialData.name ?? '');
+    setPassword(initialData.password ?? '');
+    setPin(initialData.pin ?? '');
+  }, []);
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -24,8 +34,18 @@ const CreateNewQuiz = () => {
     setPin(e.target.value);
   };
 
+  const onNavigate = () => {
+    // @FIXME The data has to be stored at different times. Maybe on unmount?
+    setData({
+      ...initialData,
+      name,
+      password,
+      pin,
+    });
+  };
+
   const handleNext = () => {
-    console.log({ name, password, pin });
+    onNavigate();
     router.push('create-new-quiz/rounds');
   };
 
@@ -54,16 +74,14 @@ const CreateNewQuiz = () => {
         onChange={handlePinChange}
       />
       <Flex gap={2} mt="auto" alignSelf="end">
-        <Button
-          size="lg"
-          variant="outline"
+        <SecondaryButton
           borderColor="secondary.100"
           color="secondary.100"
           rightIcon={<ArrowForwardIcon />}
           onClick={handleNext}
         >
           Next step
-        </Button>
+        </SecondaryButton>
       </Flex>
     </Flex>
   );
