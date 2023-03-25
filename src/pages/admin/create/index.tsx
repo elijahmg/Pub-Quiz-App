@@ -2,10 +2,10 @@ import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { Flex, Heading, Input, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useEffect, useState } from 'react';
-import SecondaryButton from '../../../../components/buttons/secondary-button';
-import SubHeader from '../../../../components/headers/sub-header';
-import { AdminCreatorWrapper } from '../../../../components/wrappers/admin-creator-wrapper';
-import useCreatorStorage from '../../../../hooks/use-creator-storage';
+import SecondaryButton from '../../../components/buttons/secondary-button';
+import SubHeader from '../../../components/headers/sub-header';
+import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-wrapper';
+import useCreatorStorage from '../../../hooks/use-creator-storage';
 
 const CreateNewQuiz = () => {
   const router = useRouter();

@@ -12,13 +12,13 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import SubHeader from '../../../../components/headers/sub-header';
-import { AdminCreatorWrapper } from '../../../../components/wrappers/admin-creator-wrapper';
 import { useRouter } from 'next/router';
-import PrimaryButton from '../../../../components/buttons/primary-button';
-import useCreatorStorage from '../../../../hooks/use-creator-storage';
-import CreatorQuestion from '../../../../components/creator-question';
-import SecondaryButton from '../../../../components/buttons/secondary-button';
+import useCreatorStorage from '../../../hooks/use-creator-storage';
+import SubHeader from '../../../components/headers/sub-header';
+import CreatorQuestion from '../../../components/creator-question';
+import SecondaryButton from '../../../components/buttons/secondary-button';
+import PrimaryButton from '../../../components/buttons/primary-button';
+import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-wrapper';
 
 const Rounds = () => {
   const router = useRouter();
