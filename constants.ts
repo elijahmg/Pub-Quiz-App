@@ -17,3 +17,12 @@ export const ADMIN_CREATOR_STEPS = [
   { value: 'questions', label: 'Questions' },
   { value: 'final', label: 'Final check & create' },
 ];
+
+export const ADMIN_EDIT_BASE_ROUTE = '/admin/edit/[gameId]';
+
+export const ADMIN_EDIT_ROUTE_LIST = [
+  `${ADMIN_EDIT_BASE_ROUTE}`,
+  `${ADMIN_EDIT_BASE_ROUTE}/rounds`,
+  `${ADMIN_EDIT_BASE_ROUTE}/questions`,
+  `${ADMIN_EDIT_BASE_ROUTE}/final`,
+];

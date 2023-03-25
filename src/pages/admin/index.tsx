@@ -22,7 +22,9 @@ const AdminHome = () => {
         <PrimaryButton onClick={() => router.push('admin/create')}>
           Create new quiz
         </PrimaryButton>
-        <SecondaryButton>Input quiz password</SecondaryButton>
+        <SecondaryButton onClick={() => router.push('admin/add-password')}>
+          Input quiz password
+        </SecondaryButton>
       </Flex>
     </Stack>
   );
