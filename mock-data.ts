@@ -47,3 +47,9 @@ export const QUESTIONS_WITH_POINTS = QUESTIONS.map((it, index) => ({
   ...it,
   points: Math.min(POINTS_OPTIONS[index] ?? Infinity, 1),
 }));
+
+export const QUIZ = {
+  name: 'The Amazing Quiz',
+  pin: '1234',
+  password: 'qwerty',
+};
