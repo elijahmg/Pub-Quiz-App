@@ -19,9 +19,7 @@ const AdminHome = () => {
       </SubTitle>
 
       <Flex gap={2}>
-        <PrimaryButton
-          onClick={() => router.push('admin/edit/create-new-quiz')}
-        >
+        <PrimaryButton onClick={() => router.push('admin/create')}>
           Create new quiz
         </PrimaryButton>
         <SecondaryButton>Input quiz password</SecondaryButton>

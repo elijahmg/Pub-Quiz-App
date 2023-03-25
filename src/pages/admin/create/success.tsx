@@ -41,9 +41,7 @@ const Success = () => {
 };
 
 Success.getLayout = function getLayout(pageContent: React.ReactElement) {
-  return (
-    <AdminCreatorWrapper minHeight="100vh">{pageContent}</AdminCreatorWrapper>
-  );
+  return <AdminCreatorWrapper>{pageContent}</AdminCreatorWrapper>;
 };
 
 export default Success;

@@ -1,7 +1,6 @@
-import { AddIcon, ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
+import { AddIcon } from '@chakra-ui/icons';
 import { Flex, Heading, Select, Text } from '@chakra-ui/react';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import useCreatorStorage, {
   StoreQuestion,
   StoreRound,
@@ -11,12 +10,12 @@ import SubHeader from '../../../components/headers/sub-header';
 import CreatorQuestion from '../../../components/creator-question';
 import SecondaryButton from '../../../components/buttons/secondary-button';
 import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-wrapper';
+import RouteNavigation from '../../../components/route-navigation';
+import { ADMIN_CREATE_ROUTE_LIST } from '../../../../constants';
 
 const QUESTION_PRESET = { content: '', answer: '' };
 
 const Questions = () => {
-  const router = useRouter();
-
   const { initialData, setData } = useCreatorStorage();
 
   const [rounds, setRounds] = useState<StoreRound[]>([]);
@@ -82,16 +81,6 @@ const Questions = () => {
     });
   };
 
-  const handlePrevious = () => {
-    onNavigate();
-    router.back();
-  };
-
-  const handleNext = () => {
-    onNavigate();
-    router.push('final');
-  };
-
   return (
     <Flex direction="column" gap={4} flexGrow={1}>
       <Heading as="h3" size="sm" color="#A0A2A4">
@@ -133,33 +122,16 @@ const Questions = () => {
           Add question
         </SecondaryButton>
       ) : null}
-
-      <Flex gap={2} mt="auto" alignSelf="end">
-        <SecondaryButton
-          borderColor="secondary.100"
-          color="secondary.100"
-          leftIcon={<ArrowBackIcon />}
-          onClick={handlePrevious}
-        >
-          Previous step
-        </SecondaryButton>
-        <SecondaryButton
-          borderColor="secondary.100"
-          color="secondary.100"
-          rightIcon={<ArrowForwardIcon />}
-          onClick={handleNext}
-        >
-          Next step
-        </SecondaryButton>
-      </Flex>
+      <RouteNavigation
+        routeList={ADMIN_CREATE_ROUTE_LIST}
+        onNavigate={onNavigate}
+      />
     </Flex>
   );
 };
 
 Questions.getLayout = function getLayout(pageContent: React.ReactElement) {
-  return (
-    <AdminCreatorWrapper minHeight="100vh">{pageContent}</AdminCreatorWrapper>
-  );
+  return <AdminCreatorWrapper>{pageContent}</AdminCreatorWrapper>;
 };
 
 export default Questions;

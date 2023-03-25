@@ -1,15 +1,12 @@
-import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { Flex, Heading, Input, Text } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
 import { ChangeEvent, useEffect, useState } from 'react';
-import SecondaryButton from '../../../components/buttons/secondary-button';
+import RouteNavigation from '../../../components/route-navigation';
 import SubHeader from '../../../components/headers/sub-header';
 import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-wrapper';
 import useCreatorStorage from '../../../hooks/use-creator-storage';
+import { ADMIN_CREATE_ROUTE_LIST } from '../../../../constants';
 
 const CreateNewQuiz = () => {
-  const router = useRouter();
-
   const { initialData, setData } = useCreatorStorage();
 
   const [name, setName] = useState('');
@@ -44,11 +41,6 @@ const CreateNewQuiz = () => {
     });
   };
 
-  const handleNext = () => {
-    onNavigate();
-    router.push('create-new-quiz/rounds');
-  };
-
   return (
     <Flex direction="column" gap={4} flexGrow={1}>
       <Heading as="h3" size="sm" color="#A0A2A4">
@@ -73,24 +65,16 @@ const CreateNewQuiz = () => {
         placeholder="E.g.: 123456"
         onChange={handlePinChange}
       />
-      <Flex gap={2} mt="auto" alignSelf="end">
-        <SecondaryButton
-          borderColor="secondary.100"
-          color="secondary.100"
-          rightIcon={<ArrowForwardIcon />}
-          onClick={handleNext}
-        >
-          Next step
-        </SecondaryButton>
-      </Flex>
+      <RouteNavigation
+        routeList={ADMIN_CREATE_ROUTE_LIST}
+        onNavigate={onNavigate}
+      />
     </Flex>
   );
 };
 
 CreateNewQuiz.getLayout = function getLayout(pageContent: React.ReactElement) {
-  return (
-    <AdminCreatorWrapper minHeight="100vh">{pageContent}</AdminCreatorWrapper>
-  );
+  return <AdminCreatorWrapper>{pageContent}</AdminCreatorWrapper>;
 };
 
 export default CreateNewQuiz;
