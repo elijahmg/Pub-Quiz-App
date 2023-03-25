@@ -11,15 +11,13 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import useCreatorStorage from '../../../hooks/use-creator-storage';
 import SubHeader from '../../../components/headers/sub-header';
-import SecondaryButton from '../../../components/buttons/secondary-button';
 import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-wrapper';
+import RouteNavigation from '../../../components/route-navigation';
+import { ADMIN_CREATE_ROUTE_LIST } from '../../../../constants';
 
 const Rounds = () => {
-  const router = useRouter();
-
   const { initialData, setData } = useCreatorStorage();
 
   const [roundName, setRoundName] = useState('');
@@ -58,16 +56,6 @@ const Rounds = () => {
         name: round,
       })),
     });
-  };
-
-  const handlePrevious = () => {
-    onNavigate();
-    router.back();
-  };
-
-  const handleNext = () => {
-    onNavigate();
-    router.push('questions');
   };
 
   return (
@@ -112,32 +100,16 @@ const Rounds = () => {
         </InputLeftElement>
         <Input size="lg" />
       </InputGroup>
-      <Flex gap={2} mt="auto" alignSelf="end">
-        <SecondaryButton
-          borderColor="secondary.100"
-          color="secondary.100"
-          leftIcon={<ArrowBackIcon />}
-          onClick={handlePrevious}
-        >
-          Previous step
-        </SecondaryButton>
-        <SecondaryButton
-          borderColor="secondary.100"
-          color="secondary.100"
-          rightIcon={<ArrowForwardIcon />}
-          onClick={handleNext}
-        >
-          Next step
-        </SecondaryButton>
-      </Flex>
+      <RouteNavigation
+        routeList={ADMIN_CREATE_ROUTE_LIST}
+        onNavigate={onNavigate}
+      />
     </Flex>
   );
 };
 
 Rounds.getLayout = function getLayout(pageContent: React.ReactElement) {
-  return (
-    <AdminCreatorWrapper minHeight="100vh">{pageContent}</AdminCreatorWrapper>
-  );
+  return <AdminCreatorWrapper>{pageContent}</AdminCreatorWrapper>;
 };
 
 export default Rounds;

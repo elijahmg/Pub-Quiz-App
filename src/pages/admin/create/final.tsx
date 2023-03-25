@@ -28,7 +28,7 @@ const Rounds = () => {
   const { name, password, pin, rounds } = data;
 
   const handlePrevious = () => {
-    router.back();
+    router.push('questions');
   };
 
   const handleCreate = () => {
@@ -101,9 +101,7 @@ const Rounds = () => {
 };
 
 Rounds.getLayout = function getLayout(pageContent: React.ReactElement) {
-  return (
-    <AdminCreatorWrapper minHeight="100vh">{pageContent}</AdminCreatorWrapper>
-  );
+  return <AdminCreatorWrapper>{pageContent}</AdminCreatorWrapper>;
 };
 
 export default Rounds;
