@@ -11,11 +11,11 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
-import SubHeader from '../../../../components/headers/sub-header';
-import { AdminCreatorWrapper } from '../../../../components/wrappers/admin-creator-wrapper';
 import { useRouter } from 'next/router';
-import useCreatorStorage from '../../../../hooks/use-creator-storage';
-import SecondaryButton from '../../../../components/buttons/secondary-button';
+import useCreatorStorage from '../../../hooks/use-creator-storage';
+import SubHeader from '../../../components/headers/sub-header';
+import SecondaryButton from '../../../components/buttons/secondary-button';
+import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-wrapper';
 
 const Rounds = () => {
   const router = useRouter();

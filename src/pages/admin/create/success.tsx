@@ -1,8 +1,8 @@
 import { Center, Flex, Text } from '@chakra-ui/react';
-import { AdminCreatorWrapper } from '../../../../components/wrappers/admin-creator-wrapper';
 import { useRouter } from 'next/router';
-import Header from '../../../../components/headers/header';
-import SecondaryButton from '../../../../components/buttons/secondary-button';
+import SecondaryButton from '../../../components/buttons/secondary-button';
+import Header from '../../../components/headers/header';
+import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-wrapper';
 
 const Success = () => {
   const router = useRouter();

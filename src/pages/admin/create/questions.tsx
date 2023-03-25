@@ -1,17 +1,16 @@
 import { AddIcon, ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
 import { Flex, Heading, Select, Text } from '@chakra-ui/react';
 import { ChangeEvent, useEffect, useState } from 'react';
-import SubHeader from '../../../../components/headers/sub-header';
-import { AdminCreatorWrapper } from '../../../../components/wrappers/admin-creator-wrapper';
 import { useRouter } from 'next/router';
-import CreatorQuestion from '../../../../components/creator-question';
-import { CreatorModeQuestion } from '../../../../../types';
-import useCreatorStorage from '../../../../hooks/use-creator-storage';
-import type {
-  StoreRound,
+import useCreatorStorage, {
   StoreQuestion,
-} from '../../../../hooks/use-creator-storage';
-import SecondaryButton from '../../../../components/buttons/secondary-button';
+  StoreRound,
+} from '../../../hooks/use-creator-storage';
+import { CreatorModeQuestion } from '../../../../types';
+import SubHeader from '../../../components/headers/sub-header';
+import CreatorQuestion from '../../../components/creator-question';
+import SecondaryButton from '../../../components/buttons/secondary-button';
+import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-wrapper';
 
 const QUESTION_PRESET = { content: '', answer: '' };
 
