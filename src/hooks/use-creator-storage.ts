@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { Quiz, Round, Question } from '../../types';
+import { isCSR } from '../utils/common';
 
 const STORAGE_KEY = 'pubQuizApp-admin-createQuiz';
 
@@ -29,8 +30,10 @@ const useCreatorStorage = () => {
     let data = {};
 
     try {
-      const dataString = localStorage.getItem(STORAGE_KEY);
-      if (dataString) data = JSON.parse(dataString);
+      if (isCSR()) {
+        const dataString = localStorage.getItem(STORAGE_KEY);
+        if (dataString) data = JSON.parse(dataString);
+      }
     } catch (e) {
       console.error(e);
     }
@@ -42,7 +45,9 @@ const useCreatorStorage = () => {
     const normalizedData = normalizeQuiz(data);
 
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(normalizedData));
+      if (isCSR()) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(normalizedData));
+      }
     } catch (e) {
       console.error(e);
     }

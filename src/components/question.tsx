@@ -6,7 +6,7 @@ import PrimaryButton from './buttons/primary-button';
 export default function Question({
   question,
   handleAnswer,
-  answer = '',
+  answer: propsAnswer = '',
   round,
   teamName,
   topicName,
@@ -18,27 +18,27 @@ export default function Question({
   teamName?: string;
   topicName?: string;
 }) {
-  const [value, setValue] = useState(answer);
+  const [answer, setAnswer] = useState(propsAnswer);
 
   const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    setAnswer(e.target.value);
   };
 
   useEffect(() => {
-    setValue(answer);
-  }, [answer]);
+    setAnswer(propsAnswer);
+  }, [propsAnswer]);
 
   return (
     <Stack spacing={STACK_SPACING}>
       <Text>{question}</Text>
       <Input
-        value={value}
+        value={answer}
         placeholder="Do you think you know the answer?"
         onChange={inputHandler}
       />
       <PrimaryButton
         onClick={() => {
-          handleAnswer(value);
+          handleAnswer(answer);
         }}
       >
         Submit

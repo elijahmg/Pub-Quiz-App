@@ -21,24 +21,22 @@ export default function StepsItem({
   isDisabled = false,
   onClick,
 }: Props) {
-  const hasOnClick = typeof onClick === 'function' && !isActive && !isDisabled;
+  const hasOnClick = onClick && !isActive && !isDisabled;
 
   const onItemClick = () => {
     if (!hasOnClick) return;
     onClick(value);
   };
 
-  let IconComponent = StepIcon;
-  if (isActive) IconComponent = StepIconActive;
-  else if (isCompleted) IconComponent = StepIconCompleted;
-
   return (
     <>
-      <IconComponent
+      <StepIcon
         key={`icon-${value}`}
         boxSize={8}
         cursor={hasOnClick ? 'pointer' : undefined}
         onClick={onItemClick}
+        isActive={isActive}
+        isCompleted={isCompleted}
       />
       <Box
         key={`label-${value}`}
@@ -69,23 +67,28 @@ function CircleSvg(props: SVGProps<SVGCircleElement>) {
   );
 }
 
-function StepIcon(props: IconProps) {
+interface StepIconProps extends IconProps {
+  isActive?: boolean;
+  isCompleted?: boolean;
+}
+
+function StepIcon({ isActive, isCompleted, ...props }: StepIconProps) {
+  if (isActive) {
+    return (
+      <Icon {...props} color="secondary.100" viewBox="0 0 32 32">
+        <CircleSvg />
+        <circle cx="16" cy="16" r="5" fill="currentColor" />
+      </Icon>
+    );
+  }
+
+  if (isCompleted) {
+    return <Icon {...props} as={CheckCircleIcon} color="green.100" />;
+  }
+
   return (
     <Icon {...props} color="secondary.100" viewBox="0 0 32 32">
       <CircleSvg />
     </Icon>
   );
-}
-
-function StepIconActive(props: IconProps) {
-  return (
-    <Icon {...props} color="secondary.100" viewBox="0 0 32 32">
-      <CircleSvg />
-      <circle cx="16" cy="16" r="5" fill="currentColor" />
-    </Icon>
-  );
-}
-
-function StepIconCompleted(props: IconProps) {
-  return <Icon {...props} as={CheckCircleIcon} color="green.100" />;
 }

@@ -46,17 +46,18 @@ const Questions = () => {
     }
   };
 
-  const getHandleQuestionChange = (questionIndex: number) => {
-    return (question: CreatorModeQuestion) => {
-      setQuestions((currQuestions) => {
-        const resultQuestions = [...(currQuestions || [])];
-        resultQuestions[selectedRoundIndex] = [
-          ...resultQuestions[selectedRoundIndex],
-        ];
-        resultQuestions[selectedRoundIndex][questionIndex] = question;
-        return resultQuestions;
-      });
-    };
+  const handleQuestionChange = (
+    question: CreatorModeQuestion,
+    questionIndex: number,
+  ) => {
+    setQuestions((currQuestions) => {
+      const resultQuestions = [...(currQuestions || [])];
+      resultQuestions[selectedRoundIndex] = [
+        ...resultQuestions[selectedRoundIndex],
+      ];
+      resultQuestions[selectedRoundIndex][questionIndex] = question;
+      return resultQuestions;
+    });
   };
 
   const handleAddQuestion = () => {
@@ -94,23 +95,25 @@ const Questions = () => {
         onChange={handleSelectRound}
       >
         {rounds.map(
-          (round, i) =>
+          (round) =>
             round && (
-              <option key={i} value={i}>
+              // @TODO use something like id for key/value
+              <option key={round.name} value={round.name}>
                 {round.name}
               </option>
             ),
         )}
       </Select>
       {questions?.[selectedRoundIndex]?.map((question, i) => (
+        // @TODO use something like id for key
         <CreatorQuestion
-          key={i}
+          key={question.content}
           title={`Question ${i + 1}`}
           question={question}
-          onQuestionChange={getHandleQuestionChange(i)}
+          onQuestionChange={(question) => handleQuestionChange(question, i)}
         />
       ))}
-      {selectedRoundIndex > -1 ? (
+      {selectedRoundIndex > -1 && (
         <SecondaryButton
           size="sm"
           borderColor="secondary.100"
@@ -121,7 +124,7 @@ const Questions = () => {
         >
           Add question
         </SecondaryButton>
-      ) : null}
+      )}
       <RouteNavigation
         routeList={ADMIN_CREATE_ROUTE_LIST}
         onNavigate={onNavigate}

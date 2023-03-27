@@ -17,13 +17,12 @@ interface Props extends WrapperProps {
 function getBlobs(variant: BlobVariant) {
   switch (variant) {
     case 1:
+    default:
       return Blobs1;
     case 2:
       return Blobs2;
     case 3:
       return Blobs3;
-    default:
-      return Blobs1;
   }
 }
 
