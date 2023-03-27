@@ -25,29 +25,23 @@ export default function CreatorQuestion({
   };
 
   const handleContentChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (typeof onQuestionChange === 'function') {
-      onQuestionChange({ ...question, content: e.target.value });
-    }
+    onQuestionChange?.({ ...question, content: e.target.value });
   };
 
   const handleMediaTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value.toUpperCase() as MediaType;
-    if (!Object.values(MediaType).includes(value)) return;
-    if (typeof onQuestionChange === 'function') {
-      onQuestionChange({ ...question, mediaType: value });
-    }
+
+    if (!MediaType.hasOwnProperty(value)) return;
+
+    onQuestionChange?.({ ...question, mediaType: value });
   };
 
   const handleMediaURLChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (typeof onQuestionChange === 'function') {
-      onQuestionChange({ ...question, mediaURL: e.target.value });
-    }
+    onQuestionChange?.({ ...question, mediaURL: e.target.value });
   };
 
   const handleAnswerChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (typeof onQuestionChange === 'function') {
-      onQuestionChange({ ...question, answer: e.target.value });
-    }
+    onQuestionChange?.({ ...question, answer: e.target.value });
   };
 
   return (
@@ -71,7 +65,7 @@ export default function CreatorQuestion({
         onChange={handleContentChange}
         isReadOnly={isReadOnly}
       />
-      {isMedia ? (
+      {isMedia && (
         <>
           <Select
             placeholder="Select media type"
@@ -92,7 +86,7 @@ export default function CreatorQuestion({
             isReadOnly={isReadOnly}
           />
         </>
-      ) : null}
+      )}
       <Input
         placeholder="Type in your answer"
         value={answer}

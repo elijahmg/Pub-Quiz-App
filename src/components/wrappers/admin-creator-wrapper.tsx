@@ -5,14 +5,10 @@ import { ReactNode } from 'react';
 import { Grid } from '@chakra-ui/react';
 import Steps from '../steps';
 import { useRouter } from 'next/router';
-import { ADMIN_CREATE_ROUTE_LIST } from '../../../constants';
-
-const STEPS = [
-  { value: 'main', label: 'Main info' },
-  { value: 'rounds', label: 'Rounds' },
-  { value: 'questions', label: 'Questions' },
-  { value: 'final', label: 'Final check & create' },
-];
+import {
+  ADMIN_CREATE_ROUTE_LIST,
+  ADMIN_CREATOR_STEPS,
+} from '../../../constants';
 
 export interface Props extends WrapperProps {
   children: ReactNode;
@@ -21,9 +17,10 @@ export interface Props extends WrapperProps {
 export function AdminCreatorWrapper({ children, ...props }: Props) {
   const router = useRouter();
 
-  const activeStep = STEPS[ADMIN_CREATE_ROUTE_LIST.indexOf(router.route)];
+  const activeStep =
+    ADMIN_CREATOR_STEPS[ADMIN_CREATE_ROUTE_LIST.indexOf(router.route)];
 
-  const steps = STEPS.map((step, i) => ({
+  const steps = ADMIN_CREATOR_STEPS.map((step, i) => ({
     ...step,
     onClick: () => router.push(ADMIN_CREATE_ROUTE_LIST[i]),
   }));

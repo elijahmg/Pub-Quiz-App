@@ -1,6 +1,7 @@
-import { GridProps, Grid, Box } from '@chakra-ui/react';
+import { GridProps, Grid } from '@chakra-ui/react';
 import StepsItem from './steps-item';
 import type { Props as StepsItemProps } from './steps-item';
+import StepsLine from './steps-line';
 
 type Item = Pick<StepsItemProps, 'value' | 'onClick'> & {
   label: StepsItemProps['children'];
@@ -21,6 +22,7 @@ export default function Steps({ itemList, activeItemValue, ...props }: Props) {
   const itemListNodes = itemList.flatMap(({ value, label, onClick }, i) => {
     const isActive = i === activeItemIndex;
     const isCompleted = i < activeItemIndex;
+    const hasLine = i < itemList.length - 1;
 
     return [
       <StepsItem
@@ -33,15 +35,7 @@ export default function Steps({ itemList, activeItemValue, ...props }: Props) {
       >
         {label}
       </StepsItem>,
-      i < itemList.length - 1 ? (
-        <Box
-          key={`line-${value}`}
-          justifySelf="center"
-          alignSelf="stretch"
-          bgColor={isCompleted ? 'green.100' : 'secondary.100'}
-          width="2px"
-        />
-      ) : undefined,
+      hasLine && <StepsLine key={`line-${value}`} isCompleted={isCompleted} />,
     ];
   });
 

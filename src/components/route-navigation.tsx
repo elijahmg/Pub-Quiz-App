@@ -18,7 +18,7 @@ export default function RouteNavigation({
   const routeIndex = routeList.indexOf(router.route);
 
   const handleNavigate = (newRoute: string) => {
-    if (typeof onNavigate === 'function') onNavigate(newRoute);
+    onNavigate?.(newRoute);
     router.push(newRoute);
   };
 

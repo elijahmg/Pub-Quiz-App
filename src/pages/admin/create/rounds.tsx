@@ -23,10 +23,10 @@ const Rounds = () => {
   const [roundName, setRoundName] = useState('');
   const [rounds, setRounds] = useState<string[]>([]);
 
-  useEffect(
-    () => setRounds((initialData.rounds || []).map((it) => it.name ?? '')),
-    [],
-  );
+  useEffect(() => {
+    const initialRounds = (initialData.rounds || []).map((it) => it.name ?? '');
+    setRounds(initialRounds);
+  }, []);
 
   const handleRoundNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setRoundName(e.target.value);

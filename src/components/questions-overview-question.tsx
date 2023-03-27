@@ -11,6 +11,7 @@ import { STACK_SPACING } from '../../constants';
 import { CheckCircleIcon, EditIcon } from '@chakra-ui/icons';
 import PrimaryButton from './buttons/primary-button';
 
+// @TODO Rename component/file
 export default function QuestionsOverviewQuestion({
   question,
   handleAnswer,
