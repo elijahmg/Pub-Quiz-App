@@ -1,12 +1,12 @@
 import { Stack, Text, Input, Flex, Checkbox, Select } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
 import { STACK_SPACING } from '../../constants';
-import { CreatorModeQuestion, MediaType } from '../../types';
+import { MediaType, StoreQuestion } from '../../types';
 
 interface Props {
   title: string;
-  question: CreatorModeQuestion;
-  onQuestionChange?: (question: CreatorModeQuestion) => void;
+  question: StoreQuestion;
+  onQuestionChange?: (question: StoreQuestion) => void;
   isReadOnly?: boolean;
 }
 

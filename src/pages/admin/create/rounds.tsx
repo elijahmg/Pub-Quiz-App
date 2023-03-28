@@ -1,4 +1,4 @@
-import { ArrowBackIcon, ArrowForwardIcon, CloseIcon } from '@chakra-ui/icons';
+import { CloseIcon } from '@chakra-ui/icons';
 import {
   Flex,
   Heading,
@@ -16,16 +16,17 @@ import SubHeader from '../../../components/headers/sub-header';
 import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-wrapper';
 import RouteNavigation from '../../../components/route-navigation';
 import { ADMIN_CREATE_ROUTE_LIST } from '../../../../constants';
+import { generateRandomId } from '../../../utils/common';
+import { StoreRound } from '../../../../types';
 
 const Rounds = () => {
   const { initialData, setData } = useCreatorStorage();
 
   const [roundName, setRoundName] = useState('');
-  const [rounds, setRounds] = useState<string[]>([]);
+  const [rounds, setRounds] = useState<StoreRound[]>([]);
 
   useEffect(() => {
-    const initialRounds = (initialData.rounds || []).map((it) => it.name ?? '');
-    setRounds(initialRounds);
+    setRounds(initialData.rounds ?? []);
   }, []);
 
   const handleRoundNameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,8 +34,14 @@ const Rounds = () => {
   };
 
   const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.code === 'Enter' && !rounds.includes(roundName)) {
-      setRounds((currRounds) => [...currRounds, roundName]);
+    if (
+      e.code === 'Enter' &&
+      !rounds.find((round) => round.name === roundName)
+    ) {
+      setRounds((currRounds) => [
+        ...currRounds,
+        { _id: generateRandomId(), name: roundName, questions: [] },
+      ]);
       setRoundName('');
     }
   };
@@ -49,13 +56,7 @@ const Rounds = () => {
 
   const onNavigate = () => {
     // @FIXME The data has to be stored at different times. Maybe on unmount?
-    setData({
-      ...initialData,
-      rounds: rounds.map((round, i) => ({
-        ...(initialData.rounds?.[i] || {}),
-        name: round,
-      })),
-    });
+    setData({ ...initialData, rounds });
   };
 
   return (
@@ -81,9 +82,9 @@ const Rounds = () => {
           px={2}
           gap={2}
         >
-          {rounds.map((round, index) => (
+          {rounds.map(({ _id, name }, i) => (
             <Tag
-              key={index}
+              key={_id}
               bgColor="green.100"
               color="white"
               borderRadius="6px"
@@ -92,9 +93,10 @@ const Rounds = () => {
               <TagLeftIcon
                 boxSize="12px"
                 as={CloseIcon}
-                onClick={() => handleRoundRemove(index)}
+                onClick={() => handleRoundRemove(i)}
+                cursor="pointer"
               />
-              <TagLabel>{round}</TagLabel>
+              <TagLabel>{name}</TagLabel>
             </Tag>
           ))}
         </InputLeftElement>

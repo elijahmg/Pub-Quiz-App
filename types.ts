@@ -30,11 +30,23 @@ export interface Quiz {
   rounds: Round[];
 }
 
-export type CreatorModeQuestion = Partial<Omit<Question, 'id'>>;
-
 export interface Answer extends Question {
   points: number;
 }
+
+export type StoreQuestion = Required<Omit<Question, 'id' | 'mediaType'>> & {
+  _id: number;
+  mediaType: MediaType | '';
+};
+
+export type StoreRound = Required<Omit<Round, 'questions' | 'id'>> & {
+  questions: StoreQuestion[];
+  _id: number;
+};
+
+export type StoreQuiz = Required<Omit<Quiz, 'rounds' | 'id'>> & {
+  rounds: StoreRound[];
+};
 
 export type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
