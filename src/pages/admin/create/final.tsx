@@ -23,16 +23,16 @@ import CSRWrapper from '../../../components/csr-wrapper';
 const Rounds = () => {
   const router = useRouter();
 
-  const { data } = useCreatorStorage();
+  const { initialData } = useCreatorStorage();
 
-  const { name, password, pin, rounds } = data;
+  const { name, password, pin, rounds } = initialData;
 
   const handlePrevious = () => {
     router.push('questions');
   };
 
   const handleCreate = () => {
-    console.log(data);
+    console.log(initialData);
     router.push('success');
   };
 
