@@ -1,38 +1,18 @@
-import { Flex, Heading, Input, Text } from '@chakra-ui/react';
-import { ChangeEvent, ReactElement, useState } from 'react';
+import { Flex, Heading } from '@chakra-ui/react';
+import { ReactElement } from 'react';
 import RouteNavigation from '../../../components/route-navigation';
 import SubHeader from '../../../components/headers/sub-header';
 import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-wrapper';
 import { ADMIN_CREATE_ROUTE_LIST } from '../../../../constants';
-import { useAdminCreator } from '../../../components/contexts/admin-creator-context';
+import { useAdminQuizManage } from '../../../components/contexts/admin-quiz-manage-context';
+import AdminQuizManageMainInfoForm from '../../../components/admin-quiz-manage/main-info-form';
+import { StoreQuiz } from '../../../../types';
 
-const CreateNewQuiz = () => {
-  const { quizData, setQuizData } = useAdminCreator();
+const QuizCreate = () => {
+  const { quizData, setQuizData } = useAdminQuizManage();
 
-  const [name, setName] = useState(quizData.name);
-  const [password, setPassword] = useState(quizData.password);
-  const [pin, setPin] = useState(quizData.pin);
-
-  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-
-  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-
-  const handlePinChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPin(e.target.value);
-  };
-
-  const onNavigate = () => {
-    // @FIXME The data has to be stored at different times. Maybe on unmount?
-    setQuizData({
-      ...quizData,
-      name,
-      password,
-      pin,
-    });
+  const handleQuizDataChange = (quizData: StoreQuiz) => {
+    setQuizData(quizData);
   };
 
   return (
@@ -41,34 +21,17 @@ const CreateNewQuiz = () => {
         Creating a new quiz
       </Heading>
       <SubHeader>Main info</SubHeader>
-      <Text>Please name your quiz</Text>
-      <Input
-        value={name}
-        placeholder="E.g.: I hate Mondays"
-        onChange={handleNameChange}
+      <AdminQuizManageMainInfoForm
+        quizData={quizData}
+        onQuizDataChange={handleQuizDataChange}
       />
-      <Text>Add the password</Text>
-      <Input
-        value={password}
-        placeholder="E.g.: AmazingQuiz1!"
-        onChange={handlePasswordChange}
-      />
-      <Text>Add the PIN</Text>
-      <Input
-        value={pin}
-        placeholder="E.g.: 123456"
-        onChange={handlePinChange}
-      />
-      <RouteNavigation
-        routeList={ADMIN_CREATE_ROUTE_LIST}
-        onNavigate={onNavigate}
-      />
+      <RouteNavigation routeList={ADMIN_CREATE_ROUTE_LIST} />
     </Flex>
   );
 };
 
-CreateNewQuiz.getLayout = function getLayout(pageContent: ReactElement) {
+QuizCreate.getLayout = function getLayout(pageContent: ReactElement) {
   return <AdminCreatorWrapper>{pageContent}</AdminCreatorWrapper>;
 };
 
-export default CreateNewQuiz;
+export default QuizCreate;

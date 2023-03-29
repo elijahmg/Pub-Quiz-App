@@ -9,12 +9,12 @@ import { StoreQuiz } from '../../../types';
 
 const QUIZ_PRESET = { name: '', pin: '', password: '', rounds: [] };
 
-interface AdminCreatorContextType {
+interface AdminQuizManageContextType {
   quizData: StoreQuiz;
   setQuizData: (quizData: StoreQuiz) => void;
 }
 
-const AdminCreatorContext = createContext<AdminCreatorContextType>({
+const AdminQuizManageContext = createContext<AdminQuizManageContextType>({
   quizData: QUIZ_PRESET,
   setQuizData: () => undefined,
 });
@@ -23,7 +23,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const AdminCreatorProvider = ({ children }: Props) => {
+export const AdminQuizManageProvider = ({ children }: Props) => {
   const [quizData, setQuizData] = useState<StoreQuiz>(QUIZ_PRESET);
 
   const handleSetQuizData = (quizData: StoreQuiz) => {
@@ -36,14 +36,14 @@ export const AdminCreatorProvider = ({ children }: Props) => {
   );
 
   return (
-    <AdminCreatorContext.Provider value={contextValue}>
+    <AdminQuizManageContext.Provider value={contextValue}>
       {children}
-    </AdminCreatorContext.Provider>
+    </AdminQuizManageContext.Provider>
   );
 };
 
-export const useAdminCreator = () => {
-  const { quizData, setQuizData } = useContext(AdminCreatorContext);
+export const useAdminQuizManage = () => {
+  const { quizData, setQuizData } = useContext(AdminQuizManageContext);
 
   return { quizData, setQuizData };
 };

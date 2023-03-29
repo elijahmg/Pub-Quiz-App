@@ -5,21 +5,15 @@ import SecondaryButton from './buttons/secondary-button';
 
 interface Props extends FlexProps {
   routeList: string[];
-  onNavigate?: (route: string) => void;
 }
 
-export default function RouteNavigation({
-  routeList,
-  onNavigate,
-  ...props
-}: Props) {
+export default function RouteNavigation({ routeList, ...props }: Props) {
   const router = useRouter();
 
   const routeIndex = routeList.indexOf(router.route);
 
   const handleNavigate = (newRoute: string) => {
-    onNavigate?.(newRoute);
-    router.push(newRoute);
+    router.push({ pathname: newRoute, query: router.query });
   };
 
   const handlePrevious = () => {
