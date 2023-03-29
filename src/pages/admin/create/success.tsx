@@ -1,5 +1,6 @@
 import { Center, Flex, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
+import { ReactElement } from 'react';
 import SecondaryButton from '../../../components/buttons/secondary-button';
 import Header from '../../../components/headers/header';
 import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-wrapper';
@@ -40,7 +41,7 @@ const Success = () => {
   );
 };
 
-Success.getLayout = function getLayout(pageContent: React.ReactElement) {
+Success.getLayout = function getLayout(pageContent: ReactElement) {
   return <AdminCreatorWrapper>{pageContent}</AdminCreatorWrapper>;
 };
 

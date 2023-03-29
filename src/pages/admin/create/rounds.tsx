@@ -10,24 +10,20 @@ import {
   TagLeftIcon,
   Text,
 } from '@chakra-ui/react';
-import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
-import useCreatorStorage from '../../../hooks/use-creator-storage';
+import { ChangeEvent, KeyboardEvent, ReactElement, useState } from 'react';
 import SubHeader from '../../../components/headers/sub-header';
 import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-wrapper';
 import RouteNavigation from '../../../components/route-navigation';
 import { ADMIN_CREATE_ROUTE_LIST } from '../../../../constants';
 import { generateRandomId } from '../../../utils/common';
 import { StoreRound } from '../../../../types';
+import { useAdminCreator } from '../../../components/contexts/admin-creator-context';
 
 const Rounds = () => {
-  const { initialData, setData } = useCreatorStorage();
+  const { quizData, setQuizData } = useAdminCreator();
 
   const [roundName, setRoundName] = useState('');
-  const [rounds, setRounds] = useState<StoreRound[]>([]);
-
-  useEffect(() => {
-    setRounds(initialData.rounds ?? []);
-  }, []);
+  const [rounds, setRounds] = useState<StoreRound[]>(quizData.rounds);
 
   const handleRoundNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setRoundName(e.target.value);
@@ -56,7 +52,7 @@ const Rounds = () => {
 
   const onNavigate = () => {
     // @FIXME The data has to be stored at different times. Maybe on unmount?
-    setData({ ...initialData, rounds });
+    setQuizData({ ...quizData, rounds });
   };
 
   return (
@@ -110,7 +106,7 @@ const Rounds = () => {
   );
 };
 
-Rounds.getLayout = function getLayout(pageContent: React.ReactElement) {
+Rounds.getLayout = function getLayout(pageContent: ReactElement) {
   return <AdminCreatorWrapper>{pageContent}</AdminCreatorWrapper>;
 };
 

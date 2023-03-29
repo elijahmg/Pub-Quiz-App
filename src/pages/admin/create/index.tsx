@@ -1,23 +1,17 @@
 import { Flex, Heading, Input, Text } from '@chakra-ui/react';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, ReactElement, useState } from 'react';
 import RouteNavigation from '../../../components/route-navigation';
 import SubHeader from '../../../components/headers/sub-header';
 import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-wrapper';
-import useCreatorStorage from '../../../hooks/use-creator-storage';
 import { ADMIN_CREATE_ROUTE_LIST } from '../../../../constants';
+import { useAdminCreator } from '../../../components/contexts/admin-creator-context';
 
 const CreateNewQuiz = () => {
-  const { initialData, setData } = useCreatorStorage();
+  const { quizData, setQuizData } = useAdminCreator();
 
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [pin, setPin] = useState('');
-
-  useEffect(() => {
-    setName(initialData.name ?? '');
-    setPassword(initialData.password ?? '');
-    setPin(initialData.pin ?? '');
-  }, []);
+  const [name, setName] = useState(quizData.name);
+  const [password, setPassword] = useState(quizData.password);
+  const [pin, setPin] = useState(quizData.pin);
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -33,8 +27,8 @@ const CreateNewQuiz = () => {
 
   const onNavigate = () => {
     // @FIXME The data has to be stored at different times. Maybe on unmount?
-    setData({
-      ...initialData,
+    setQuizData({
+      ...quizData,
       name,
       password,
       pin,
@@ -73,7 +67,7 @@ const CreateNewQuiz = () => {
   );
 };
 
-CreateNewQuiz.getLayout = function getLayout(pageContent: React.ReactElement) {
+CreateNewQuiz.getLayout = function getLayout(pageContent: ReactElement) {
   return <AdminCreatorWrapper>{pageContent}</AdminCreatorWrapper>;
 };
 
