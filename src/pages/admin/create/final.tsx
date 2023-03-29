@@ -12,27 +12,28 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import useCreatorStorage from '../../../hooks/use-creator-storage';
 import SubHeader from '../../../components/headers/sub-header';
 import CreatorQuestion from '../../../components/creator-question';
 import SecondaryButton from '../../../components/buttons/secondary-button';
 import PrimaryButton from '../../../components/buttons/primary-button';
 import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-wrapper';
 import CSRWrapper from '../../../components/csr-wrapper';
+import { ReactElement } from 'react';
+import { useAdminCreator } from '../../../components/contexts/admin-creator-context';
 
 const Rounds = () => {
   const router = useRouter();
 
-  const { initialData } = useCreatorStorage();
+  const { quizData } = useAdminCreator();
 
-  const { name, password, pin, rounds } = initialData;
+  const { name, password, pin, rounds } = quizData;
 
   const handlePrevious = () => {
     router.push('questions');
   };
 
   const handleCreate = () => {
-    console.log(initialData);
+    console.log(quizData);
     router.push('success');
   };
 
@@ -50,10 +51,10 @@ const Rounds = () => {
       <Text>Quiz PIN</Text>
       <Input value={pin} isReadOnly />
       <CSRWrapper>
-        {rounds?.length && (
+        {rounds.length && (
           <Accordion>
-            {rounds.map((round, i) => (
-              <AccordionItem key={round.name}>
+            {rounds.map(({ _id, name, questions }, i) => (
+              <AccordionItem key={_id}>
                 <h2>
                   <AccordionButton>
                     <Box as="span" flex="1" textAlign="left">
@@ -64,10 +65,10 @@ const Rounds = () => {
                 </h2>
                 <AccordionPanel pb={4}>
                   <Text>Name of this round</Text>
-                  <Input value={round.name} isReadOnly />
-                  {round.questions?.map((question, i) => (
+                  <Input value={name} isReadOnly />
+                  {questions.map((question, i) => (
                     <CreatorQuestion
-                      key={question.content}
+                      key={question._id}
                       title={`Question ${i + 1}`}
                       question={question}
                       isReadOnly
@@ -94,7 +95,7 @@ const Rounds = () => {
   );
 };
 
-Rounds.getLayout = function getLayout(pageContent: React.ReactElement) {
+Rounds.getLayout = function getLayout(pageContent: ReactElement) {
   return <AdminCreatorWrapper>{pageContent}</AdminCreatorWrapper>;
 };
 

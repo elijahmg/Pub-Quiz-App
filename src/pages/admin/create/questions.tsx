@@ -1,7 +1,6 @@
 import { AddIcon } from '@chakra-ui/icons';
 import { Flex, Heading, Select, Text } from '@chakra-ui/react';
-import { ChangeEvent, useEffect, useState } from 'react';
-import useCreatorStorage from '../../../hooks/use-creator-storage';
+import { ChangeEvent, ReactElement, useState } from 'react';
 import SubHeader from '../../../components/headers/sub-header';
 import CreatorQuestion from '../../../components/creator-question';
 import SecondaryButton from '../../../components/buttons/secondary-button';
@@ -9,7 +8,8 @@ import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-
 import RouteNavigation from '../../../components/route-navigation';
 import { ADMIN_CREATE_ROUTE_LIST } from '../../../../constants';
 import { generateRandomId } from '../../../utils/common';
-import { StoreQuestion, StoreRound } from '../../../../types';
+import { StoreQuestion } from '../../../../types';
+import { useAdminCreator } from '../../../components/contexts/admin-creator-context';
 
 const generateQuestion = (): StoreQuestion => ({
   _id: generateRandomId(),
@@ -20,22 +20,18 @@ const generateQuestion = (): StoreQuestion => ({
 });
 
 const Questions = () => {
-  const { initialData, setData } = useCreatorStorage();
+  const { quizData, setQuizData } = useAdminCreator();
 
-  const [rounds, setRounds] = useState<StoreRound[]>([]);
+  const { rounds } = quizData;
 
   const [selectedRoundId, setSelectedRoundId] = useState<number>();
   const selectedRoundIndex = rounds.findIndex(
     (round) => round._id === selectedRoundId,
   );
 
-  const [questions, setQuestions] = useState<StoreQuestion[][]>();
-
-  useEffect(() => {
-    const rounds = initialData.rounds || [];
-    setRounds(rounds);
-    setQuestions(rounds.map((round) => round.questions ?? []));
-  }, []);
+  const [questions, setQuestions] = useState<StoreQuestion[][]>(
+    rounds.map((round) => round.questions),
+  );
 
   const handleSelectRound = (e: ChangeEvent<HTMLSelectElement>) => {
     const roundId = e.target.value === '' ? undefined : Number(e.target.value);
@@ -81,8 +77,8 @@ const Questions = () => {
 
   const onNavigate = () => {
     // @FIXME The data has to be stored at different times. Maybe on unmount?
-    setData({
-      ...initialData,
+    setQuizData({
+      ...quizData,
       rounds: rounds.map((round, i) => ({
         ...round,
         questions: (questions || [[]])[i],
@@ -136,7 +132,7 @@ const Questions = () => {
   );
 };
 
-Questions.getLayout = function getLayout(pageContent: React.ReactElement) {
+Questions.getLayout = function getLayout(pageContent: ReactElement) {
   return <AdminCreatorWrapper>{pageContent}</AdminCreatorWrapper>;
 };
 
