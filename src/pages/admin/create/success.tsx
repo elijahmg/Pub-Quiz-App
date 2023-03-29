@@ -5,7 +5,7 @@ import SecondaryButton from '../../../components/buttons/secondary-button';
 import Header from '../../../components/headers/header';
 import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-wrapper';
 
-const Success = () => {
+const QuizCreateSuccess = () => {
   const router = useRouter();
 
   const handleEdit = () => {
@@ -41,8 +41,8 @@ const Success = () => {
   );
 };
 
-Success.getLayout = function getLayout(pageContent: ReactElement) {
+QuizCreateSuccess.getLayout = function getLayout(pageContent: ReactElement) {
   return <AdminCreatorWrapper>{pageContent}</AdminCreatorWrapper>;
 };
 
-export default Success;
+export default QuizCreateSuccess;

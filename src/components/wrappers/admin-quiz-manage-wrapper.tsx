@@ -29,7 +29,7 @@ export function AdminQuizManageWrapper({
 
   const steps = STEPS.map((step, i) => ({
     ...step,
-    onClick: () => router.push(routeList[i]),
+    onClick: () => router.push({ pathname: routeList[i], query: router.query }),
   }));
 
   return (
