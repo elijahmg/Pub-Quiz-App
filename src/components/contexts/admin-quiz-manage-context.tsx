@@ -23,7 +23,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const AdminQuizManageProvider = ({ children }: Props) => {
+export const AdminQuizManageContextWrapper = ({ children }: Props) => {
   const [quizData, setQuizData] = useState<StoreQuiz>(QUIZ_PRESET);
 
   const handleSetQuizData = (quizData: StoreQuiz) => {
@@ -42,7 +42,7 @@ export const AdminQuizManageProvider = ({ children }: Props) => {
   );
 };
 
-export const useAdminQuizManage = () => {
+export const useAdminQuizManageContext = () => {
   const { quizData, setQuizData } = useContext(AdminQuizManageContext);
 
   return { quizData, setQuizData };

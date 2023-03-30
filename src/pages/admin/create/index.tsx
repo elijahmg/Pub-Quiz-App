@@ -4,12 +4,12 @@ import RouteNavigation from '../../../components/route-navigation';
 import SubHeader from '../../../components/headers/sub-header';
 import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-wrapper';
 import { ADMIN_CREATE_ROUTE_LIST } from '../../../../constants';
-import { useAdminQuizManage } from '../../../components/contexts/admin-quiz-manage-context';
+import { useAdminQuizManageContext } from '../../../components/contexts/admin-quiz-manage-context';
 import AdminQuizManageMainInfoForm from '../../../components/admin-quiz-manage/main-info-form';
 import { StoreQuiz } from '../../../../types';
 
 const QuizCreate = () => {
-  const { quizData, setQuizData } = useAdminQuizManage();
+  const { quizData, setQuizData } = useAdminQuizManageContext();
 
   const handleQuizDataChange = (quizData: StoreQuiz) => {
     setQuizData(quizData);

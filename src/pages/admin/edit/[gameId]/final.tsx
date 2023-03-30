@@ -5,14 +5,14 @@ import { ReactElement } from 'react';
 import AdminQuizManageFinalOverview from '../../../../components/admin-quiz-manage/final-overview';
 import PrimaryButton from '../../../../components/buttons/primary-button';
 import SecondaryButton from '../../../../components/buttons/secondary-button';
-import { useAdminQuizManage } from '../../../../components/contexts/admin-quiz-manage-context';
+import { useAdminQuizManageContext } from '../../../../components/contexts/admin-quiz-manage-context';
 import SubHeader from '../../../../components/headers/sub-header';
 import { AdminEditorWrapper } from '../../../../components/wrappers/admin-editor-wrapper';
 
 const QuizEditFinal = () => {
   const router = useRouter();
 
-  const { quizData } = useAdminQuizManage();
+  const { quizData } = useAdminQuizManageContext();
 
   const handlePrevious = () => {
     router.push({ pathname: 'questions', query: router.query });
