@@ -1,42 +1,84 @@
-import { Button, Stack, Text, Box, Flex } from '@chakra-ui/react';
+import {
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from '@chakra-ui/react';
 import { useRouter } from 'next/router';
+import { ReactElement } from 'react';
+import PrimaryButton from '../../../components/buttons/primary-button';
+import {
+  AdminQuizControlContextWrapper,
+  useAdminQuizControlContext,
+} from '../../../components/contexts/admin-quiz-control-context';
+import AdminGameControlWrapper from '../../../components/wrappers/admin-game-control-wrapper';
 
-export default function RoundOverview() {
+const TeamsOverview = () => {
   const router = useRouter();
 
-  const rounds = [
-    {
-      id: 1,
-      name: 'Music',
-      questions: [
-        {
-          id: 1,
-          content: 'Where is John',
-          answer: 'here',
-        },
-      ],
-    },
-  ];
+  const { quiz, teams, roundIndex, setRoundIndex } =
+    useAdminQuizControlContext();
+
+  const { rounds } = quiz;
+
+  const handleStartNextRound = () => {
+    setRoundIndex(roundIndex + 1);
+    router.push({
+      pathname: '/admin/[gameId]/game-control',
+      query: router.query,
+    });
+  };
+
+  const handleEndQuiz = () => {
+    console.log('end quiz');
+  };
 
   return (
-    <Stack>
-      <Flex justifyContent="flex-start">
-        {rounds.map((round) => (
-          <Box key={round.id}>
-            <Text>Round {round.name}</Text>
-            {round.questions.map((question) => (
-              <Box key={question.id}>
-                <Text>{question.content}</Text>
-                <Text>{question.answer}</Text>
-              </Box>
+    <>
+      <TableContainer>
+        <Table variant="simple">
+          <Thead>
+            <Tr>
+              <Th>NAME</Th>
+              {rounds.map(({ id, name }) => (
+                <Th key={id}>{name}</Th>
+              ))}
+              <Th>Total</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {teams.map((team, teamI) => (
+              <Tr key={team.id}>
+                <Td>{`Team ${teamI + 1}: ${team.name}`}</Td>
+                {rounds.map((round) => (
+                  <Td key={round.id}>-</Td>
+                ))}
+                <Td>-</Td>
+              </Tr>
             ))}
-          </Box>
-        ))}
-      </Flex>
-      {/** @TODO game id is dynamic **/}
-      <Button onClick={() => router.push(`/admin/${3}/teams-check`)}>
-        Check answers
-      </Button>
-    </Stack>
+          </Tbody>
+        </Table>
+      </TableContainer>
+      {roundIndex < rounds.length - 1 ? (
+        <PrimaryButton onClick={handleStartNextRound}>
+          Start next round
+        </PrimaryButton>
+      ) : (
+        <PrimaryButton onClick={handleEndQuiz}>End quiz</PrimaryButton>
+      )}
+    </>
   );
-}
+};
+
+TeamsOverview.getLayout = function getLayout(pageContent: ReactElement) {
+  return (
+    <AdminQuizControlContextWrapper>
+      <AdminGameControlWrapper>{pageContent}</AdminGameControlWrapper>
+    </AdminQuizControlContextWrapper>
+  );
+};
+
+export default TeamsOverview;

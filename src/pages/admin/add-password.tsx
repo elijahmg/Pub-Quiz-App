@@ -16,7 +16,7 @@ const AdminHome = () => {
   };
 
   return (
-    <Grid templateColumns="repeat(2, minmax(0, 1fr));" gap={32} px={20}>
+    <Grid templateColumns="repeat(2, minmax(0, 1fr));" gap={32}>
       <Stack spacing={8}>
         <SubHeader color="secondary.100" whiteSpace="nowrap">
           Input quiz password
@@ -37,7 +37,7 @@ const AdminHome = () => {
 
 AdminHome.getLayout = function getLayout(pageContent: React.ReactElement) {
   return (
-    <MainPageWrapper minHeight="100vh" blobVariant={2} spacing={4}>
+    <MainPageWrapper minHeight="100vh" blobVariant={2} px={32}>
       {pageContent}
     </MainPageWrapper>
   );
