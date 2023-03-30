@@ -5,11 +5,11 @@ import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-
 import RouteNavigation from '../../../components/route-navigation';
 import { ADMIN_CREATE_ROUTE_LIST } from '../../../../constants';
 import { StoreQuiz } from '../../../../types';
-import { useAdminQuizManage } from '../../../components/contexts/admin-quiz-manage-context';
+import { useAdminQuizManageContext } from '../../../components/contexts/admin-quiz-manage-context';
 import AdminQuizManageRoundsForm from '../../../components/admin-quiz-manage/rounds-form';
 
 const QuizCreateRounds = () => {
-  const { quizData, setQuizData } = useAdminQuizManage();
+  const { quizData, setQuizData } = useAdminQuizManageContext();
 
   const handleQuizDataChange = (quizData: StoreQuiz) => {
     setQuizData(quizData);

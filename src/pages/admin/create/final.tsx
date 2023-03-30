@@ -6,13 +6,13 @@ import SecondaryButton from '../../../components/buttons/secondary-button';
 import PrimaryButton from '../../../components/buttons/primary-button';
 import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-wrapper';
 import { ReactElement } from 'react';
-import { useAdminQuizManage } from '../../../components/contexts/admin-quiz-manage-context';
+import { useAdminQuizManageContext } from '../../../components/contexts/admin-quiz-manage-context';
 import AdminQuizManageFinalOverview from '../../../components/admin-quiz-manage/final-overview';
 
 const QuizCreateFinal = () => {
   const router = useRouter();
 
-  const { quizData } = useAdminQuizManage();
+  const { quizData } = useAdminQuizManageContext();
 
   const handlePrevious = () => {
     router.push('questions');

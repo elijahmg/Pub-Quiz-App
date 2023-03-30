@@ -3,13 +3,13 @@ import { ReactElement } from 'react';
 import { ADMIN_EDIT_ROUTE_LIST } from '../../../../../constants';
 import { StoreQuiz } from '../../../../../types';
 import AdminQuizManageRoundsForm from '../../../../components/admin-quiz-manage/rounds-form';
-import { useAdminQuizManage } from '../../../../components/contexts/admin-quiz-manage-context';
+import { useAdminQuizManageContext } from '../../../../components/contexts/admin-quiz-manage-context';
 import SubHeader from '../../../../components/headers/sub-header';
 import RouteNavigation from '../../../../components/route-navigation';
 import { AdminEditorWrapper } from '../../../../components/wrappers/admin-editor-wrapper';
 
 const QuizEditRounds = () => {
-  const { quizData, setQuizData } = useAdminQuizManage();
+  const { quizData, setQuizData } = useAdminQuizManageContext();
 
   const handleQuizDataChange = (quizData: StoreQuiz) => {
     setQuizData(quizData);

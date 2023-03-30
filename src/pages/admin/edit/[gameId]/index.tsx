@@ -2,13 +2,13 @@ import { Flex, Heading } from '@chakra-ui/react';
 import { ADMIN_EDIT_ROUTE_LIST } from '../../../../../constants';
 import { StoreQuiz } from '../../../../../types';
 import AdminQuizManageMainInfoForm from '../../../../components/admin-quiz-manage/main-info-form';
-import { useAdminQuizManage } from '../../../../components/contexts/admin-quiz-manage-context';
+import { useAdminQuizManageContext } from '../../../../components/contexts/admin-quiz-manage-context';
 import SubHeader from '../../../../components/headers/sub-header';
 import RouteNavigation from '../../../../components/route-navigation';
 import { AdminEditorWrapper } from '../../../../components/wrappers/admin-editor-wrapper';
 
 const QuizEdit = () => {
-  const { quizData, setQuizData } = useAdminQuizManage();
+  const { quizData, setQuizData } = useAdminQuizManageContext();
 
   const handleQuizDataChange = (quizData: StoreQuiz) => {
     setQuizData(quizData);
