@@ -43,7 +43,5 @@ export const AdminQuizManageContextWrapper = ({ children }: Props) => {
 };
 
 export const useAdminQuizManageContext = () => {
-  const { quizData, setQuizData } = useContext(AdminQuizManageContext);
-
-  return { quizData, setQuizData };
+  return useContext(AdminQuizManageContext);
 };

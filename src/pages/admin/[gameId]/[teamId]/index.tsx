@@ -1,83 +1,92 @@
+import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
+import { Flex, Text } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import { ReactElement } from 'react';
+import { QUESTIONS, TEAMS } from '../../../../../mock-data';
+import { Question } from '../../../../../types';
+import SecondaryButton from '../../../../components/buttons/secondary-button';
 import {
-  Button,
-  Stack,
-  Heading,
-  Text,
-  Radio,
-  RadioGroup,
-} from '@chakra-ui/react';
-import React from 'react';
-import { useState } from 'react';
+  AdminQuizControlContextWrapper,
+  useAdminQuizControlContext,
+} from '../../../../components/contexts/admin-quiz-control-context';
+import HighlightHeader from '../../../../components/headers/highlight-header';
+import OverviewQuestion from '../../../../components/overview-question';
+import AdminGameControlWrapper from '../../../../components/wrappers/admin-game-control-wrapper';
 
-export default function AnswersCheck() {
-  // TODO: USE REAL DATA THEN
-  const questions = [
-    {
-      id: 1,
-      content: 'Where is John',
-      answer: 'here',
-    },
-    {
-      id: 2,
-      content: 'Where is Johnny',
-      answer: 'there',
-    },
-    {
-      id: 3,
-      content: 'Where is Johnny Cash',
-      answer: 'everywhere',
-    },
-  ];
+const AdminQuizTeamCheck = () => {
+  const router = useRouter();
 
-  const resultList = questions.reduce((acc, question) => {
-    acc[question.id] = '0';
-    return acc;
-  }, {} as any);
+  const { quiz, teams, roundIndex } = useAdminQuizControlContext();
 
-  const [sum, setSum] = useState(0);
-  const [results, setResults] = useState(resultList);
+  const teamIndex = teams.findIndex(
+    ({ id }) => id === Number(router.query.teamId),
+  );
+  const team = teams[teamIndex];
+  const nextTeamId = teams[teamIndex + 1]?.id;
 
-  const updatePoints = (value: string, questionIndex: number) => {
-    results[questionIndex] = value;
-    setResults(results);
-    const updatedSum = Object.values(results).reduce(
-      (a: any, b: any): any => Number(a) + Number(b),
-      0,
-    );
-    setSum(updatedSum as number);
+  const questions = quiz.rounds[roundIndex].questions;
+
+  const handlePointsChange = (question: Question, points: number) => {
+    console.log(question, points);
   };
 
-  function RadioComponent(props: any) {
-    return (
-      <RadioGroup
-        value={results[props.questionIndex]}
-        onChange={(value) => updatePoints(value, props.questionIndex)}
-      >
-        <Stack>
-          <Radio value="1">1</Radio>
-          <Radio value="0.5">0.5</Radio>
-          <Radio value="0">0</Radio>
-        </Stack>
-      </RadioGroup>
-    );
-  }
+  const handleBack = () => {
+    router.push({
+      pathname: '/admin/[gameId]/teams-overview',
+      query: router.query,
+    });
+  };
+
+  const handleNext = () => {
+    router.push({
+      pathname: '/admin/[gameId]/[teamId]',
+      query: { ...router.query, teamId: nextTeamId },
+    });
+  };
 
   return (
-    <Stack>
-      <Stack>
-        <Heading as="h2">Team name</Heading>
-        {questions.map(({ content, id, answer }) => (
-          <React.Fragment key={id}>
-            <Text>
-              Question {id}: {content}. Answer: {answer}
-            </Text>
-            <RadioComponent questionIndex={id} />
-          </React.Fragment>
-        ))}
-        <Text>Total {sum}</Text>
-      </Stack>
-      <Button>Back to Overview</Button>
-      <Button>Next team</Button>
-    </Stack>
+    <>
+      <HighlightHeader>
+        {`Team ${teamIndex + 1}: ${team?.name}`}
+      </HighlightHeader>
+      {questions.map((question) => (
+        <OverviewQuestion
+          key={question.id}
+          question={question.content}
+          answer={question.answer}
+          onPointsChange={(points) => handlePointsChange(question, points)}
+        />
+      ))}
+      <Flex gap={2} justifyContent="center" alignItems="center">
+        <SecondaryButton
+          color="secondary.100"
+          borderColor="secondary.100"
+          leftIcon={<ArrowBackIcon />}
+          onClick={handleBack}
+        >
+          Back to overview
+        </SecondaryButton>
+        {nextTeamId && (
+          <SecondaryButton
+            color="secondary.100"
+            borderColor="secondary.100"
+            rightIcon={<ArrowForwardIcon />}
+            onClick={handleNext}
+          >
+            Next team
+          </SecondaryButton>
+        )}
+      </Flex>
+    </>
   );
-}
+};
+
+AdminQuizTeamCheck.getLayout = function getLayout(pageContent: ReactElement) {
+  return (
+    <AdminQuizControlContextWrapper>
+      <AdminGameControlWrapper>{pageContent}</AdminGameControlWrapper>
+    </AdminQuizControlContextWrapper>
+  );
+};
+
+export default AdminQuizTeamCheck;

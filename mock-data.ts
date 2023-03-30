@@ -2,6 +2,12 @@ import { POINTS_OPTIONS } from './constants';
 
 export const TEAM_NAME = 'Quirky Owls';
 
+export const TEAMS = [
+  { id: 1, name: 'Quirky Owls' },
+  { id: 2, name: 'No habla cesky' },
+  { id: 3, name: 'We want cupcakes!' },
+];
+
 export const QUESTIONS = [
   {
     id: 1,
@@ -49,7 +55,9 @@ export const QUESTIONS_WITH_POINTS = QUESTIONS.map((it, index) => ({
 }));
 
 export const QUIZ = {
+  id: 1,
   name: 'The Amazing Quiz',
   pin: '1234',
   password: 'qwerty',
+  rounds: ROUNDS,
 };

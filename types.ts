@@ -30,6 +30,11 @@ export interface Quiz {
   rounds: Round[];
 }
 
+export interface Team {
+  id: number;
+  name: string;
+}
+
 export interface Answer extends Question {
   points: number;
 }

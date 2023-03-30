@@ -1,7 +1,7 @@
 import { Text, Box, Flex, Divider } from '@chakra-ui/react';
 import SubHeader from '../../../components/headers/sub-header';
 import Header from '../../../components/headers/header';
-import { SecondaryWrapper } from '../../../components/wrappers/secondary-wrapper';
+import InGameWrapper from '../../../components/wrappers/in-game-wrapper';
 import { Answer } from '../../../../types';
 import OverviewQuestion from '../../../components/overview-question';
 import { QUESTIONS_WITH_POINTS } from '../../../../mock-data';
@@ -44,7 +44,7 @@ const Overview = () => {
 };
 
 Overview.getLayout = function getLayout(pageContent: React.ReactElement) {
-  return <SecondaryWrapper>{pageContent}</SecondaryWrapper>;
+  return <InGameWrapper>{pageContent}</InGameWrapper>;
 };
 
 export default Overview;

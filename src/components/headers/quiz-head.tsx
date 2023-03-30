@@ -1,33 +1,11 @@
-import { Badge, Box, Flex, Input, Text } from '@chakra-ui/react';
+import { Badge, Box, Flex, Text } from '@chakra-ui/react';
 
 interface QuizHeadProps {
   teamName: string;
   round: string;
-  topicName: string;
 }
 
-interface TopicProps {
-  topicName: string;
-}
-
-function Topic({ topicName }: TopicProps) {
-  return (
-    <Box pt={4} pb={4}>
-      <Input
-        bgColor="gray.100"
-        style={{ opacity: 1 }}
-        value={topicName}
-        disabled
-      />
-    </Box>
-  );
-}
-
-export default function QuizHead({
-  teamName,
-  round,
-  topicName,
-}: QuizHeadProps) {
+export default function QuizHead({ teamName, round }: QuizHeadProps) {
   return (
     <Box>
       <Flex justifyContent="space-between">
@@ -46,8 +24,6 @@ export default function QuizHead({
           </Badge>
         </Box>
       </Flex>
-
-      <Topic topicName={topicName} />
     </Box>
   );
 }
