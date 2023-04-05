@@ -7,10 +7,21 @@ import {
   FormLabel,
   Flex,
 } from '@chakra-ui/react';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, useEffect } from 'react';
 import { CheckCircleIcon, EditIcon } from '@chakra-ui/icons';
 import { Question } from '../../types';
 import SecondaryButton from './buttons/secondary-button';
+import { useRouter } from 'next/router';
+import { useUserStore } from './stores/user-store';
+import { BOGUS_OBJECT } from '../../constants';
+import { QuizStatuses } from '../server/types';
+
+interface Props {
+  question: Question;
+  questionIndex: number;
+  answer: string;
+  onAnswerChange: (answer: string) => void;
+}
 
 interface Props {
   question: Question;
@@ -27,6 +38,23 @@ export default function QuestionsOverviewQuestion({
   onAnswerChange,
 }: Props) {
   const { content } = question;
+
+  const router = useRouter();
+
+  const userStore = useUserStore(({ quiz }) => ({ quiz }));
+
+  const { status } = userStore.quiz ?? BOGUS_OBJECT;
+
+  useEffect(() => {
+    if (status === QuizStatuses.PLAYING) {
+      router.push({ pathname: 'play', query: router.query });
+    }
+
+    // @TODO REMOVE
+    setTimeout(() => {
+      router.push({ pathname: 'play', query: router.query });
+    }, 1000);
+  }, [status]);
 
   const [isEditable, setIsEditable] = useState(false);
 

@@ -1,4 +1,4 @@
-export const PIN_LENGTH = 4;
+export const PIN_LENGTH = 6;
 
 export const POINTS_OPTIONS = [0, 0.5, 1];
 

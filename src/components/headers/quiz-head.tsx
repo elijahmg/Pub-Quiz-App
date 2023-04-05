@@ -1,12 +1,16 @@
 import { Badge, Box, Flex, Text } from '@chakra-ui/react';
-import { TEAM_NAME } from '../../../mock-data';
+import { useUserStore } from '../stores/user-store';
 
 export default function QuizHead() {
+  const userStore = useUserStore(({ team, roundIndex }) => ({
+    team,
+    roundIndex,
+  }));
+
   return (
     <Box>
       <Flex justifyContent="space-between">
-        {/* TODO Replace mock data */}
-        <Text as="b">{TEAM_NAME}</Text>
+        <Text as="b">{userStore.team?.name}</Text>
         <Badge
           borderRadius={6}
           px={2}
@@ -14,7 +18,7 @@ export default function QuizHead() {
           textTransform="none"
           fontWeight={400}
         >
-          Round {1}
+          Round {userStore.roundIndex + 1}
         </Badge>
       </Flex>
     </Box>
