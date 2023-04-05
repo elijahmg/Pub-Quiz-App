@@ -1,48 +1,35 @@
-import { Stack, Text, Input } from '@chakra-ui/react';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { STACK_SPACING } from '../../constants';
-import PrimaryButton from './buttons/primary-button';
+import { Text, Input, Stack, StackProps } from '@chakra-ui/react';
+import { ChangeEvent } from 'react';
+import type { Question } from '../../types';
+
+interface Props extends StackProps {
+  question: Question;
+  questionIndex: number;
+  answer: string;
+  onAnswerChange: (answer: string) => void;
+}
 
 export default function Question({
   question,
-  handleAnswer,
-  answer: propsAnswer = '',
-  round,
-  teamName,
-  topicName,
-}: {
-  question: string;
-  answer?: string;
-  handleAnswer: (s: string) => void;
-  round?: string;
-  teamName?: string;
-  topicName?: string;
-}) {
-  const [answer, setAnswer] = useState(propsAnswer);
+  questionIndex,
+  answer,
+  onAnswerChange,
+  ...props
+}: Props) {
+  const { content } = question;
 
-  const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setAnswer(e.target.value);
+  const handleAnswerChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onAnswerChange(e.target.value);
   };
 
-  useEffect(() => {
-    setAnswer(propsAnswer);
-  }, [propsAnswer]);
-
   return (
-    <Stack spacing={STACK_SPACING}>
-      <Text>{question}</Text>
+    <Stack spacing={2} {...props}>
+      <Text>{`Q${questionIndex + 1}: ${content}`}</Text>
       <Input
         value={answer}
         placeholder="Do you think you know the answer?"
-        onChange={inputHandler}
+        onChange={handleAnswerChange}
       />
-      <PrimaryButton
-        onClick={() => {
-          handleAnswer(answer);
-        }}
-      >
-        Submit
-      </PrimaryButton>
     </Stack>
   );
 }

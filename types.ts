@@ -2,6 +2,16 @@ import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { ReactElement, ReactNode } from 'react';
 
+export enum QuizStatus {
+  CREATION,
+  JOINING,
+  PLAYING,
+  END_ROUND,
+  EVALUATION,
+  SCORE_VIEWING,
+  END_QUIZ,
+}
+
 export enum MediaType {
   IMAGE = 'IMAGE',
   VIDEO = 'VIDEO',
@@ -28,6 +38,7 @@ export interface Quiz {
   pin: string;
   password: string;
   rounds: Round[];
+  status: QuizStatus;
 }
 
 export interface Team {

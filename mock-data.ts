@@ -1,4 +1,5 @@
 import { POINTS_OPTIONS } from './constants';
+import { QuizStatus } from './types';
 
 export const TEAM_NAME = 'Quirky Owls';
 
@@ -36,6 +37,11 @@ export const QUESTIONS = [
   },
 ];
 
+export const QUESTIONS_WITH_POINTS = QUESTIONS.map((it, index) => ({
+  ...it,
+  points: Math.min(POINTS_OPTIONS[index] ?? Infinity, 1),
+}));
+
 export const ROUNDS = [
   {
     id: 1,
@@ -49,15 +55,11 @@ export const ROUNDS = [
   },
 ];
 
-export const QUESTIONS_WITH_POINTS = QUESTIONS.map((it, index) => ({
-  ...it,
-  points: Math.min(POINTS_OPTIONS[index] ?? Infinity, 1),
-}));
-
 export const QUIZ = {
   id: 1,
   name: 'The Amazing Quiz',
   pin: '1234',
   password: 'qwerty',
   rounds: ROUNDS,
+  status: QuizStatus.JOINING,
 };

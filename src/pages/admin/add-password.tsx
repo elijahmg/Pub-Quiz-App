@@ -1,4 +1,4 @@
-import { Grid, Input, Stack } from '@chakra-ui/react';
+import { Flex, Grid, Input, Stack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 import PrimaryButton from '../../components/buttons/primary-button';
@@ -16,8 +16,8 @@ const AdminHome = () => {
   };
 
   return (
-    <Grid templateColumns="repeat(2, minmax(0, 1fr));" gap={32}>
-      <Stack spacing={8}>
+    <Flex alignItems="center" gap={32}>
+      <Stack spacing={8} flex={1} minW={300}>
         <SubHeader color="secondary.100" whiteSpace="nowrap">
           Input quiz password
         </SubHeader>
@@ -30,8 +30,8 @@ const AdminHome = () => {
           Submit
         </PrimaryButton>
       </Stack>
-      <Password height={{ md: '100%' }} width={{ md: 'auto' }} />
-    </Grid>
+      <Password height={{ md: '100%' }} width={{ md: 'auto' }} flex={1} />
+    </Flex>
   );
 };
 

@@ -1,4 +1,4 @@
-export const STACK_SPACING = 4;
+export const PIN_LENGTH = 6;
 
 export const POINTS_OPTIONS = [0, 0.5, 1];
 
@@ -26,3 +26,5 @@ export const ADMIN_EDIT_ROUTE_LIST = [
   `${ADMIN_EDIT_BASE_ROUTE}/questions`,
   `${ADMIN_EDIT_BASE_ROUTE}/final`,
 ];
+
+export const BOGUS_OBJECT = Object.freeze({}) as never;

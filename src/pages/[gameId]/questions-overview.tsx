@@ -1,33 +1,30 @@
 import { Stack } from '@chakra-ui/react';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import QuestionsOverviewQuestion from '../../components/questions-overview-question';
 import InGameWrapper from '../../components/wrappers/in-game-wrapper';
-import { STACK_SPACING } from '../../../constants';
 import { QUESTIONS } from '../../../mock-data';
 
-const QuestionsOverview = ({
-  name,
-}: {
-  name: string;
-  questions: Array<{ id: string; content: string; answer: string }>;
-}) => {
+const QuestionsOverview = () => {
   const [questionsState, setQuestionsState] = useState(QUESTIONS);
 
+  const handleAnswerChange = (questionIndex: number, answer: string) => {
+    setQuestionsState((curQuestions) =>
+      curQuestions.map((question, i) =>
+        i === questionIndex ? { ...question, answer } : question,
+      ),
+    );
+  };
+
   return (
-    <Stack mt={10} spacing={STACK_SPACING}>
-      {questionsState.map(({ id, content, answer }, index) => {
+    <Stack spacing={6}>
+      {questionsState.map((question, index) => {
         return (
           <QuestionsOverviewQuestion
-            key={id}
-            question={`Q${index + 1}: ${content}`}
-            answer={answer}
-            handleAnswer={(answer) => {
-              setQuestionsState((curQuestions) =>
-                curQuestions.map((question, i) =>
-                  i === index ? { ...question, answer } : question,
-                ),
-              );
-            }}
+            key={question.id}
+            question={question}
+            questionIndex={index}
+            answer={'answer quess'} // @TODO Here goes the answer of the team
+            onAnswerChange={(answer) => handleAnswerChange(index, answer)}
           />
         );
       })}
@@ -35,9 +32,7 @@ const QuestionsOverview = ({
   );
 };
 
-QuestionsOverview.getLayout = function getLayout(
-  pageContent: React.ReactElement,
-) {
+QuestionsOverview.getLayout = function getLayout(pageContent: ReactElement) {
   return <InGameWrapper>{pageContent}</InGameWrapper>;
 };
 

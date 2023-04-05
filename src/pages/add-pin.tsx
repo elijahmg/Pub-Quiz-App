@@ -2,43 +2,52 @@ import React, { useState, useEffect } from 'react';
 import { PinInput, HStack, PinInputField, Center } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { MainPageWrapper } from '../components/wrappers/main-page-wrapper';
-import { trpc } from '../utils/trcp';
+import { PIN_LENGTH } from '../../constants';
+import { QUIZ } from '../../mock-data';
+import { useUserStore } from '../components/stores/user-store';
 
 const InputPin = () => {
-  const [pin, setPin] = useState('');
   const router = useRouter();
 
-  const { data } = trpc.team.joinWithPin.useQuery(
-    { pin },
-    {
-      enabled: pin.length === 4,
-    },
-  );
+  const userStore = useUserStore(({ setQuiz }) => ({ setQuiz }));
+
+  const [pin, setPin] = useState('');
+
+  // const { data } = trpc.team.joinWithPin.useQuery(
+  //   { pin },
+  //   {
+  //     enabled: pin.length === 4,
+  //   },
+  // );
 
   useEffect(() => {
-    console.log({ data, pin });
-  }, [data]);
+    if (pin.length === PIN_LENGTH) {
+      userStore.setQuiz(QUIZ);
+      router.push({ pathname: '[gameId]', query: { gameId: QUIZ.id } });
+    }
+  }, [pin.length, router]);
 
   function handlePin(pin: string) {
     setPin(pin);
   }
 
   return (
-    <Center mt={8}>
-      <HStack>
-        <PinInput type="number" onChange={handlePin}>
-          <PinInputField />
-          <PinInputField />
-          <PinInputField />
-          <PinInputField />
-        </PinInput>
-      </HStack>
+    <Center as={HStack}>
+      <PinInput type="number" onChange={handlePin} size="lg">
+        {new Array(PIN_LENGTH).fill(undefined).map((_, i) => (
+          <PinInputField key={i} />
+        ))}
+      </PinInput>
     </Center>
   );
 };
 
 InputPin.getLayout = function getLayout(pageContent: React.ReactElement) {
-  return <MainPageWrapper header="Enter PIN">{pageContent}</MainPageWrapper>;
+  return (
+    <MainPageWrapper header="Enter PIN" spacing={6}>
+      {pageContent}
+    </MainPageWrapper>
+  );
 };
 
 export default InputPin;
