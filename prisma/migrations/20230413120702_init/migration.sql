@@ -1,13 +1,23 @@
 -- CreateEnum
-CREATE TYPE "GameStatus" AS ENUM ('CREATION', 'JOINING', 'PLAYING', 'END_ROUND', 'EVALUATION', 'SCORE_VIEWING', 'END_QUIZ');
+CREATE TYPE "GameStatusEnum" AS ENUM ('CREATION', 'JOINING', 'PLAYING', 'END_ROUND', 'EVALUATION', 'SCORE_VIEWING', 'END_QUIZ');
 
 -- CreateEnum
 CREATE TYPE "MediaType" AS ENUM ('IMAGE', 'VIDEO', 'AUDIO');
 
 -- CreateTable
+CREATE TABLE "GameStatus" (
+    "id" SERIAL NOT NULL,
+    "status" "GameStatusEnum" NOT NULL,
+    "currentQuestionId" INTEGER NOT NULL,
+    "currentTopicId" INTEGER NOT NULL,
+
+    CONSTRAINT "GameStatus_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Game" (
     "id" SERIAL NOT NULL,
-    "gameStatus" "GameStatus" NOT NULL,
+    "gameStatusId" INTEGER,
     "password" TEXT NOT NULL,
     "pin" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -55,6 +65,24 @@ CREATE TABLE "TeamAnswers" (
 
     CONSTRAINT "TeamAnswers_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "GameStatus_currentQuestionId_key" ON "GameStatus"("currentQuestionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "GameStatus_currentTopicId_key" ON "GameStatus"("currentTopicId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Game_gameStatusId_key" ON "Game"("gameStatusId");
+
+-- AddForeignKey
+ALTER TABLE "GameStatus" ADD CONSTRAINT "GameStatus_currentQuestionId_fkey" FOREIGN KEY ("currentQuestionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "GameStatus" ADD CONSTRAINT "GameStatus_currentTopicId_fkey" FOREIGN KEY ("currentTopicId") REFERENCES "Topic"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Game" ADD CONSTRAINT "Game_gameStatusId_fkey" FOREIGN KEY ("gameStatusId") REFERENCES "GameStatus"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Topic" ADD CONSTRAINT "Topic_gameId_fkey" FOREIGN KEY ("gameId") REFERENCES "Game"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -1,5 +1,5 @@
 import { Flex, Heading } from '@chakra-ui/react';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 import RouteNavigation from '../../../components/route-navigation';
 import SubHeader from '../../../components/headers/sub-header';
 import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-wrapper';
@@ -7,12 +7,34 @@ import { ADMIN_CREATE_ROUTE_LIST } from '../../../../constants';
 import { useAdminQuizManageContext } from '../../../components/contexts/admin-quiz-manage-context';
 import AdminQuizManageMainInfoForm from '../../../components/admin-quiz-manage/main-info-form';
 import { StoreQuiz } from '../../../../types';
+import { trpc } from '../../../utils/trcp';
+import { useCreateQuizStore } from '../../../state/create-quiz.state';
 
 const QuizCreate = () => {
+  const setGameIdState = useCreateQuizStore((state) => state.setGameId);
+  const { mutate, data, isSuccess } = trpc.admin.createQuiz.useMutation();
+
   const { quizData, setQuizData } = useAdminQuizManageContext();
 
   const handleQuizDataChange = (quizData: StoreQuiz) => {
     setQuizData(quizData);
+  };
+
+  useEffect(() => {
+    const id = data?.id;
+
+    if (id) {
+      console.log('Setting id');
+      setGameIdState(id);
+    }
+  }, [isSuccess]);
+
+  const onNextStepHandler = async () => {
+    await mutate({
+      pin: quizData.pin,
+      password: quizData.password,
+      name: quizData.name,
+    });
   };
 
   return (
@@ -25,7 +47,10 @@ const QuizCreate = () => {
         quizData={quizData}
         onQuizDataChange={handleQuizDataChange}
       />
-      <RouteNavigation routeList={ADMIN_CREATE_ROUTE_LIST} />
+      <RouteNavigation
+        onNextHandler={onNextStepHandler}
+        routeList={ADMIN_CREATE_ROUTE_LIST}
+      />
     </Flex>
   );
 };

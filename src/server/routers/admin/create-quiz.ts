@@ -1,6 +1,5 @@
 import { procedure } from '../../trpc';
 import { z } from 'zod';
-import { GameStatuses } from '../../types';
 
 export const createQuiz = procedure
   .input(
@@ -18,7 +17,6 @@ export const createQuiz = procedure
         name: name,
         password: password,
         pin: pin,
-        gameStatus: GameStatuses.CREATION,
       },
     });
   });

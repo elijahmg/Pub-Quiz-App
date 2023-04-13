@@ -8,10 +8,10 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-//  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  //  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-enum GameStatus {
+enum GameStatusEnum {
   CREATION
   JOINING
   PLAYING
@@ -27,40 +27,53 @@ enum MediaType {
   AUDIO
 }
 
+model GameStatus {
+  id                Int            @id @default(autoincrement())
+  status            GameStatusEnum
+  currentQuestion   Question       @relation(fields: [currentQuestionId], references: [id])
+  currentQuestionId Int @unique
+  currentTopic      Topic          @relation(fields: [currentTopicId], references: [id])
+  currentTopicId    Int @unique
+  game              Game?
+}
+
 model Game {
-  id         Int        @id @default(autoincrement())
-  teams      Team[]
-  gameStatus GameStatus
-  topics     Topic[]
-  password   String
-  pin String
-  name String
+  id           Int        @id @default(autoincrement())
+  teams        Team[]
+  gameStatusId Int?       @unique
+  gameStatus   GameStatus? @relation(fields: [gameStatusId], references: [id])
+  topics       Topic[]
+  password     String
+  pin          String
+  name         String
 }
 
 model Topic {
   id          Int           @id @default(autoincrement())
   name        String
   questions   Question[]
-  game        Game         @relation(fields: [gameId], references: [id])
+  game        Game          @relation(fields: [gameId], references: [id])
   gameId      Int
   teamAnswers TeamAnswers[]
+  gameStatus  GameStatus?
 }
 
 model Question {
-  id            Int       @id @default(autoincrement())
-  content       String
-  answer        String
-  mediaType     MediaType?
-  mediaURL      String?
-  Topic         Topic    @relation(fields: [topicId], references: [id])
-  topicId       Int
+  id         Int          @id @default(autoincrement())
+  content    String
+  answer     String
+  mediaType  MediaType?
+  mediaURL   String?
+  topic      Topic        @relation(fields: [topicId], references: [id])
+  topicId    Int
+  gameStatus GameStatus?
 }
 
 model Team {
   id      Int           @id @default(autoincrement())
   name    String
   answers TeamAnswers[]
-  game    Game         @relation(fields: [gameId], references: [id])
+  game    Game          @relation(fields: [gameId], references: [id])
   gameId  Int
 }
 
@@ -70,6 +83,6 @@ model TeamAnswers {
   topic   Topic  @relation(fields: [topicId], references: [id])
   answer  String
   score   Float
-  team    Team  @relation(fields: [teamId], references: [id])
+  team    Team   @relation(fields: [teamId], references: [id])
   teamId  Int
 }
