@@ -8,6 +8,7 @@ import { AdminCreatorWrapper } from '../../../components/wrappers/admin-creator-
 import { ReactElement } from 'react';
 import { useAdminQuizManageContext } from '../../../components/contexts/admin-quiz-manage-context';
 import AdminQuizManageFinalOverview from '../../../components/admin-quiz-manage/final-overview';
+import { useCreateFullQuiz } from '../../../hooks/use-create-full-quiz';
 
 const QuizCreateFinal = () => {
   const router = useRouter();
@@ -18,9 +19,14 @@ const QuizCreateFinal = () => {
     router.push('questions');
   };
 
-  const handleCreate = () => {
-    console.log(quizData);
+  const onQuizCreationSuccess = () => {
     router.push('success');
+  };
+
+  const handleCreateQuiz = useCreateFullQuiz(onQuizCreationSuccess);
+
+  const handleCreate = async () => {
+    await handleCreateQuiz();
   };
 
   return (

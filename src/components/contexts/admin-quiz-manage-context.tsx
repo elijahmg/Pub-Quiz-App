@@ -30,13 +30,10 @@ export const AdminQuizManageContextWrapper = ({ children }: Props) => {
     setQuizData(quizData);
   };
 
-  const contextValue = useMemo(
-    () => ({ quizData, setQuizData: handleSetQuizData }),
-    [quizData],
-  );
-
   return (
-    <AdminQuizManageContext.Provider value={contextValue}>
+    <AdminQuizManageContext.Provider
+      value={{ quizData, setQuizData: handleSetQuizData }}
+    >
       {children}
     </AdminQuizManageContext.Provider>
   );
