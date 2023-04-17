@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { ReactElement, ReactNode } from 'react';
 
-export enum MediaType {
+export enum MediaTypes {
   IMAGE = 'IMAGE',
   VIDEO = 'VIDEO',
   AUDIO = 'AUDIO',
@@ -12,7 +12,7 @@ export type Question = {
   id: number;
   content: string;
   answer: string;
-  mediaType?: MediaType;
+  mediaType?: MediaTypes;
   mediaURL?: string;
 };
 
@@ -39,9 +39,12 @@ export interface Answer extends Question {
   points: number;
 }
 
-export type StoreQuestion = Required<Omit<Question, 'id' | 'mediaType'>> & {
+export type StoreQuestion = Required<
+  Omit<Question, 'id' | 'mediaType' | 'mediaURL'>
+> & {
   _id: number;
-  mediaType: MediaType | '';
+  mediaType?: MediaTypes;
+  mediaURL?: string;
 };
 
 export type StoreRound = Required<Omit<Round, 'questions' | 'id'>> & {

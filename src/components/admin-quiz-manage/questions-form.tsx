@@ -15,8 +15,6 @@ const generateQuestion = (): StoreQuestion => ({
   _id: generateRandomId(),
   content: '',
   answer: '',
-  mediaType: '',
-  mediaURL: '',
 });
 
 export default function AdminQuizManageQuestionsForm({
@@ -36,7 +34,10 @@ export default function AdminQuizManageQuestionsForm({
     const resultRounds = [...rounds];
     resultRounds[selectedRoundIndex] = {
       ...resultRounds[selectedRoundIndex],
-      questions: [generateQuestion()],
+      questions: [
+        ...resultRounds[selectedRoundIndex].questions,
+        generateQuestion(),
+      ],
     };
 
     onQuizDataChange({ ...quizData, rounds: resultRounds });
