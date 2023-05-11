@@ -12,7 +12,8 @@ export const createQuestions = procedure
         mediaURL: z.string().optional(),
         mediaType: z
           .enum([MediaTypes.VIDEO, MediaTypes.AUDIO, MediaTypes.IMAGE])
-          .optional(),
+          .nullable()
+          .default(null),
       }),
     ),
   )

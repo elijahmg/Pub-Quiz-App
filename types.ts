@@ -12,7 +12,7 @@ export type Question = {
   id: number;
   content: string;
   answer: string;
-  mediaType?: MediaTypes;
+  mediaType: MediaTypes | null;
   mediaURL?: string;
 };
 

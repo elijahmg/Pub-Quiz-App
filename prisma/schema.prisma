@@ -12,7 +12,6 @@ datasource db {
 }
 
 enum GameStatusEnum {
-  CREATION
   JOINING
   PLAYING
   END_ROUND
@@ -30,17 +29,16 @@ enum MediaType {
 model GameStatus {
   id                Int            @id @default(autoincrement())
   status            GameStatusEnum
+  // question already has reference to current topic
   currentQuestion   Question       @relation(fields: [currentQuestionId], references: [id])
-  currentQuestionId Int @unique
-  currentTopic      Topic          @relation(fields: [currentTopicId], references: [id])
-  currentTopicId    Int @unique
+  currentQuestionId Int            @unique
   game              Game?
 }
 
 model Game {
-  id           Int        @id @default(autoincrement())
+  id           Int         @id @default(autoincrement())
   teams        Team[]
-  gameStatusId Int?       @unique
+  gameStatusId Int?        @unique
   gameStatus   GameStatus? @relation(fields: [gameStatusId], references: [id])
   topics       Topic[]
   password     String
@@ -55,16 +53,15 @@ model Topic {
   game        Game          @relation(fields: [gameId], references: [id])
   gameId      Int
   teamAnswers TeamAnswers[]
-  gameStatus  GameStatus?
 }
 
 model Question {
-  id         Int          @id @default(autoincrement())
+  id         Int         @id @default(autoincrement())
   content    String
   answer     String
   mediaType  MediaType?
   mediaURL   String?
-  topic      Topic        @relation(fields: [topicId], references: [id])
+  topic      Topic       @relation(fields: [topicId], references: [id])
   topicId    Int
   gameStatus GameStatus?
 }

@@ -4,7 +4,10 @@ import { router } from '../trpc';
 import { createQuiz } from './admin/create-quiz';
 import { createTopics } from './admin/create-topics';
 import { createQuestions } from './admin/create-questions';
+import { createGameStatus } from './admin/create-game-status';
+import { editGame } from './admin/edit-game';
 import { getTopics } from './admin/get-topics';
+import { getQuestions } from './admin/get-questions';
 
 // Team procedures
 import { createTeam } from './team/create-team';
@@ -17,7 +20,10 @@ export const appRouter = router({
     createQuiz,
     createTopics,
     createQuestions,
+    createGameStatus,
+    editGame,
     getTopics,
+    getQuestions,
   }),
   team: router({
     createTeam,
