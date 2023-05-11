@@ -1,31 +1,47 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormControl, Heading, Input } from '@chakra-ui/react';
-import { useEffect } from 'react';
 import SubHeader from '../../components/headers/sub-header';
 import SubTitle from '../../components/headers/sub-title';
 import PrimaryButton from '../../components/buttons/primary-button';
 import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
 import { useRouter } from 'next/router';
+import { trpc } from '../../utils/trcp';
+import { useQuizStore } from '../../state/team/quiz.state';
 
 const Welcome = (): JSX.Element => {
   const router = useRouter();
 
-  const [value, setValue] = React.useState<string>(``);
-  const [buttonStatus, setButtonStatus] = React.useState<boolean>(true);
-  const [errorMessage, setErrorMessage] =
-    React.useState<string>(`Enter your name`);
+  const [teamName, setTeamName] = useState<string>(``);
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+  const [errorMessage, setErrorMessage] = useState<string>(`Enter your name`);
+
+  const { id } = useQuizStore((state) => state.quizData);
+
+  const { mutate: createTeam } = trpc.team.createTeam.useMutation({
+    onSuccess: () => null,
+  });
 
   useEffect(() => {
-    if (value.length >= 2 && value.length <= 20) {
-      setButtonStatus(false);
-    } else {
-      setButtonStatus(true);
+    const isTeamNameInvalid = teamName.length < 2 || teamName.length > 32;
+
+    setIsButtonDisabled(isTeamNameInvalid);
+
+    if (isTeamNameInvalid) {
       setErrorMessage(`Pleaaaase enter your team name`);
     }
-  }, [value, buttonStatus]);
+  }, [teamName, isButtonDisabled]);
 
-  function onSubmitHandler() {
-    router.push(`/3/waiting`);
+  async function onSubmitHandler() {
+    if (!id) {
+      throw new Error('Quiz has not been created');
+    }
+
+    await createTeam({
+      name: teamName,
+      gameId: id,
+    });
+
+    router.push(`/${id}/waiting`);
   }
 
   return (
@@ -37,7 +53,6 @@ const Welcome = (): JSX.Element => {
       <FormControl
         id="first-name"
         onSubmit={() => {
-          console.log('Submi');
           router.push(`/3/waiting`);
         }}
       >
@@ -46,12 +61,16 @@ const Welcome = (): JSX.Element => {
         </Heading>
         <Input
           placeholder="Your awesome team name"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          value={teamName}
+          onChange={(e) => setTeamName(e.target.value)}
         />
       </FormControl>
-      <PrimaryButton isDisabled={buttonStatus} mt={4} onClick={onSubmitHandler}>
-        {buttonStatus ? errorMessage : 'Submit'}
+      <PrimaryButton
+        isDisabled={isButtonDisabled}
+        mt={4}
+        onClick={onSubmitHandler}
+      >
+        {isButtonDisabled ? errorMessage : 'Submit'}
       </PrimaryButton>
     </>
   );
