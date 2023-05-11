@@ -1,23 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { PinInput, HStack, PinInputField, Center } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { MainPageWrapper } from '../components/wrappers/main-page-wrapper';
 import { trpc } from '../utils/trcp';
+import { QuizData, useQuizStore } from '../state/team/quiz.state';
 
-const InputPin = () => {
+const Pin = () => {
   const [pin, setPin] = useState('');
+  const setQuizData = useQuizStore((state) => state.setQuizData);
+
   const router = useRouter();
 
-  const { data } = trpc.team.joinWithPin.useQuery(
+  trpc.team.joinWithPin.useQuery(
     { pin },
     {
       enabled: pin.length === 4,
+      onSuccess: (quizData) => onGettingGameDataSuccessfully(quizData),
     },
   );
 
-  useEffect(() => {
-    console.log({ data, pin });
-  }, [data]);
+  function onGettingGameDataSuccessfully(quizData: QuizData) {
+    setQuizData(quizData);
+
+    router.push(`/${quizData.id}`);
+  }
 
   function handlePin(pin: string) {
     setPin(pin);
@@ -37,8 +43,8 @@ const InputPin = () => {
   );
 };
 
-InputPin.getLayout = function getLayout(pageContent: React.ReactElement) {
+Pin.getLayout = function getLayout(pageContent: React.ReactElement) {
   return <MainPageWrapper header="Enter PIN">{pageContent}</MainPageWrapper>;
 };
 
-export default InputPin;
+export default Pin;

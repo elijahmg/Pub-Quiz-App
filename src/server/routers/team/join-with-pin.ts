@@ -11,10 +11,17 @@ export const joinWithPin = procedure
   .query(async ({ input, ctx }) => {
     const { pin } = input;
 
-    const game = await ctx.prisma.game.findMany({
+    const game = await ctx.prisma.game.findFirst({
       where: {
         pin,
-        gameStatus: GameStatuses.JOINING,
+        gameStatus: {
+          status: GameStatuses.JOINING,
+        },
+      },
+      select: {
+        gameStatusId: true,
+        id: true,
+        name: true,
       },
     });
 

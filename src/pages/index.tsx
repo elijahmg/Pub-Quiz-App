@@ -1,44 +1,17 @@
 import { Flex, Grid, GridItem } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import Header from '../components/headers/header';
 import SubHeader from '../components/headers/sub-header';
 import SubTitle from '../components/headers/sub-title';
 import PrimaryButton from '../components/buttons/primary-button';
 import SecondaryButton from '../components/buttons/secondary-button';
-import { useRouter } from 'next/router';
 import DummyPeople from '../components/images/dummy-people';
 import * as React from 'react';
 import { MainPageWrapper } from '../components/wrappers/main-page-wrapper';
-import { trpc } from '../utils/trcp';
 import { NextPageWithLayout } from '../../types';
 
 const Home: NextPageWithLayout = () => {
-  // This is just an example how to call tRPC
-  // if you need lazily call the query set enabled to false
-  // and use refetch function
-  // const { data, refetch } = trpc.hello.useQuery(
-  //   { text: 'Gww' },
-  //   { enabled: false },
-  // );
-  const { mutate: createQuiz, data: quizData } =
-    trpc.admin.createQuiz.useMutation();
-
-  const { mutate: createTopic, data: topicData } =
-    trpc.admin.createTopic.useMutation();
-
   const router = useRouter();
-
-  async function handleCreateTopic() {
-    // const res = createQuiz({
-    //   name: 'Pub first',
-    //   pin: '1111',
-    //   password: '1222',
-    // });
-
-    createTopic({
-      name: 'Movies',
-      gameId: 1,
-    });
-  }
 
   return (
     <Grid
@@ -88,7 +61,7 @@ const Home: NextPageWithLayout = () => {
         gap={2}
         mt={{ base: 14, md: 0 }}
       >
-        <PrimaryButton onClick={() => router.push('add-pin')}>
+        <PrimaryButton onClick={() => router.push('pin')}>
           Enter PIN
         </PrimaryButton>
         <SecondaryButton onClick={() => router.push('admin')}>

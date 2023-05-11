@@ -31,7 +31,7 @@ export default function CreatorQuestion({
   const handleMediaTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value.toUpperCase() as MediaTypes;
 
-    if (!MediaTypes.hasOwnProperty(value)) return;
+    if (!(value in MediaTypes)) return;
 
     onQuestionChange?.({ ...question, mediaType: value });
   };

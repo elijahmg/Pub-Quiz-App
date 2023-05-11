@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  ReactNode,
-  useContext,
-  useMemo,
-  useState,
-} from 'react';
+import React, { createContext, ReactNode, useContext, useState } from 'react';
 import { StoreQuiz } from '../../../types';
 
 const QUIZ_PRESET = { name: '', pin: '', password: '', rounds: [] };
