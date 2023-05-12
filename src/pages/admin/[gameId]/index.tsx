@@ -8,6 +8,7 @@ import { AdminQuizControlContextWrapper } from '../../../components/contexts/adm
 import Astronaut from '../../../components/images/astronaut';
 import Blobs2 from '../../../components/images/blobs-2';
 import AdminQuizWrapper from '../../../components/wrappers/admin-quiz-wrapper';
+import { useQuizDataStore } from '../../../state/quiz-data.state';
 
 const AdminQuiz = () => {
   const router = useRouter();

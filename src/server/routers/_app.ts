@@ -12,7 +12,7 @@ import { getQuizByPassword } from './admin/get-quiz-by-password';
 
 // Team procedures
 import { createTeam } from './team/create-team';
-import { joinWithPin } from './team/join-with-pin';
+import { getQuizByPin } from './team/get-quiz-by-pin';
 
 // this a collection of routes
 // hello is only an example
@@ -29,7 +29,7 @@ export const appRouter = router({
   }),
   team: router({
     createTeam,
-    joinWithPin,
+    joinWithPin: getQuizByPin,
   }),
 });
 

@@ -1,8 +1,9 @@
 import { procedure } from '../../trpc';
 import { z } from 'zod';
 import { GameStatuses } from '../../types';
+import { selectQuizData } from '../../common-data-returns';
 
-export const joinWithPin = procedure
+export const getQuizByPin = procedure
   .input(
     z.object({
       pin: z.string().min(4).max(4),
@@ -18,11 +19,7 @@ export const joinWithPin = procedure
           status: GameStatuses.JOINING,
         },
       },
-      select: {
-        gameStatusId: true,
-        id: true,
-        name: true,
-      },
+      select: selectQuizData,
     });
 
     if (!game) {
