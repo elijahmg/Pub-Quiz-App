@@ -49,18 +49,12 @@ export const AdminQuizControlContextWrapper = ({ children }: Props) => {
     setQuizData(quizData);
   };
 
-  console.log({ quizData });
-
   // @TODO this is bad
   const quiz = { ...QUIZ, ...quizData };
 
   const teams = TEAMS;
 
-  const roundIndexBl = quizData?.rounds.findIndex(
-    (round) => round.id === quizData?.quizStatus?.currentQuestion.roundId,
-  );
-
-  const [roundIndex, setRoundIndex] = useState(roundIndexBl || 0);
+  const [roundIndex, setRoundIndex] = useState(0);
 
   const [questionIndex, setQuestionIndex] = useState(0);
 
