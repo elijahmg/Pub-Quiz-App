@@ -14,7 +14,7 @@ export type Question = {
   content: string;
   answer: string;
   mediaType: MediaTypes | null;
-  mediaURL?: string;
+  mediaURL: string | null;
 };
 
 export interface Round {

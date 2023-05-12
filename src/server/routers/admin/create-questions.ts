@@ -8,8 +8,8 @@ export const createQuestions = procedure
       z.object({
         content: z.string(),
         answer: z.string(),
-        topicId: z.number(),
-        mediaURL: z.string().optional(),
+        roundId: z.number(),
+        mediaURL: z.string().nullable().default(null),
         mediaType: z
           .enum([MediaTypes.VIDEO, MediaTypes.AUDIO, MediaTypes.IMAGE])
           .nullable()

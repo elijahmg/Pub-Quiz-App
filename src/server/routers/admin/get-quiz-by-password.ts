@@ -11,7 +11,7 @@ export const getQuizByPassword = procedure
   .query(async ({ input, ctx }) => {
     const { password } = input;
 
-    return ctx.prisma.game.findFirst({
+    return ctx.prisma.quiz.findFirst({
       where: {
         password,
       },

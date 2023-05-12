@@ -14,7 +14,7 @@ import {
   AdminQuizControlContextWrapper,
   useAdminQuizControlContext,
 } from '../../../components/contexts/admin-quiz-control-context';
-import AdminGameControlWrapper from '../../../components/wrappers/admin-game-control-wrapper';
+import AdminQuizControlWrapper from '../../../components/wrappers/admin-quiz-control-wrapper';
 
 const TeamsOverview = () => {
   const router = useRouter();
@@ -27,7 +27,7 @@ const TeamsOverview = () => {
   const handleStartNextRound = () => {
     setRoundIndex(roundIndex + 1);
     router.push({
-      pathname: '/admin/[gameId]/game-control',
+      pathname: '/admin/[quizId]/quiz-control',
       query: router.query,
     });
   };
@@ -76,7 +76,7 @@ const TeamsOverview = () => {
 TeamsOverview.getLayout = function getLayout(pageContent: ReactElement) {
   return (
     <AdminQuizControlContextWrapper>
-      <AdminGameControlWrapper>{pageContent}</AdminGameControlWrapper>
+      <AdminQuizControlWrapper>{pageContent}</AdminQuizControlWrapper>
     </AdminQuizControlContextWrapper>
   );
 };

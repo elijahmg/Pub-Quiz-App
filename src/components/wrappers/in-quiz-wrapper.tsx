@@ -9,7 +9,7 @@ interface Props extends WrapperProps {
   children: ReactNode;
 }
 
-export default function InGameWrapper({ children, ...props }: Props) {
+export default function InQuizWrapper({ children, ...props }: Props) {
   return (
     <Wrapper m={8} {...props}>
       <QuizHead teamName={TEAM_NAME} round="1" />

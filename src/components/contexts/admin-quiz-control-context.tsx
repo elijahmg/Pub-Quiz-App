@@ -1,7 +1,12 @@
 import React, { createContext, ReactNode, useContext, useState } from 'react';
 import { QUIZ, TEAMS } from '../../../mock-data';
 import { Quiz, Team } from '../../../types';
-import { useQuizDataStore } from '../../state/quiz-data.state';
+import { useRouter } from 'next/router';
+import { trpc } from '../../utils/trcp';
+import {
+  useAdminQuizDataState,
+  QuizData,
+} from '../../state/admin/admin-quiz-data.state';
 
 interface AdminQuizControlContextType {
   quiz: Quiz;
@@ -20,14 +25,42 @@ interface Props {
 }
 
 export const AdminQuizControlContextWrapper = ({ children }: Props) => {
-  const quizData = useQuizDataStore((state) => state.quizData);
+  const { query } = useRouter();
+
+  const { quizData, setQuizData } = useAdminQuizDataState((state) => ({
+    quizData: state.quizData,
+    setQuizData: state.setQuizData,
+  }));
+
+  trpc.admin.getFullQuizData.useQuery(
+    {
+      quizId: Number(query.quizId),
+    },
+    {
+      enabled: !!query.quizId,
+      onSuccess: (data) => handleOnSuccessGetFullQuizData(data as QuizData),
+    },
+  );
+
+  const handleOnSuccessGetFullQuizData = (quizData: QuizData | null) => {
+    // @TODO better error handling
+    if (!quizData) return;
+
+    setQuizData(quizData);
+  };
+
+  console.log({ quizData });
 
   // @TODO this is bad
   const quiz = { ...QUIZ, ...quizData };
 
   const teams = TEAMS;
 
-  const [roundIndex, setRoundIndex] = useState(0);
+  const roundIndexBl = quizData?.rounds.findIndex(
+    (round) => round.id === quizData?.quizStatus?.currentQuestion.roundId,
+  );
+
+  const [roundIndex, setRoundIndex] = useState(roundIndexBl || 0);
 
   const [questionIndex, setQuestionIndex] = useState(0);
 

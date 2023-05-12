@@ -12,7 +12,7 @@ export const createQuiz = procedure
   .mutation(async ({ input, ctx }) => {
     const { name, password, pin } = input;
 
-    return ctx.prisma.game.create({
+    return ctx.prisma.quiz.create({
       data: {
         name: name,
         password: password,

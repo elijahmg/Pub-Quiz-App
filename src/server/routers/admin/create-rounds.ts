@@ -1,19 +1,19 @@
 import { procedure } from '../../trpc';
 import { z } from 'zod';
 
-export const createTopics = procedure
+export const createRounds = procedure
   .input(
     z.object({
-      gameId: z.number(),
+      quizId: z.number(),
       rounds: z.array(z.string().max(32)),
     }),
   )
   .mutation(async ({ input, ctx }) => {
-    const { rounds, gameId } = input;
+    const { rounds, quizId } = input;
 
-    return ctx.prisma.topic.createMany({
+    return ctx.prisma.round.createMany({
       data: rounds.map((roundName) => ({
-        gameId,
+        quizId,
         name: roundName,
       })),
     });

@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 
 interface CreateQuizState {
-  gameId: number;
-  setGameId: (gameId: number) => void;
+  quizId: number;
+  setQuizId: (quizId: number) => void;
 }
 
 export const useCreateQuizStore = create<CreateQuizState>((set) => ({
-  gameId: -1,
-  setGameId: (gameId: number) => set(() => ({ gameId })),
+  quizId: -1,
+  setQuizId: (quizId: number) => set(() => ({ quizId })),
 }));

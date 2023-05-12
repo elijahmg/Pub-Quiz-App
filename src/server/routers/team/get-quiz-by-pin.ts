@@ -1,6 +1,6 @@
 import { procedure } from '../../trpc';
 import { z } from 'zod';
-import { GameStatuses } from '../../types';
+import { QuizStatuses } from '../../types';
 import { selectQuizData } from '../../common-data-returns';
 
 export const getQuizByPin = procedure
@@ -12,19 +12,19 @@ export const getQuizByPin = procedure
   .query(async ({ input, ctx }) => {
     const { pin } = input;
 
-    const game = await ctx.prisma.game.findFirst({
+    const quiz = await ctx.prisma.quiz.findFirst({
       where: {
         pin,
-        gameStatus: {
-          status: GameStatuses.JOINING,
+        quizStatus: {
+          status: QuizStatuses.JOINING,
         },
       },
       select: selectQuizData,
     });
 
-    if (!game) {
-      throw new Error('There is no game to join');
+    if (!quiz) {
+      throw new Error('There is no quiz to join');
     }
 
-    return game;
+    return quiz;
   });

@@ -11,15 +11,15 @@ const Pin = () => {
 
   const router = useRouter();
 
-  trpc.team.joinWithPin.useQuery(
+  trpc.team.getQuizByPin.useQuery(
     { pin },
     {
       enabled: pin.length === 4,
-      onSuccess: (quizData) => onGettingGameDataSuccessfully(quizData),
+      onSuccess: (quizData) => onGettingQuizDataSuccessfully(quizData),
     },
   );
 
-  function onGettingGameDataSuccessfully(quizData: QuizData) {
+  function onGettingQuizDataSuccessfully(quizData: QuizData) {
     setQuizData(quizData);
 
     router.push(`/${quizData.id}`);

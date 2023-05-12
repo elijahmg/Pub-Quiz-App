@@ -1,4 +1,4 @@
-export enum GameStatuses {
+export enum QuizStatuses {
   JOINING = 'JOINING',
   PLAYING = 'PLAYING',
   END_ROUND = 'END_ROUND',

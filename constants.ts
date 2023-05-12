@@ -18,7 +18,7 @@ export const ADMIN_CREATOR_STEPS = [
   { value: 'final', label: 'Final check & create' },
 ];
 
-export const ADMIN_EDIT_BASE_ROUTE = '/admin/edit/[gameId]';
+export const ADMIN_EDIT_BASE_ROUTE = '/admin/edit/[quizId]';
 
 export const ADMIN_EDIT_ROUTE_LIST = [
   `${ADMIN_EDIT_BASE_ROUTE}`,

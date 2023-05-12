@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Question from '../../components/question';
 import { STACK_SPACING } from '../../../constants';
 import { QUESTIONS } from '../../../mock-data';
-import InGameWrapper from '../../components/wrappers/in-game-wrapper';
+import InQuizWrapper from '../../components/wrappers/in-quiz-wrapper';
 
 // @TODO Fix typing
 const Play = ({ channel }: { channel: any }) => {
@@ -43,7 +43,7 @@ const Play = ({ channel }: { channel: any }) => {
 };
 
 Play.getLayout = function getLayout(pageContent: React.ReactElement) {
-  return <InGameWrapper>{pageContent}</InGameWrapper>;
+  return <InQuizWrapper>{pageContent}</InQuizWrapper>;
 };
 
 export default Play;
