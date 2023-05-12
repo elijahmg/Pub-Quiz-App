@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { ReactElement, ReactNode } from 'react';
 
+// @TODO remove, this is 2nd instance of the same enum
 export enum MediaTypes {
   IMAGE = 'IMAGE',
   VIDEO = 'VIDEO',

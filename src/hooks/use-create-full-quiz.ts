@@ -143,13 +143,17 @@ export function useCreateFullQuiz(onQuizCreationSuccess: () => void) {
   /**-------Edit game--------**/
 
   // 7. Edit game [TRPC]
-  const { mutate: editGame } = trpc.admin.editGame.useMutation({
-    onSuccess: onQuizCreationSuccess,
-  });
+  const { mutate: updateGameWithGameStatusId } =
+    trpc.admin.updateGameWithGameStatusId.useMutation({
+      onSuccess: onQuizCreationSuccess,
+    });
 
   // 7. Edit game [creation handle]
   const handleEditGame = async (gameStatus: GameStatus) => {
-    await editGame({ gameId: createdQuiz!.id, gameStatusId: gameStatus.id });
+    await updateGameWithGameStatusId({
+      gameId: createdQuiz!.id,
+      gameStatusId: gameStatus.id,
+    });
   };
 
   return async () => {

@@ -1,5 +1,4 @@
 export enum GameStatuses {
-  CREATION = 'CREATION',
   JOINING = 'JOINING',
   PLAYING = 'PLAYING',
   END_ROUND = 'END_ROUND',

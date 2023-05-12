@@ -9,19 +9,38 @@ import Astronaut from '../../../components/images/astronaut';
 import Blobs2 from '../../../components/images/blobs-2';
 import AdminQuizWrapper from '../../../components/wrappers/admin-quiz-wrapper';
 import { useQuizDataStore } from '../../../state/quiz-data.state';
+import { trpc } from '../../../utils/trcp';
+import { GameStatuses } from '../../../server/types';
 
 const AdminQuiz = () => {
+  const { gameStatusId, id: quizId } = useQuizDataStore(
+    (state) => state.quizData,
+  );
+
+  const { mutate: updateGameStatus } = trpc.admin.updateGameStatus.useMutation({
+    onSuccess: () => handOnSuccessfullyUpdatedGameStatus(),
+  });
+
   const router = useRouter();
 
-  const handleStartQuiz = () => {
-    router.push({
-      pathname: '/admin/[gameId]/game-control',
-      query: router.query,
+  const handleStartQuiz = async () => {
+    // @TODO better handling
+    if (!gameStatusId) {
+      return;
+    }
+
+    await updateGameStatus({
+      id: gameStatusId,
+      gameStatus: GameStatuses.PLAYING,
     });
   };
 
+  const handOnSuccessfullyUpdatedGameStatus = () => {
+    router.push(`/admin/${quizId}/game-control`);
+  };
+
   const handleEditQuiz = () => {
-    router.push({ pathname: '/admin/edit/[gameId]', query: router.query });
+    router.push(`/admin/edit/${quizId}`);
   };
 
   const handleDeleteQuiz = () => {

@@ -1,7 +1,7 @@
 import { procedure } from '../../trpc';
 import { z } from 'zod';
 
-export const editGame = procedure
+export const updateGameWithGameStatusId = procedure
   .input(
     z.object({
       gameId: z.number(),

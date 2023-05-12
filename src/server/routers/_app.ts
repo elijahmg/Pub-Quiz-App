@@ -5,7 +5,8 @@ import { createQuiz } from './admin/create-quiz';
 import { createTopics } from './admin/create-topics';
 import { createQuestions } from './admin/create-questions';
 import { createGameStatus } from './admin/create-game-status';
-import { editGame } from './admin/edit-game';
+import { updateGameWithGameStatusId } from './admin/update-game-with-game-status-id';
+import { updateGameStatus } from './admin/update-game-status';
 import { getTopics } from './admin/get-topics';
 import { getQuestions } from './admin/get-questions';
 import { getQuizByPassword } from './admin/get-quiz-by-password';
@@ -22,7 +23,8 @@ export const appRouter = router({
     createTopics,
     createQuestions,
     createGameStatus,
-    editGame,
+    updateGameWithGameStatusId,
+    updateGameStatus,
     getTopics,
     getQuestions,
     getQuizByPassword,
