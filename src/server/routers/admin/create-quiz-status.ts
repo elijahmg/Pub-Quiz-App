@@ -1,19 +1,19 @@
 import { procedure } from '../../trpc';
 import { z } from 'zod';
-import { GameStatusEnum } from '.prisma/client';
+import { QuizStatusEnum } from '.prisma/client';
 
-export const createGameStatus = procedure
+export const createQuizStatus = procedure
   .input(
     z.object({
       currentQuestionId: z.number(),
     }),
   )
   .mutation(async ({ input, ctx }) => {
-    return ctx.prisma.gameStatus.create({
+    return ctx.prisma.quizStatus.create({
       data: {
         ...input,
         currentQuestionId: input.currentQuestionId,
-        status: GameStatusEnum.JOINING,
+        status: QuizStatusEnum.JOINING,
       },
     });
   });

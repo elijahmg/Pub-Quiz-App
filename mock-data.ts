@@ -15,30 +15,7 @@ export const QUESTIONS: Question[] = [
     content: 'What is the capital of Peru',
     answer: 'Lima',
     mediaType: null,
-  },
-  {
-    id: 2,
-    content: 'What is the capital of Brazil',
-    answer: 'Brasillia',
-    mediaType: null,
-  },
-  {
-    id: 3,
-    content: 'What is the capital of Czech Republic',
-    answer: 'Prague',
-    mediaType: null,
-  },
-  {
-    id: 4,
-    content: 'What is the capital of Slovakia',
-    answer: 'Bratislava',
-    mediaType: null,
-  },
-  {
-    id: 5,
-    content: 'What is the capital of Tonga',
-    answer: 'Sofia',
-    mediaType: null,
+    mediaURL: null,
   },
 ];
 

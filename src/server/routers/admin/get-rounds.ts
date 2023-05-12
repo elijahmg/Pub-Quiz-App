@@ -1,21 +1,21 @@
 import { procedure } from '../../trpc';
 import { z } from 'zod';
 
-export const getTopics = procedure
+export const getRounds = procedure
   .input(
     z.object({
-      gameId: z.number(),
+      quizId: z.number(),
     }),
   )
   .query(async ({ input, ctx }) => {
-    const { gameId } = input;
+    const { quizId } = input;
 
-    return ctx.prisma.topic.findMany({
+    return ctx.prisma.round.findMany({
       orderBy: {
         id: 'asc',
       },
       where: {
-        gameId,
+        quizId,
       },
     });
   });

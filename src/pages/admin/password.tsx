@@ -6,7 +6,7 @@ import SubHeader from '../../components/headers/sub-header';
 import Password from '../../components/images/password';
 import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
 import { trpc } from '../../utils/trcp';
-import { Game } from '@prisma/client';
+import { Quiz } from '@prisma/client';
 import { useQuizDataStore } from '../../state/quiz-data.state';
 
 const AdminHome = () => {
@@ -26,7 +26,7 @@ const AdminHome = () => {
   );
 
   const handleOnGetQuizSuccessfully = (
-    quizData: Omit<Game, 'password'> | null,
+    quizData: Omit<Quiz, 'password'> | null,
   ) => {
     if (quizData) {
       setQuizData(quizData);

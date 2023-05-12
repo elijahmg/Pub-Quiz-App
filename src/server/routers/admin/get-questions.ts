@@ -4,18 +4,18 @@ import { z } from 'zod';
 export const getQuestions = procedure
   .input(
     z.object({
-      topicId: z.number(),
+      roundId: z.number(),
     }),
   )
   .query(async ({ input, ctx }) => {
-    const { topicId } = input;
+    const { roundId } = input;
 
     return ctx.prisma.question.findMany({
       orderBy: {
         id: 'asc',
       },
       where: {
-        topicId,
+        roundId,
       },
     });
   });

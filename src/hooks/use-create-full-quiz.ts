@@ -1,17 +1,17 @@
 import { useAdminQuizManageContext } from '../components/contexts/admin-quiz-manage-context';
 import { trpc } from '../utils/trcp';
-import { Game, GameStatus, Topic } from '@prisma/client';
+import { Quiz, QuizStatus, Round } from '@prisma/client';
 import { Question } from '../../types';
 
 /**
  * Order of function calls
- * 1. Create a game
- * 2. Create topics
- * 3. Get topics
+ * 1. Create a quiz
+ * 2. Create rounds
+ * 3. Get rounds
  * 3. Create questions
  * 4. Get questions
- * 5. Create game status
- * 6. Update game
+ * 5. Create quiz status
+ * 6. Update quiz
  *
  *
  * @param onQuizCreationSuccess
@@ -25,39 +25,38 @@ export function useCreateFullQuiz(onQuizCreationSuccess: () => void) {
     data: createdQuiz,
     isSuccess: isQuizCreatedSuccessfully,
   } = trpc.admin.createQuiz.useMutation({
-    onSuccess: (data) => handleCreateTopics(data),
+    onSuccess: (data) => handleCreateRounds(data),
   });
 
-  /**-------Topics creation--------**/
+  /**-------Rounds creation--------**/
 
-  // 2. Create topics/rounds [TRPC]
-  const { mutate: creteTopics, isSuccess: isTopicsCreatedSuccessfully } =
-    trpc.admin.createTopics.useMutation();
+  // 2. Create rounds/rounds [TRPC]
+  const { mutate: creteRounds, isSuccess: isRoundsCreatedSuccessfully } =
+    trpc.admin.createRounds.useMutation();
 
-  // 2. Create topics/rounds [creation handler]
-  const handleCreateTopics = async (createdQuiz: Game) => {
+  // 2. Create rounds/rounds [creation handler]
+  const handleCreateRounds = async (createdQuiz: Quiz) => {
     const { rounds } = quizData;
 
     const roundNames = rounds.map((round) => round.name);
-    console.log('Create topics');
 
     // quiz must exist at this point
-    await creteTopics({
+    await creteRounds({
       rounds: roundNames,
-      gameId: createdQuiz!.id,
+      quizId: createdQuiz!.id,
     });
   };
 
-  /**-------Get topics--------**/
+  /**-------Get rounds--------**/
 
-  // 3. Get topics after successfully creating topics [TRPC]
-  const { data: topics, isSuccess: isGetTopicSuccessfully } =
-    trpc.admin.getTopics.useQuery(
+  // 3. Get rounds after successfully creating rounds [TRPC]
+  const { data: rounds, isSuccess: isGetRoundSuccessfully } =
+    trpc.admin.getRounds.useQuery(
       {
-        gameId: createdQuiz?.id || -1,
+        quizId: createdQuiz?.id || -1,
       },
       {
-        enabled: isTopicsCreatedSuccessfully && isQuizCreatedSuccessfully,
+        enabled: isRoundsCreatedSuccessfully && isQuizCreatedSuccessfully,
         onSuccess: (data) => handleCreateQuestions(data),
       },
     );
@@ -69,22 +68,24 @@ export function useCreateFullQuiz(onQuizCreationSuccess: () => void) {
     trpc.admin.createQuestions.useMutation();
 
   // 4. Create questions [Creation handler]
-  const handleCreateQuestions = async (createdTopics: Topic[]) => {
-    const { rounds } = quizData;
+  const handleCreateQuestions = async (createdRounds: Round[]) => {
+    const { rounds: storeRounds } = quizData;
 
-    const parsedQuestions = rounds.reduce(
+    const parsedQuestions = storeRounds.reduce(
       (acc, round) => {
-        const topic = createdTopics!.find((topic) => topic.name === round.name);
+        const createdRound = createdRounds!.find(
+          (round) => round.name === round.name,
+        );
 
         round.questions.forEach((question) => {
           acc.push({
-            topicId: topic!.id,
-            mediaURL: question.mediaURL,
+            roundId: createdRound!.id,
+            mediaURL: question.mediaURL || null,
             answer: question.answer,
             content: question.content,
-            mediaType: question.mediaType,
+            mediaType: question.mediaType || null,
           } as Omit<Question, 'id'> & {
-            topicId: number;
+            roundId: number;
           });
         });
 
@@ -92,7 +93,7 @@ export function useCreateFullQuiz(onQuizCreationSuccess: () => void) {
       },
       [] as Array<
         Omit<Question, 'id'> & {
-          topicId: number;
+          roundId: number;
         }
       >,
     );
@@ -102,57 +103,49 @@ export function useCreateFullQuiz(onQuizCreationSuccess: () => void) {
 
   /**-------Get questions--------**/
 
-  console.log({
-    cond:
-      isQuestionsCreatedSuccessfully &&
-      isTopicsCreatedSuccessfully &&
-      isGetTopicSuccessfully &&
-      isQuizCreatedSuccessfully,
-  });
-
-  // 5. Get questions after successfully creating topics [TRPC]
+  // 5. Get questions after successfully creating rounds [TRPC]
   trpc.admin.getQuestions.useQuery(
     {
-      topicId: topics?.[0]?.id || -1,
+      roundId: rounds?.[0]?.id || -1,
     },
     {
       enabled:
         isQuestionsCreatedSuccessfully &&
-        isTopicsCreatedSuccessfully &&
-        isGetTopicSuccessfully &&
+        isRoundsCreatedSuccessfully &&
+        isGetRoundSuccessfully &&
         isQuizCreatedSuccessfully,
       // parse is needed because of how prisma handles enums
-      onSuccess: (data) => handleCreateGameStatus(data as Question[]),
+      onSuccess: (data) => handleCreateQuizStatus(data as Question[]),
     },
   );
 
-  /**-------Game status creation--------**/
+  /**-------Quiz status creation--------**/
 
-  // 6. Create game status [TRPC]
-  const { mutate: createGameStatus } = trpc.admin.createGameStatus.useMutation({
-    onSuccess: (data) => handleEditGame(data),
+  // 6. Create quiz status [TRPC]
+  const { mutate: createQuizStatus } = trpc.admin.createQuizStatus.useMutation({
+    onSuccess: (data) => handleEditQuiz(data),
   });
 
-  // 6. Create game status [creation handler]
-  const handleCreateGameStatus = async (questions: Question[]) => {
-    await createGameStatus({
+  // 6. Create quiz status [creation handler]
+  const handleCreateQuizStatus = async (questions: Question[]) => {
+    await createQuizStatus({
       currentQuestionId: questions![0].id,
     });
   };
 
-  /**-------Edit game--------**/
+  /**-------Edit quiz--------**/
 
-  // 7. Edit game [TRPC]
-  const { mutate: updateGameWithGameStatusId } =
-    trpc.admin.updateGameWithGameStatusId.useMutation({
+  // 7. Edit quiz [TRPC]
+  const { mutate: updateQuizWithQuizStatusId } =
+    trpc.admin.updateQuizWithQuizStatusId.useMutation({
       onSuccess: onQuizCreationSuccess,
     });
 
-  // 7. Edit game [creation handle]
-  const handleEditGame = async (gameStatus: GameStatus) => {
-    await updateGameWithGameStatusId({
-      gameId: createdQuiz!.id,
-      gameStatusId: gameStatus.id,
+  // 7. Edit quiz [creation handle]
+  const handleEditQuiz = async (quizStatus: QuizStatus) => {
+    await updateQuizWithQuizStatusId({
+      quizId: createdQuiz!.id,
+      quizStatusId: quizStatus.id,
     });
   };
 

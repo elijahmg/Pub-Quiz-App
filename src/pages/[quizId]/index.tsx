@@ -38,7 +38,7 @@ const Welcome = (): JSX.Element => {
 
     await createTeam({
       name: teamName,
-      gameId: id,
+      quizId: id,
     });
 
     router.push(`/${id}/waiting`);

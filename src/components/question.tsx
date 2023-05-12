@@ -9,14 +9,14 @@ export default function Question({
   answer: propsAnswer = '',
   round,
   teamName,
-  topicName,
+  roundName,
 }: {
   question: string;
   answer?: string;
   handleAnswer: (s: string) => void;
   round?: string;
   teamName?: string;
-  topicName?: string;
+  roundName?: string;
 }) {
   const [answer, setAnswer] = useState(propsAnswer);
 

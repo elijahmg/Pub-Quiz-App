@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 export interface QuizData {
-  gameStatusId: number | null;
+  quizStatusId: number | null;
   id: number;
   name: string;
   pin: string;
