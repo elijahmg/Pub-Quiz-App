@@ -15,8 +15,6 @@ const QuizControl = () => {
   const { quiz, roundIndex, questionIndex, setQuestionIndex } =
     useAdminQuizControlContext();
 
-  console.log('from agme', { quiz });
-
   const roundQuestions = quiz.rounds[roundIndex].questions;
 
   const handleNextQuestion = () => {
