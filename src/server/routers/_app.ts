@@ -8,6 +8,7 @@ import { createGameStatus } from './admin/create-game-status';
 import { editGame } from './admin/edit-game';
 import { getTopics } from './admin/get-topics';
 import { getQuestions } from './admin/get-questions';
+import { getQuizByPassword } from './admin/get-quiz-by-password';
 
 // Team procedures
 import { createTeam } from './team/create-team';
@@ -24,6 +25,7 @@ export const appRouter = router({
     editGame,
     getTopics,
     getQuestions,
+    getQuizByPassword,
   }),
   team: router({
     createTeam,

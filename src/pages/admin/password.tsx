@@ -5,11 +5,29 @@ import PrimaryButton from '../../components/buttons/primary-button';
 import SubHeader from '../../components/headers/sub-header';
 import Password from '../../components/images/password';
 import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
+import { trpc } from '../../utils/trcp';
+import { Game } from '@prisma/client';
 
 const AdminHome = () => {
+  const [password, setPassword] = useState('');
+
   const router = useRouter();
 
-  const [password, setPassword] = useState('');
+  const { refetch: getQuizByPassword } = trpc.admin.getQuizByPassword.useQuery(
+    {
+      password,
+    },
+    {
+      enabled: false,
+      onSuccess: (quizData) => handleOnGetQuizSuccessfully(quizData),
+    },
+  );
+
+  const handleOnGetQuizSuccessfully = (quizData: Game | null) => {
+    if (quizData) {
+      router.push(`${quizData.id}`);
+    }
+  };
 
   const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -26,7 +44,7 @@ const AdminHome = () => {
           value={password}
           onChange={handleChangePassword}
         />
-        <PrimaryButton onClick={() => router.push('3')} alignSelf="start">
+        <PrimaryButton onClick={() => getQuizByPassword()} alignSelf="start">
           Submit
         </PrimaryButton>
       </Stack>
