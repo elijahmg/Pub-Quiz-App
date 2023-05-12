@@ -52,9 +52,7 @@ const Welcome = (): JSX.Element => {
       </SubTitle>
       <FormControl
         id="first-name"
-        onSubmit={() => {
-          router.push(`/3/waiting`);
-        }}
+        onSubmit={() => router.push(`/${id}/waiting`)}
       >
         <Heading as="h3" mb={4}>
           Team name

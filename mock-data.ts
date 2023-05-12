@@ -1,4 +1,5 @@
 import { POINTS_OPTIONS } from './constants';
+import { Question } from './types';
 
 export const TEAM_NAME = 'Quirky Owls';
 
@@ -8,31 +9,36 @@ export const TEAMS = [
   { id: 3, name: 'We want cupcakes!' },
 ];
 
-export const QUESTIONS = [
+export const QUESTIONS: Question[] = [
   {
     id: 1,
     content: 'What is the capital of Peru',
     answer: 'Lima',
+    mediaType: null,
   },
   {
     id: 2,
     content: 'What is the capital of Brazil',
     answer: 'Brasillia',
+    mediaType: null,
   },
   {
     id: 3,
     content: 'What is the capital of Czech Republic',
     answer: 'Prague',
+    mediaType: null,
   },
   {
     id: 4,
     content: 'What is the capital of Slovakia',
     answer: 'Bratislava',
+    mediaType: null,
   },
   {
     id: 5,
     content: 'What is the capital of Tonga',
     answer: 'Sofia',
+    mediaType: null,
   },
 ];
 
