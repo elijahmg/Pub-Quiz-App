@@ -7,9 +7,11 @@ import Password from '../../components/images/password';
 import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
 import { trpc } from '../../utils/trcp';
 import { Game } from '@prisma/client';
+import { useQuizDataStore } from '../../state/quiz-data.state';
 
 const AdminHome = () => {
   const [password, setPassword] = useState('');
+  const setQuizData = useQuizDataStore((state) => state.setQuizData);
 
   const router = useRouter();
 
@@ -23,8 +25,11 @@ const AdminHome = () => {
     },
   );
 
-  const handleOnGetQuizSuccessfully = (quizData: Game | null) => {
+  const handleOnGetQuizSuccessfully = (
+    quizData: Omit<Game, 'password'> | null,
+  ) => {
     if (quizData) {
+      setQuizData(quizData);
       router.push(`${quizData.id}`);
     }
   };

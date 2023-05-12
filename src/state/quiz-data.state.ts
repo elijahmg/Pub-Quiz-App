@@ -4,14 +4,15 @@ export interface QuizData {
   gameStatusId: number | null;
   id: number;
   name: string;
+  pin: string;
 }
 
-interface QuizState {
+interface QuizDataState {
   quizData: QuizData | Record<string, undefined>;
   setQuizData: (quizData: QuizData) => void;
 }
 
-export const useQuizStore = create<QuizState>((set) => ({
+export const useQuizDataStore = create<QuizDataState>((set) => ({
   quizData: {},
   setQuizData: (quizData: QuizData) => set(() => ({ quizData })),
 }));

@@ -1,12 +1,7 @@
-import React, {
-  createContext,
-  ReactNode,
-  useContext,
-  useMemo,
-  useState,
-} from 'react';
+import React, { createContext, ReactNode, useContext, useState } from 'react';
 import { QUIZ, TEAMS } from '../../../mock-data';
 import { Quiz, Team } from '../../../types';
+import { useQuizDataStore } from '../../state/quiz-data.state';
 
 interface AdminQuizControlContextType {
   quiz: Quiz;
@@ -25,7 +20,10 @@ interface Props {
 }
 
 export const AdminQuizControlContextWrapper = ({ children }: Props) => {
-  const quiz = QUIZ;
+  const quizData = useQuizDataStore((state) => state.quizData);
+
+  // @TODO this is bad
+  const quiz = { ...QUIZ, ...quizData };
 
   const teams = TEAMS;
 
@@ -41,17 +39,14 @@ export const AdminQuizControlContextWrapper = ({ children }: Props) => {
     setQuestionIndex(questionIndex);
   };
 
-  const contextValue = useMemo(
-    () => ({
-      quiz,
-      teams,
-      roundIndex,
-      setRoundIndex: handleSetRoundIndex,
-      questionIndex,
-      setQuestionIndex: handleSetQuestionIndex,
-    }),
-    [questionIndex, quiz, roundIndex, teams],
-  );
+  const contextValue = {
+    quiz,
+    teams,
+    roundIndex,
+    setRoundIndex: handleSetRoundIndex,
+    questionIndex,
+    setQuestionIndex: handleSetQuestionIndex,
+  };
 
   return (
     <AdminQuizControlContext.Provider value={contextValue}>

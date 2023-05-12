@@ -6,7 +6,7 @@ import PrimaryButton from '../../components/buttons/primary-button';
 import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
 import { useRouter } from 'next/router';
 import { trpc } from '../../utils/trcp';
-import { useQuizStore } from '../../state/team/quiz.state';
+import { useQuizDataStore } from '../../state/quiz-data.state';
 
 const Welcome = (): JSX.Element => {
   const router = useRouter();
@@ -15,7 +15,7 @@ const Welcome = (): JSX.Element => {
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string>(`Enter your name`);
 
-  const { id } = useQuizStore((state) => state.quizData);
+  const { id } = useQuizDataStore((state) => state.quizData);
 
   const { mutate: createTeam } = trpc.team.createTeam.useMutation({
     onSuccess: () => null,
