@@ -66,7 +66,7 @@ function QuestionList() {
 export default function Page() {
   return (
     <Box p={4}>
-      <QuizHead teamName="teamName" round="1" topicName="topicName" />
+      <QuizHead teamName="teamName" round="1" />
       <QuestionList />
     </Box>
   );
