@@ -1,6 +1,7 @@
 import { Stack, Text, Input, Flex, Checkbox, Select } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
-import { MediaType, StoreQuestion } from '../../types';
+import { StoreQuestion } from '../../types';
+import { MediaTypes } from '../server/types';
 
 interface Props {
   title: string;
@@ -28,9 +29,9 @@ export default function CreatorQuestion({
   };
 
   const handleMediaTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value.toUpperCase() as MediaType;
+    const value = e.target.value.toUpperCase() as MediaTypes;
 
-    if (!MediaType.hasOwnProperty(value)) return;
+    if (!(value in MediaTypes)) return;
 
     onQuestionChange?.({ ...question, mediaType: value });
   };
@@ -72,7 +73,7 @@ export default function CreatorQuestion({
             onChange={handleMediaTypeChange}
             isReadOnly={isReadOnly}
           >
-            {Object.values(MediaType).map((mediaTypeItem) => (
+            {Object.values(MediaTypes).map((mediaTypeItem) => (
               <option key={mediaTypeItem} value={mediaTypeItem}>
                 {mediaTypeItem.toLowerCase()}
               </option>

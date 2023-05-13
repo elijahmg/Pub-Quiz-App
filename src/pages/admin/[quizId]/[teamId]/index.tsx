@@ -2,7 +2,6 @@ import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
 import { Flex, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
-import { QUESTIONS, TEAMS } from '../../../../../mock-data';
 import { Question } from '../../../../../types';
 import SecondaryButton from '../../../../components/buttons/secondary-button';
 import {
@@ -11,7 +10,7 @@ import {
 } from '../../../../components/contexts/admin-quiz-control-context';
 import HighlightHeader from '../../../../components/headers/highlight-header';
 import OverviewQuestion from '../../../../components/overview-question';
-import AdminGameControlWrapper from '../../../../components/wrappers/admin-game-control-wrapper';
+import AdminQuizControlWrapper from '../../../../components/wrappers/admin-quiz-control-wrapper';
 
 const AdminQuizTeamCheck = () => {
   const router = useRouter();
@@ -32,14 +31,14 @@ const AdminQuizTeamCheck = () => {
 
   const handleBack = () => {
     router.push({
-      pathname: '/admin/[gameId]/teams-overview',
+      pathname: '/admin/[quizId]/teams-overview',
       query: router.query,
     });
   };
 
   const handleNext = () => {
     router.push({
-      pathname: '/admin/[gameId]/[teamId]',
+      pathname: '/admin/[quizId]/[teamId]',
       query: { ...router.query, teamId: nextTeamId },
     });
   };
@@ -84,7 +83,7 @@ const AdminQuizTeamCheck = () => {
 AdminQuizTeamCheck.getLayout = function getLayout(pageContent: ReactElement) {
   return (
     <AdminQuizControlContextWrapper>
-      <AdminGameControlWrapper>{pageContent}</AdminGameControlWrapper>
+      <AdminQuizControlWrapper>{pageContent}</AdminQuizControlWrapper>
     </AdminQuizControlContextWrapper>
   );
 };

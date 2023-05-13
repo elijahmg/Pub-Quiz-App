@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import Question from '../../components/question';
 import { QUESTIONS } from '../../../mock-data';
-import InGameWrapper from '../../components/wrappers/in-game-wrapper';
-import PrimaryButton from '../../components/buttons/primary-button';
-import { Stack } from '@chakra-ui/react';
+import InQuizWrapper from '../../components/wrappers/in-quiz-wrapper';
 import { useRouter } from 'next/router';
+import { Stack } from '@chakra-ui/react';
+import PrimaryButton from '../../components/buttons/primary-button';
 
 const Play = () => {
   const router = useRouter();
@@ -61,7 +61,7 @@ const Play = () => {
 };
 
 Play.getLayout = function getLayout(pageContent: React.ReactElement) {
-  return <InGameWrapper>{pageContent}</InGameWrapper>;
+  return <InQuizWrapper>{pageContent}</InQuizWrapper>;
 };
 
 export default Play;

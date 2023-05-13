@@ -7,19 +7,39 @@ import { AdminQuizControlContextWrapper } from '../../../components/contexts/adm
 import Astronaut from '../../../components/images/astronaut';
 import Blobs2 from '../../../components/images/blobs-2';
 import AdminQuizWrapper from '../../../components/wrappers/admin-quiz-wrapper';
+import { useQuizDataStore } from '../../../state/quiz-data.state';
+import { trpc } from '../../../utils/trcp';
+import { QuizStatuses } from '../../../server/types';
 
 const AdminQuiz = () => {
+  const { quizStatusId, id: quizId } = useQuizDataStore(
+    (state) => state.quizData,
+  );
+
+  const { mutate: updateQuizStatus } = trpc.admin.updateQuizStatus.useMutation({
+    onSuccess: () => handOnSuccessfullyUpdatedQuizStatus(),
+  });
+
   const router = useRouter();
 
-  const handleStartQuiz = () => {
-    router.push({
-      pathname: '/admin/[gameId]/game-control',
-      query: router.query,
+  const handleStartQuiz = async () => {
+    // @TODO better handling
+    if (!quizStatusId) {
+      return;
+    }
+
+    await updateQuizStatus({
+      id: quizStatusId,
+      quizStatus: QuizStatuses.PLAYING,
     });
   };
 
+  const handOnSuccessfullyUpdatedQuizStatus = () => {
+    router.push(`/admin/${quizId}/quiz-control`);
+  };
+
   const handleEditQuiz = () => {
-    router.push({ pathname: '/admin/edit/[gameId]', query: router.query });
+    router.push(`/admin/edit/${quizId}`);
   };
 
   const handleDeleteQuiz = () => {

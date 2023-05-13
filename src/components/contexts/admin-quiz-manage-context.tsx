@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  ReactNode,
-  useContext,
-  useMemo,
-  useState,
-} from 'react';
+import React, { createContext, ReactNode, useContext, useState } from 'react';
 import { StoreQuiz } from '../../../types';
 
 const QUIZ_PRESET = { name: '', pin: '', password: '', rounds: [] };
@@ -30,13 +24,10 @@ export const AdminQuizManageContextWrapper = ({ children }: Props) => {
     setQuizData(quizData);
   };
 
-  const contextValue = useMemo(
-    () => ({ quizData, setQuizData: handleSetQuizData }),
-    [quizData],
-  );
-
   return (
-    <AdminQuizManageContext.Provider value={contextValue}>
+    <AdminQuizManageContext.Provider
+      value={{ quizData, setQuizData: handleSetQuizData }}
+    >
       {children}
     </AdminQuizManageContext.Provider>
   );

@@ -1,7 +1,7 @@
 import { Stack } from '@chakra-ui/react';
-import { ReactElement, useState } from 'react';
+import { useState } from 'react';
 import QuestionsOverviewQuestion from '../../components/questions-overview-question';
-import InGameWrapper from '../../components/wrappers/in-game-wrapper';
+import InQuizWrapper from '../../components/wrappers/in-quiz-wrapper';
 import { QUESTIONS } from '../../../mock-data';
 
 const QuestionsOverview = () => {
@@ -32,8 +32,10 @@ const QuestionsOverview = () => {
   );
 };
 
-QuestionsOverview.getLayout = function getLayout(pageContent: ReactElement) {
-  return <InGameWrapper>{pageContent}</InGameWrapper>;
+QuestionsOverview.getLayout = function getLayout(
+  pageContent: React.ReactElement,
+) {
+  return <InQuizWrapper>{pageContent}</InQuizWrapper>;
 };
 
 export default QuestionsOverview;

@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactElement, useState } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import {
   FormControl,
   FormErrorMessage,
@@ -12,9 +12,11 @@ import SubTitle from '../../components/headers/sub-title';
 import PrimaryButton from '../../components/buttons/primary-button';
 import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
 import { useRouter } from 'next/router';
+import { trpc } from '../../utils/trcp';
+import { useQuizDataStore } from '../../state/quiz-data.state';
 import { useUserStore } from '../../components/stores/user-store';
 
-enum Error {
+enum FormError {
   UNDEFINED = 'undefined',
   TOO_SHORT = 'tooShort',
   TOO_LONG = 'tooLong',
@@ -29,14 +31,14 @@ const ERROR_MESSAGES = {
 const MIN_TEAM_NAME_LENGTH = 2;
 const MAX_TEAM_NAME_LENGTH = 20;
 
-const Welcome = () => {
+const Quiz = () => {
   const router = useRouter();
 
   const userStore = useUserStore(({ setTeam }) => ({ setTeam }));
 
-  const [teamName, setTeamName] = useState('');
+  const [teamName, setTeamName] = useState<string>(``);
 
-  const [error, setError] = useState<Error | undefined>();
+  const [error, setError] = useState<FormError | undefined>();
 
   const handleTeamNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTeamName(e.target.value);
@@ -44,26 +46,39 @@ const Welcome = () => {
     if (error) setError(undefined);
   };
 
-  function handleSubmit() {
+  const { id } = useQuizDataStore((state) => state.quizData);
+
+  const { mutate: createTeam } = trpc.team.createTeam.useMutation({
+    onSuccess: () => null,
+  });
+
+  const handleSubmit = async () => {
     if (!teamName) {
-      setError(Error.UNDEFINED);
+      setError(FormError.UNDEFINED);
       return;
     }
 
     if (teamName.length < MIN_TEAM_NAME_LENGTH) {
-      setError(Error.TOO_SHORT);
+      setError(FormError.TOO_SHORT);
       return;
     }
 
     if (teamName.length > MAX_TEAM_NAME_LENGTH) {
-      setError(Error.TOO_LONG);
+      setError(FormError.TOO_LONG);
       return;
     }
 
-    userStore.setTeam({ id: 1, name: teamName });
+    if (!id) {
+      throw new Error('Quiz has not been created');
+    }
 
-    router.push({ pathname: '[gameId]/waiting', query: router.query });
-  }
+    await createTeam({
+      name: teamName,
+      quizId: id,
+    });
+
+    router.push(`/${id}/waiting`);
+  };
 
   return (
     <>
@@ -96,12 +111,8 @@ const Welcome = () => {
   );
 };
 
-Welcome.getLayout = function getLayout(pageContent: ReactElement) {
-  return (
-    <MainPageWrapper header="Welcome" spacing={10}>
-      {pageContent}
-    </MainPageWrapper>
-  );
+Quiz.getLayout = function getLayout(pageContent: React.ReactElement) {
+  return <MainPageWrapper header="Welcome">{pageContent}</MainPageWrapper>;
 };
 
-export default Welcome;
+export default Quiz;

@@ -4,6 +4,11 @@ This application is used to make Pub Quizzes more techy :)
 
 Here we have admin part to create and drive quiz and team part, where team can join new quiz and win.
 
+## WARNING!
+
+To comfortably develop locally please pull [websocket server](https://github.com/elijahmg/pub-quiz-websockets-server).
+This server uses PSQL triggers and Express server to provide websocket connection and get realtime database updates
+
 ## Stack
 
 - [Next JS](https://nextjs.org/)

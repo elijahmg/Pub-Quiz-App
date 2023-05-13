@@ -1,29 +1,14 @@
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { ReactElement, ReactNode } from 'react';
-
-export enum QuizStatus {
-  CREATION,
-  JOINING,
-  PLAYING,
-  END_ROUND,
-  EVALUATION,
-  SCORE_VIEWING,
-  END_QUIZ,
-}
-
-export enum MediaType {
-  IMAGE = 'IMAGE',
-  VIDEO = 'VIDEO',
-  AUDIO = 'AUDIO',
-}
+import { MediaTypes, QuizStatuses } from './src/server/types';
 
 export type Question = {
   id: number;
   content: string;
   answer: string;
-  mediaType?: MediaType;
-  mediaURL?: string;
+  mediaType: MediaTypes | null;
+  mediaURL: string | null;
 };
 
 export interface Round {
@@ -38,7 +23,7 @@ export interface Quiz {
   pin: string;
   password: string;
   rounds: Round[];
-  status: QuizStatus;
+  status: QuizStatuses;
 }
 
 export interface Team {
@@ -50,9 +35,12 @@ export interface Answer extends Question {
   points: number;
 }
 
-export type StoreQuestion = Required<Omit<Question, 'id' | 'mediaType'>> & {
+export type StoreQuestion = Required<
+  Omit<Question, 'id' | 'mediaType' | 'mediaURL'>
+> & {
   _id: number;
-  mediaType: MediaType | '';
+  mediaType?: MediaTypes;
+  mediaURL?: string;
 };
 
 export type StoreRound = Required<Omit<Round, 'questions' | 'id'>> & {

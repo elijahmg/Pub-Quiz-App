@@ -8,7 +8,7 @@ interface Props extends WrapperProps {
   children: ReactNode;
 }
 
-export default function AdminGameControlWrapper({ children, ...props }: Props) {
+export default function AdminQuizControlWrapper({ children, ...props }: Props) {
   return (
     <>
       <Blobs3 position="absolute" bottom={0} zIndex={-1} />

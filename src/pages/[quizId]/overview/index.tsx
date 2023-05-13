@@ -1,14 +1,15 @@
 import { Text, Flex, Divider, Stack } from '@chakra-ui/react';
 import SubHeader from '../../../components/headers/sub-header';
 import Header from '../../../components/headers/header';
-import InGameWrapper from '../../../components/wrappers/in-game-wrapper';
-import { Answer, QuizStatus } from '../../../../types';
+import InQuizWrapper from '../../../components/wrappers/in-quiz-wrapper';
+import { Answer } from '../../../../types';
 import OverviewQuestion from '../../../components/overview-question';
 import { QUESTIONS_WITH_POINTS } from '../../../../mock-data';
 import { useEffect } from 'react';
 import { useUserStore } from '../../../components/stores/user-store';
 import { useRouter } from 'next/router';
 import { BOGUS_OBJECT } from '../../../../constants';
+import { QuizStatuses } from '../../../server/types';
 
 const calculatePoints = (answers: Answer[]) => {
   return answers.reduce((total, answer) => {
@@ -24,7 +25,7 @@ const Overview = () => {
   const { status } = userStore.quiz ?? BOGUS_OBJECT;
 
   useEffect(() => {
-    if (status === QuizStatus.PLAYING) {
+    if (status === QuizStatuses.PLAYING) {
       router.push({ pathname: 'play', query: router.query });
     }
 
@@ -32,7 +33,7 @@ const Overview = () => {
     setTimeout(() => {
       router.push({ pathname: 'play', query: router.query });
     }, 1000);
-  }, [status]);
+  }, [router, status]);
 
   return (
     <Stack spacing={16}>
@@ -67,7 +68,7 @@ const Overview = () => {
 };
 
 Overview.getLayout = function getLayout(pageContent: React.ReactElement) {
-  return <InGameWrapper>{pageContent}</InGameWrapper>;
+  return <InQuizWrapper>{pageContent}</InQuizWrapper>;
 };
 
 export default Overview;

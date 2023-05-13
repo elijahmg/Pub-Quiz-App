@@ -1,31 +1,26 @@
-import { ReactElement, useEffect } from 'react';
+import { ReactElement } from 'react';
 import { Center, Stack } from '@chakra-ui/react';
 import { AlienTaken } from '../../components/images/alien-taken';
 import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
 import SubHeader from '../../components/headers/sub-header';
 import SubTitle from '../../components/headers/sub-title';
-import { useUserStore } from '../../components/stores/user-store';
-import { BOGUS_OBJECT } from '../../../constants';
-import { QuizStatus } from '../../../types';
+import { useLocalWebsocketServer } from '../../local-services/useLocalWebsocketServer';
 import { useRouter } from 'next/router';
+import { QuizStatuses } from '../../server/types';
+import { useUserStore } from '../../components/stores/user-store';
 
 const Waiting = () => {
   const router = useRouter();
 
   const userStore = useUserStore(({ quiz, team }) => ({ quiz, team }));
 
-  const { status } = userStore.quiz ?? BOGUS_OBJECT;
-
-  useEffect(() => {
-    if (status === QuizStatus.PLAYING) {
-      router.push({ pathname: 'play', query: router.query });
+  // @TODO instead of local websocket server here should be higher abstraction
+  // @TODO to support both cases - local and prod supabase DB instance
+  useLocalWebsocketServer((data) => {
+    if (data.status === QuizStatuses.PLAYING) {
+      router.push(`/${router.query.quizId}/play`);
     }
-
-    // @TODO REMOVE
-    setTimeout(() => {
-      router.push({ pathname: 'play', query: router.query });
-    }, 1000);
-  }, [status]);
+  });
 
   return (
     <Stack as={Center} spacing={6}>

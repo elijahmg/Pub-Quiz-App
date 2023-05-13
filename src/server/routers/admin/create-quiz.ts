@@ -1,6 +1,5 @@
 import { procedure } from '../../trpc';
 import { z } from 'zod';
-import { GameStatuses } from '../../types';
 
 export const createQuiz = procedure
   .input(
@@ -13,12 +12,11 @@ export const createQuiz = procedure
   .mutation(async ({ input, ctx }) => {
     const { name, password, pin } = input;
 
-    return ctx.prisma.game.create({
+    return ctx.prisma.quiz.create({
       data: {
         name: name,
         password: password,
         pin: pin,
-        gameStatus: GameStatuses.CREATION,
       },
     });
   });

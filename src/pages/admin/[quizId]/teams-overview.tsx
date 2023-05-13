@@ -5,21 +5,21 @@ import { ReactElement, useMemo } from 'react';
 import { TEAMS } from '../../../../mock-data';
 import PrimaryButton from '../../../components/buttons/primary-button';
 import { AdminQuizControlContextWrapper } from '../../../components/contexts/admin-quiz-control-context';
-import AdminGameControlWrapper from '../../../components/wrappers/admin-game-control-wrapper';
+import AdminQuizControlWrapper from '../../../components/wrappers/admin-quiz-control-wrapper';
 
 const TeamsOverview = () => {
   const router = useRouter();
 
   const handleTeamClick = (teamId: number) => {
     router.push({
-      pathname: '/admin/[gameId]/[teamId]',
+      pathname: '/admin/[quizId]/[teamId]',
       query: { ...router.query, teamId },
     });
   };
 
   const handleEndRound = () => {
     router.push({
-      pathname: '/admin/[gameId]/round-overview',
+      pathname: '/admin/[quizId]/round-overview',
       query: { ...router.query },
     });
   };
@@ -58,7 +58,7 @@ const TeamsOverview = () => {
 TeamsOverview.getLayout = function getLayout(pageContent: ReactElement) {
   return (
     <AdminQuizControlContextWrapper>
-      <AdminGameControlWrapper>{pageContent}</AdminGameControlWrapper>
+      <AdminQuizControlWrapper>{pageContent}</AdminQuizControlWrapper>
     </AdminQuizControlContextWrapper>
   );
 };

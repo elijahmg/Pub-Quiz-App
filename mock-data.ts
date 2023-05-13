@@ -1,5 +1,6 @@
 import { POINTS_OPTIONS } from './constants';
-import { QuizStatus } from './types';
+import { QuizStatuses } from './src/server/types';
+import { Question } from './types';
 
 export const TEAM_NAME = 'Quirky Owls';
 
@@ -9,31 +10,13 @@ export const TEAMS = [
   { id: 3, name: 'We want cupcakes!' },
 ];
 
-export const QUESTIONS = [
+export const QUESTIONS: Question[] = [
   {
     id: 1,
     content: 'What is the capital of Peru',
     answer: 'Lima',
-  },
-  {
-    id: 2,
-    content: 'What is the capital of Brazil',
-    answer: 'Brasillia',
-  },
-  {
-    id: 3,
-    content: 'What is the capital of Czech Republic',
-    answer: 'Prague',
-  },
-  {
-    id: 4,
-    content: 'What is the capital of Slovakia',
-    answer: 'Bratislava',
-  },
-  {
-    id: 5,
-    content: 'What is the capital of Tonga',
-    answer: 'Sofia',
+    mediaType: null,
+    mediaURL: null,
   },
 ];
 
@@ -61,5 +44,5 @@ export const QUIZ = {
   pin: '1234',
   password: 'qwerty',
   rounds: ROUNDS,
-  status: QuizStatus.JOINING,
+  status: QuizStatuses.JOINING,
 };

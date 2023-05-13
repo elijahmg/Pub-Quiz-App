@@ -5,9 +5,16 @@ import SecondaryButton from './buttons/secondary-button';
 
 interface Props extends FlexProps {
   routeList: string[];
+  onNextHandler?: () => Promise<void>;
+  onPreviousHandler?: () => Promise<void>;
 }
 
-export default function RouteNavigation({ routeList, ...props }: Props) {
+export default function RouteNavigation({
+  routeList,
+  onNextHandler,
+  onPreviousHandler,
+  ...props
+}: Props) {
   const router = useRouter();
 
   const routeIndex = routeList.indexOf(router.route);
@@ -16,11 +23,13 @@ export default function RouteNavigation({ routeList, ...props }: Props) {
     router.push({ pathname: newRoute, query: router.query });
   };
 
-  const handlePrevious = () => {
+  const handlePrevious = async () => {
+    await onPreviousHandler?.();
     handleNavigate(routeList[routeIndex - 1]);
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
+    await onNextHandler?.();
     handleNavigate(routeList[routeIndex + 1]);
   };
 

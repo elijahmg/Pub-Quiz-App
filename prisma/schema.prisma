@@ -8,11 +8,10 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-//  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  //  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-enum GameStatus {
-  CREATION
+enum QuizStatusEnum {
   JOINING
   PLAYING
   END_ROUND
@@ -27,49 +26,60 @@ enum MediaType {
   AUDIO
 }
 
-model Game {
-  id         Int        @id @default(autoincrement())
-  teams      Team[]
-  gameStatus GameStatus
-  topics     Topic[]
-  password   String
-  pin String
-  name String
+model QuizStatus {
+  id                Int            @id @default(autoincrement())
+  status            QuizStatusEnum
+  // question already has reference to current round
+  currentQuestion   Question       @relation(fields: [currentQuestionId], references: [id])
+  currentQuestionId Int            @unique
+  quiz              Quiz?
 }
 
-model Topic {
+model Quiz {
+  id           Int         @id @default(autoincrement())
+  teams        Team[]
+  quizStatusId Int?        @unique
+  quizStatus   QuizStatus? @relation(fields: [quizStatusId], references: [id])
+  rounds       Round[]
+  password     String
+  pin          String
+  name         String
+}
+
+model Round {
   id          Int           @id @default(autoincrement())
   name        String
   questions   Question[]
-  game        Game         @relation(fields: [gameId], references: [id])
-  gameId      Int
+  quiz        Quiz          @relation(fields: [quizId], references: [id])
+  quizId      Int
   teamAnswers TeamAnswers[]
 }
 
 model Question {
-  id            Int       @id @default(autoincrement())
-  content       String
-  answer        String
-  mediaType     MediaType?
-  mediaURL      String?
-  Topic         Topic    @relation(fields: [topicId], references: [id])
-  topicId       Int
+  id         Int         @id @default(autoincrement())
+  content    String
+  answer     String
+  mediaType  MediaType?
+  mediaURL   String?
+  round      Round       @relation(fields: [roundId], references: [id])
+  roundId    Int
+  quizStatus QuizStatus?
 }
 
 model Team {
   id      Int           @id @default(autoincrement())
   name    String
   answers TeamAnswers[]
-  game    Game         @relation(fields: [gameId], references: [id])
-  gameId  Int
+  quiz    Quiz          @relation(fields: [quizId], references: [id])
+  quizId  Int
 }
 
 model TeamAnswers {
   id      Int    @id @default(autoincrement())
-  topicId Int
-  topic   Topic  @relation(fields: [topicId], references: [id])
+  roundId Int
+  round   Round  @relation(fields: [roundId], references: [id])
   answer  String
   score   Float
-  team    Team  @relation(fields: [teamId], references: [id])
+  team    Team   @relation(fields: [teamId], references: [id])
   teamId  Int
 }
