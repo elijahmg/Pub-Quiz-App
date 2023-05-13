@@ -5,11 +5,9 @@ import InQuizWrapper from '../../../components/wrappers/in-quiz-wrapper';
 import { Answer } from '../../../../types';
 import OverviewQuestion from '../../../components/overview-question';
 import { QUESTIONS_WITH_POINTS } from '../../../../mock-data';
-import { useEffect } from 'react';
-import { useUserStore } from '../../../components/stores/user-store';
 import { useRouter } from 'next/router';
-import { BOGUS_OBJECT } from '../../../../constants';
 import { QuizStatuses } from '../../../server/types';
+import { useLocalWebsocketServer } from '../../../local-services/useLocalWebsocketServer';
 
 const calculatePoints = (answers: Answer[]) => {
   return answers.reduce((total, answer) => {
@@ -20,20 +18,11 @@ const calculatePoints = (answers: Answer[]) => {
 const Overview = () => {
   const router = useRouter();
 
-  const userStore = useUserStore(({ quiz }) => ({ quiz }));
-
-  const { status } = userStore.quiz ?? BOGUS_OBJECT;
-
-  useEffect(() => {
-    if (status === QuizStatuses.PLAYING) {
+  useLocalWebsocketServer((data) => {
+    if (data.status === QuizStatuses.PLAYING) {
       router.push({ pathname: 'play', query: router.query });
     }
-
-    // @TODO REMOVE
-    setTimeout(() => {
-      router.push({ pathname: 'play', query: router.query });
-    }, 1000);
-  }, [router, status]);
+  });
 
   return (
     <Stack spacing={16}>

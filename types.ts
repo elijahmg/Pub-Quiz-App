@@ -48,7 +48,7 @@ export type StoreRound = Required<Omit<Round, 'questions' | 'id'>> & {
   _id: number;
 };
 
-export type StoreQuiz = Required<Omit<Quiz, 'rounds' | 'id'>> & {
+export type StoreQuiz = Required<Omit<Quiz, 'rounds' | 'id' | 'status'>> & {
   rounds: StoreRound[];
 };
 

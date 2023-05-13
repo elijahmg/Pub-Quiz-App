@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import {
   FormControl,
   FormErrorMessage,
@@ -14,7 +14,6 @@ import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
 import { useRouter } from 'next/router';
 import { trpc } from '../../utils/trcp';
 import { useQuizDataStore } from '../../state/quiz-data.state';
-import { useUserStore } from '../../components/stores/user-store';
 
 enum FormError {
   UNDEFINED = 'undefined',
@@ -33,8 +32,6 @@ const MAX_TEAM_NAME_LENGTH = 20;
 
 const Quiz = () => {
   const router = useRouter();
-
-  const userStore = useUserStore(({ setTeam }) => ({ setTeam }));
 
   const [teamName, setTeamName] = useState<string>(``);
 
@@ -72,10 +69,8 @@ const Quiz = () => {
       throw new Error('Quiz has not been created');
     }
 
-    await createTeam({
-      name: teamName,
-      quizId: id,
-    });
+    // FIXME quizId or id? Shouldnt team just have an id? Or is that to bind it to a quiz? Then it should have both
+    await createTeam({ name: teamName, quizId: id });
 
     router.push(`/${id}/waiting`);
   };

@@ -7,15 +7,11 @@ import SubTitle from '../../components/headers/sub-title';
 import { useLocalWebsocketServer } from '../../local-services/useLocalWebsocketServer';
 import { useRouter } from 'next/router';
 import { QuizStatuses } from '../../server/types';
-import { useUserStore } from '../../components/stores/user-store';
+import { TEAM_NAME } from '../../../mock-data';
 
 const Waiting = () => {
   const router = useRouter();
 
-  const userStore = useUserStore(({ quiz, team }) => ({ quiz, team }));
-
-  // @TODO instead of local websocket server here should be higher abstraction
-  // @TODO to support both cases - local and prod supabase DB instance
   useLocalWebsocketServer((data) => {
     if (data.status === QuizStatuses.PLAYING) {
       router.push(`/${router.query.quizId}/play`);
@@ -27,7 +23,7 @@ const Waiting = () => {
       <AlienTaken />
       <Stack>
         <SubHeader textAlign="left">
-          {`Don't worry ${userStore.team?.name}, the quiz will start in a few moments.`}
+          {`Don't worry ${TEAM_NAME}, the quiz will start in a few moments.`}
         </SubHeader>
         <SubTitle textAlign="left">Grab a drink in the meantime!</SubTitle>
       </Stack>

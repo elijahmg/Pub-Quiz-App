@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PinInput, HStack, PinInputField, Center } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { MainPageWrapper } from '../components/wrappers/main-page-wrapper';
@@ -12,27 +12,40 @@ const Pin = () => {
 
   const router = useRouter();
 
-  trpc.team.getQuizByPin.useQuery(
-    { pin },
-    {
-      enabled: pin.length === 4,
-      onSuccess: (quizData) => onGettingQuizDataSuccessfully(quizData),
-    },
-  );
-
   function onGettingQuizDataSuccessfully(quizData: QuizData) {
     setQuizData(quizData);
 
-    router.push(`/${quizData.id}`);
+    router.push({
+      pathname: '/[quizId]',
+      query: { ...router.query, quizId: 1 },
+    });
   }
 
-  function handlePin(pin: string) {
+  function handlePinChange(pin: string) {
     setPin(pin);
   }
 
+  useEffect(() => {
+    if (pin.length === PIN_LENGTH) {
+      router.push({
+        pathname: '/[quizId]',
+        query: { ...router.query, quizId: 1 },
+      });
+    }
+
+    trpc.team.getQuizByPin.useQuery(
+      { pin },
+      {
+        enabled: pin.length === PIN_LENGTH,
+        onSuccess: (quizData) => onGettingQuizDataSuccessfully(quizData),
+      },
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pin.length]);
+
   return (
     <Center as={HStack}>
-      <PinInput type="number" onChange={handlePin} size="lg">
+      <PinInput type="number" onChange={handlePinChange} size="lg">
         {new Array(PIN_LENGTH).fill(undefined).map((_, i) => (
           <PinInputField key={i} />
         ))}
