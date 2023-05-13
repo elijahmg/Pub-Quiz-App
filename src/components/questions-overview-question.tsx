@@ -12,9 +12,8 @@ import { CheckCircleIcon, EditIcon } from '@chakra-ui/icons';
 import { Question } from '../../types';
 import SecondaryButton from './buttons/secondary-button';
 import { useRouter } from 'next/router';
-import { useUserStore } from './stores/user-store';
-import { BOGUS_OBJECT } from '../../constants';
 import { QuizStatuses } from '../server/types';
+import { useLocalWebsocketServer } from '../local-services/useLocalWebsocketServer';
 
 interface Props {
   question: Question;
@@ -41,20 +40,11 @@ export default function QuestionsOverviewQuestion({
 
   const router = useRouter();
 
-  const userStore = useUserStore(({ quiz }) => ({ quiz }));
-
-  const { status } = userStore.quiz ?? BOGUS_OBJECT;
-
-  useEffect(() => {
-    if (status === QuizStatuses.PLAYING) {
+  useLocalWebsocketServer((data) => {
+    if (data.status === QuizStatuses.PLAYING) {
       router.push({ pathname: 'play', query: router.query });
     }
-
-    // @TODO REMOVE
-    setTimeout(() => {
-      router.push({ pathname: 'play', query: router.query });
-    }, 1000);
-  }, [status]);
+  });
 
   const [isEditable, setIsEditable] = useState(false);
 
