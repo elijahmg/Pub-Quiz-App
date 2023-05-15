@@ -5,6 +5,7 @@ export default function QuizHead() {
   return (
     <Box>
       <Flex justifyContent="space-between">
+        {/* TODO Replace mock data */}
         <Text as="b">{TEAM_NAME}</Text>
         <Badge
           borderRadius={6}

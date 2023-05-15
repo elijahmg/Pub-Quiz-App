@@ -23,6 +23,7 @@ const Waiting = () => {
       <AlienTaken />
       <Stack>
         <SubHeader textAlign="left">
+          {/* TODO Replace mock data */}
           {`Don't worry ${TEAM_NAME}, the quiz will start in a few moments.`}
         </SubHeader>
         <SubTitle textAlign="left">Grab a drink in the meantime!</SubTitle>

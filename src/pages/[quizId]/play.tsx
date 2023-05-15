@@ -40,6 +40,7 @@ const Play = () => {
   // );
 
   const handleSubmit = () => {
+    // TODO Replace mock data
     if (questionIndex < QUESTIONS.length - 1) {
       setQuestionIndex((curr) => curr + 1);
     } else {
@@ -50,6 +51,7 @@ const Play = () => {
   return (
     <Stack spacing={2}>
       <Question
+        // TODO Replace mock data
         question={QUESTIONS[questionIndex]}
         questionIndex={questionIndex}
         answer={answer}

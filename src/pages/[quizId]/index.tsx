@@ -69,7 +69,6 @@ const Quiz = () => {
       throw new Error('Quiz has not been created');
     }
 
-    // FIXME quizId or id? Shouldnt team just have an id? Or is that to bind it to a quiz? Then it should have both
     await createTeam({ name: teamName, quizId: id });
 
     router.push(`/${id}/waiting`);
