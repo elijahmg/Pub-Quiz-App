@@ -11,9 +11,6 @@ import { ChangeEvent, useState, useEffect } from 'react';
 import { CheckCircleIcon, EditIcon } from '@chakra-ui/icons';
 import { Question } from '../../types';
 import SecondaryButton from './buttons/secondary-button';
-import { useRouter } from 'next/router';
-import { QuizStatuses } from '../server/types';
-import { useLocalWebsocketServer } from '../local-services/useLocalWebsocketServer';
 
 interface Props {
   question: Question;
@@ -37,14 +34,6 @@ export default function QuestionsOverviewQuestion({
   onAnswerChange,
 }: Props) {
   const { content } = question;
-
-  const router = useRouter();
-
-  useLocalWebsocketServer((data) => {
-    if (data.status === QuizStatuses.PLAYING) {
-      router.push({ pathname: 'play', query: router.query });
-    }
-  });
 
   const [isEditable, setIsEditable] = useState(false);
 

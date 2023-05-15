@@ -5,9 +5,6 @@ import InQuizWrapper from '../../../components/wrappers/in-quiz-wrapper';
 import { Answer } from '../../../../types';
 import OverviewQuestion from '../../../components/overview-question';
 import { QUESTIONS_WITH_POINTS } from '../../../../mock-data';
-import { useRouter } from 'next/router';
-import { QuizStatuses } from '../../../server/types';
-import { useLocalWebsocketServer } from '../../../local-services/useLocalWebsocketServer';
 
 const calculatePoints = (answers: Answer[]) => {
   return answers.reduce((total, answer) => {
@@ -16,14 +13,6 @@ const calculatePoints = (answers: Answer[]) => {
 };
 
 const Overview = () => {
-  const router = useRouter();
-
-  useLocalWebsocketServer((data) => {
-    if (data.status === QuizStatuses.PLAYING) {
-      router.push({ pathname: 'play', query: router.query });
-    }
-  });
-
   return (
     <Stack spacing={16}>
       <Stack spacing={6}>
