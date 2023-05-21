@@ -17,7 +17,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const AdminQuizManageContextWrapper = ({ children }: Props) => {
+export const AdminQuigzManageContextWrapper = ({ children }: Props) => {
   const [quizData, setQuizData] = useState<StoreQuiz>(QUIZ_PRESET);
 
   const handleSetQuizData = (quizData: StoreQuiz) => {

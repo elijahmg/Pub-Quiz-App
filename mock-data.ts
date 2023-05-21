@@ -1,6 +1,5 @@
 import { POINTS_OPTIONS } from './constants';
-import { QuizStatuses } from './src/server/types';
-import { Question } from './types';
+import { Question, Quiz } from './types';
 
 export const TEAM_NAME = 'Quirky Owls';
 
@@ -38,11 +37,13 @@ export const ROUNDS = [
   },
 ];
 
-export const QUIZ = {
+export const QUIZ: Quiz = {
   id: 1,
   name: 'The Amazing Quiz',
   pin: '1234',
   password: 'qwerty',
   rounds: ROUNDS,
-  status: QuizStatuses.JOINING,
+  quizStatus: {
+    id: 1,
+  },
 };

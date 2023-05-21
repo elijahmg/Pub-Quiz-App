@@ -5,14 +5,14 @@ import SecondaryButton from './buttons/secondary-button';
 
 interface Props extends FlexProps {
   routeList: string[];
-  onNextHandler?: () => Promise<void>;
-  onPreviousHandler?: () => Promise<void>;
+  onNext?: () => Promise<boolean | void>;
+  onPrevious?: () => Promise<boolean | void>;
 }
 
 export default function RouteNavigation({
   routeList,
-  onNextHandler,
-  onPreviousHandler,
+  onNext,
+  onPrevious,
   ...props
 }: Props) {
   const router = useRouter();
@@ -24,12 +24,14 @@ export default function RouteNavigation({
   };
 
   const handlePrevious = async () => {
-    await onPreviousHandler?.();
+    const prevent = (await onPrevious?.()) === false;
+    if (prevent) return;
     handleNavigate(routeList[routeIndex - 1]);
   };
 
   const handleNext = async () => {
-    await onNextHandler?.();
+    const prevent = (await onNext?.()) === false;
+    if (prevent) return;
     handleNavigate(routeList[routeIndex + 1]);
   };
 

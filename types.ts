@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { ReactElement, ReactNode } from 'react';
-import { MediaTypes, QuizStatuses } from './src/server/types';
+import { MediaTypes } from './src/server/types';
 
 export type Question = {
   id: number;
@@ -27,7 +27,7 @@ export interface Quiz {
   pin: string;
   password: string;
   rounds: Round[];
-  status: QuizStatuses;
+  quizStatus: QuizStatus | null;
 }
 
 export interface Team {

@@ -1,6 +1,15 @@
-import { Flex, FlexProps, Input, Text } from '@chakra-ui/react';
+import {
+  Flex,
+  FlexProps,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+} from '@chakra-ui/react';
+import { Field, FieldProps, Form, useFormikContext } from 'formik';
 import { ChangeEvent } from 'react';
 import { StoreQuiz } from '../../../types';
+import { getCombinedFunction } from '../../utils/common';
 
 interface Props extends FlexProps {
   quizData: StoreQuiz;
@@ -12,7 +21,7 @@ export default function AdminQuizManageMainInfoForm({
   onQuizDataChange,
   ...props
 }: Props) {
-  const { name, password, pin } = quizData;
+  const { errors, touched } = useFormikContext<StoreQuiz>();
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     onQuizDataChange({ ...quizData, name: e.target.value });
@@ -26,26 +35,81 @@ export default function AdminQuizManageMainInfoForm({
     onQuizDataChange({ ...quizData, pin: e.target.value });
   };
 
+  const validateName = (value: StoreQuiz['name']) => {
+    if (!value) {
+      return 'This field is required';
+    }
+  };
+
+  const validatePassword = (value: StoreQuiz['password']) => {
+    if (!value) {
+      return 'This field is required';
+    }
+
+    if (value.length < 4 || value.length > 8) {
+      return 'Password must have at between 4 and 8 characters';
+    }
+  };
+
+  const validatePin = (value: StoreQuiz['pin']) => {
+    if (!value) {
+      return 'This field is required';
+    }
+
+    if (value.length !== 4) {
+      return 'PIN must have 4 characters';
+    }
+  };
+
   return (
-    <Flex direction="column" gap={4} {...props}>
-      <Text>Please name your quiz</Text>
-      <Input
-        value={name}
-        placeholder="E.g.: I hate Mondays"
-        onChange={handleNameChange}
-      />
-      <Text>Add the password</Text>
-      <Input
-        value={password}
-        placeholder="E.g.: AmazingQuiz1!"
-        onChange={handlePasswordChange}
-      />
-      <Text>Add the PIN</Text>
-      <Input
-        value={pin}
-        placeholder="E.g.: 123456"
-        onChange={handlePinChange}
-      />
-    </Flex>
+    <Form>
+      <Flex direction="column" gap={4} {...props}>
+        <Field name="name" validate={validateName}>
+          {({
+            field: { onChange, ...field },
+          }: FieldProps<StoreQuiz['name'], StoreQuiz>) => (
+            <FormControl isInvalid={!!(errors.name && touched.name)}>
+              <FormLabel>Please name your quiz</FormLabel>
+              <Input
+                {...field}
+                placeholder="E.g.: I hate Mondays"
+                onChange={getCombinedFunction(onChange, handleNameChange)}
+              />
+              <FormErrorMessage>{errors.name}</FormErrorMessage>
+            </FormControl>
+          )}
+        </Field>
+        <Field name="password" validate={validatePassword}>
+          {({
+            field: { onChange, ...field },
+          }: FieldProps<StoreQuiz['password'], StoreQuiz>) => (
+            <FormControl isInvalid={!!(errors.password && touched.password)}>
+              <FormLabel>Add the password</FormLabel>
+              <Input
+                {...field}
+                placeholder="E.g.: AmazingQuiz1!"
+                onChange={getCombinedFunction(onChange, handlePasswordChange)}
+              />
+              <FormErrorMessage>{errors.password}</FormErrorMessage>
+            </FormControl>
+          )}
+        </Field>
+        <Field name="pin" validate={validatePin}>
+          {({
+            field: { onChange, ...field },
+          }: FieldProps<StoreQuiz['pin'], StoreQuiz>) => (
+            <FormControl isInvalid={!!(errors.pin && touched.pin)}>
+              <FormLabel>Add the PIN</FormLabel>
+              <Input
+                {...field}
+                placeholder="E.g.: 1234"
+                onChange={getCombinedFunction(onChange, handlePinChange)}
+              />
+              <FormErrorMessage>{errors.pin}</FormErrorMessage>
+            </FormControl>
+          )}
+        </Field>
+      </Flex>
+    </Form>
   );
 }
