@@ -8,6 +8,7 @@ import {
   useAdminQuizControlContext,
 } from '../../../components/contexts/admin-quiz-control-context';
 import AdminQuizControlWrapper from '../../../components/wrappers/admin-quiz-control-wrapper';
+import { trpc } from '../../../utils/trcp';
 
 const QuizControl = () => {
   const router = useRouter();
@@ -15,10 +16,23 @@ const QuizControl = () => {
   const { quiz, roundIndex, questionIndex, setQuestionIndex } =
     useAdminQuizControlContext();
 
+  const { mutate: updateCurrentQuestion } =
+    trpc.admin.updateCurrentQuestion.useMutation({});
+
   const roundQuestions = quiz.rounds[roundIndex].questions;
 
-  const handleNextQuestion = () => {
-    setQuestionIndex(questionIndex + 1);
+  const handleNextQuestion = async () => {
+    const newCurrentQuestionIndex = questionIndex + 1;
+
+    const newCurrentQuestionId =
+      quiz.rounds[roundIndex].questions[newCurrentQuestionIndex].id;
+
+    await updateCurrentQuestion({
+      quizStatusId: quiz.quizStatus.id,
+      newCurrentQuestionId,
+    });
+
+    setQuestionIndex(newCurrentQuestionIndex);
   };
 
   const handleEndRound = () => {

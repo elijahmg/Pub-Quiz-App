@@ -7,6 +7,7 @@ import { createQuestions } from './admin/create-questions';
 import { createQuizStatus } from './admin/create-quiz-status';
 import { updateQuizWithQuizStatusId } from './admin/update-quiz-with-quiz-status-id';
 import { updateQuizStatus } from './admin/update-quiz-status';
+import { updateCurrentQuestion } from './admin/update-current-question';
 import { getRounds } from './admin/get-rounds';
 import { getQuestions } from './admin/get-questions';
 import { getQuizByPassword } from './admin/get-quiz-by-password';
@@ -26,6 +27,7 @@ export const appRouter = router({
     createQuizStatus,
     updateQuizWithQuizStatusId,
     updateQuizStatus,
+    updateCurrentQuestion,
     getRounds,
     getQuestions,
     getQuizByPassword,

@@ -11,6 +11,10 @@ export type Question = {
   mediaURL: string | null;
 };
 
+export interface QuizStatus {
+  id: number;
+}
+
 export interface Round {
   id: number;
   name: string;

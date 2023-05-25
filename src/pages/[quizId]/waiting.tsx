@@ -4,7 +4,7 @@ import { AlienTaken } from '../../components/images/alien-taken';
 import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
 import SubHeader from '../../components/headers/sub-header';
 import SubTitle from '../../components/headers/sub-title';
-import { useLocalWebsocketServer } from '../../local-services/useLocalWebsocketServer';
+import { useLocalWebsocketServer } from '../../local-services/use-local-websocket-server';
 import { useRouter } from 'next/router';
 import { QuizStatuses } from '../../server/types';
 import { TEAM_NAME } from '../../../mock-data';
