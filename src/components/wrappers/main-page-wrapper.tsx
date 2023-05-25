@@ -38,7 +38,7 @@ export function MainPageWrapper({
     <>
       <BlobsComponent position="absolute" top={0} zIndex={-1} />
       <Wrapper justifyContent="center" {...props}>
-        {header ? <Header mb={10}>{header}</Header> : null}
+        {header ? <Header>{header}</Header> : null}
         {children}
       </Wrapper>
     </>

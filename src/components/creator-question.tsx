@@ -1,7 +1,7 @@
 import { Stack, Text, Input, Flex, Checkbox, Select } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
-import { STACK_SPACING } from '../../constants';
-import { MediaTypes, StoreQuestion } from '../../types';
+import { StoreQuestion } from '../../types';
+import { MediaTypes } from '../server/types';
 
 interface Props {
   title: string;
@@ -45,7 +45,7 @@ export default function CreatorQuestion({
   };
 
   return (
-    <Stack spacing={STACK_SPACING}>
+    <Stack>
       <Flex justifyContent="space-between">
         <Text>{title}</Text>
         {!isReadOnly && (

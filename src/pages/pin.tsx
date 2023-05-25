@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { MainPageWrapper } from '../components/wrappers/main-page-wrapper';
 import { trpc } from '../utils/trcp';
 import { QuizData, useQuizDataStore } from '../state/quiz-data.state';
+import { PIN_LENGTH } from '../../constants';
 
 const Pin = () => {
   const [pin, setPin] = useState('');
@@ -11,34 +12,34 @@ const Pin = () => {
 
   const router = useRouter();
 
+  function onGettingQuizDataSuccessfully(quizData: QuizData) {
+    setQuizData(quizData);
+
+    router.push({
+      pathname: '/[quizId]',
+      query: { ...router.query, quizId: quizData.id },
+    });
+  }
+
+  function handlePinChange(pin: string) {
+    setPin(pin);
+  }
+
   trpc.team.getQuizByPin.useQuery(
     { pin },
     {
-      enabled: pin.length === 4,
+      enabled: pin.length === PIN_LENGTH,
       onSuccess: (quizData) => onGettingQuizDataSuccessfully(quizData),
     },
   );
 
-  function onGettingQuizDataSuccessfully(quizData: QuizData) {
-    setQuizData(quizData);
-
-    router.push(`/${quizData.id}`);
-  }
-
-  function handlePin(pin: string) {
-    setPin(pin);
-  }
-
   return (
-    <Center mt={8}>
-      <HStack>
-        <PinInput type="number" onChange={handlePin}>
-          <PinInputField />
-          <PinInputField />
-          <PinInputField />
-          <PinInputField />
-        </PinInput>
-      </HStack>
+    <Center as={HStack}>
+      <PinInput type="number" onChange={handlePinChange} size="lg">
+        {new Array(PIN_LENGTH).fill(undefined).map((_, i) => (
+          <PinInputField key={i} />
+        ))}
+      </PinInput>
     </Center>
   );
 };

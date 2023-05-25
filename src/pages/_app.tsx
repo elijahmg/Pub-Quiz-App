@@ -2,6 +2,7 @@ import '../styles/globals.css';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { trpc } from '../utils/trcp';
 import { AppPropsWithLayout } from '../../types';
+import CSRWrapper from '../components/csr-wrapper';
 
 function App({ Component, pageProps }: AppPropsWithLayout) {
   const theme = extendTheme({
@@ -28,10 +29,13 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
 
   const getLayout = Component.getLayout || ((page) => page);
 
+  // @TODO REMOVE
   return (
-    <ChakraProvider theme={theme}>
-      {getLayout(<Component {...pageProps} />)}
-    </ChakraProvider>
+    <CSRWrapper>
+      <ChakraProvider theme={theme}>
+        {getLayout(<Component {...pageProps} />)}
+      </ChakraProvider>
+    </CSRWrapper>
   );
 }
 

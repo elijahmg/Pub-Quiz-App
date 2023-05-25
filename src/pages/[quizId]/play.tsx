@@ -1,19 +1,26 @@
-import { Stack } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Question from '../../components/question';
-import { STACK_SPACING } from '../../../constants';
 import { QUESTIONS } from '../../../mock-data';
 import InQuizWrapper from '../../components/wrappers/in-quiz-wrapper';
+import { useRouter } from 'next/router';
+import { Stack } from '@chakra-ui/react';
+import PrimaryButton from '../../components/buttons/primary-button';
 
-// @TODO Fix typing
-const Play = ({ channel }: { channel: any }) => {
-  const [stateIndex, setStateIndex] = useState<number>(0);
-  const userName = 'John Doe';
-  const round = {
-    id: 1,
-    name: 'Music',
-    questions: QUESTIONS,
+const Play = () => {
+  const router = useRouter();
+
+  const [questionIndex, setQuestionIndex] = useState(0);
+
+  const [answer, setAnswer] = useState('');
+
+  const handleAnswerChange = (answer: string) => {
+    setAnswer(answer);
   };
+
+  useEffect(() => {
+    setAnswer('');
+  }, [questionIndex]);
+
   // useEffect(() => {
   //   channel.subscribe((status: any) => {
   //     setStateIndex(Number(status));
@@ -32,12 +39,25 @@ const Play = ({ channel }: { channel: any }) => {
   //   [channel, round.questions, stateIndex],
   // );
 
+  const handleSubmit = () => {
+    // TODO Replace mock data
+    if (questionIndex < QUESTIONS.length - 1) {
+      setQuestionIndex((curr) => curr + 1);
+    } else {
+      router.push({ pathname: 'questions-overview', query: router.query });
+    }
+  };
+
   return (
-    <Stack mt={10} spacing={STACK_SPACING}>
+    <Stack spacing={2}>
       <Question
-        question={`Q${stateIndex + 1}: ${round.questions[stateIndex].content}`}
-        handleAnswer={console.log}
+        // TODO Replace mock data
+        question={QUESTIONS[questionIndex]}
+        questionIndex={questionIndex}
+        answer={answer}
+        onAnswerChange={handleAnswerChange}
       />
+      <PrimaryButton onClick={handleSubmit}>Submit</PrimaryButton>
     </Stack>
   );
 };

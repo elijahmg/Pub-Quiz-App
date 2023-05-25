@@ -1,5 +1,4 @@
-import { QuizStatuses } from '../../server/types';
-import { MediaTypes } from '../../../types';
+import { MediaTypes, QuizStatuses } from '../../server/types';
 import { create } from 'zustand';
 
 /**

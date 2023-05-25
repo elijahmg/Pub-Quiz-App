@@ -1,7 +1,6 @@
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Button, Stack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { STACK_SPACING } from '../../../../constants';
 import PrimaryButton from '../../../components/buttons/primary-button';
 import SecondaryButton from '../../../components/buttons/secondary-button';
 import { AdminQuizControlContextWrapper } from '../../../components/contexts/admin-quiz-control-context';
@@ -48,9 +47,9 @@ const AdminQuiz = () => {
   };
 
   return (
-    <Stack spacing={STACK_SPACING} alignItems="center" justifyContent="start">
+    <Stack alignItems="center" justifyContent="start" spacing={10}>
       <Astronaut />
-      <Stack spacing={STACK_SPACING}>
+      <Stack>
         <PrimaryButton size="lg" px={16} py={10} onClick={handleStartQuiz}>
           Start QUIZ
         </PrimaryButton>

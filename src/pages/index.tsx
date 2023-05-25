@@ -1,5 +1,4 @@
-import { Flex, Grid, GridItem } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
+import { Flex, Grid, GridItem, Stack } from '@chakra-ui/react';
 import Header from '../components/headers/header';
 import SubHeader from '../components/headers/sub-header';
 import SubTitle from '../components/headers/sub-title';
@@ -9,6 +8,7 @@ import DummyPeople from '../components/images/dummy-people';
 import * as React from 'react';
 import { MainPageWrapper } from '../components/wrappers/main-page-wrapper';
 import { NextPageWithLayout } from '../../types';
+import { useRouter } from 'next/router';
 
 const Home: NextPageWithLayout = () => {
   const router = useRouter();
@@ -29,12 +29,10 @@ const Home: NextPageWithLayout = () => {
         `,
       }}
       gridTemplateColumns="repeat(2, 1fr)"
-      alignItems="center"
-      justifyContent="center"
       gap={8}
     >
       <GridItem area="header">
-        <Header textAlign={{ base: 'center', md: 'left' }}>
+        <Header textAlign={{ base: 'center', md: 'left' }} whiteSpace="nowrap">
           Hello there! 👋
         </Header>
       </GridItem>
@@ -44,10 +42,13 @@ const Home: NextPageWithLayout = () => {
         alignSelf="stretch"
         my={{ base: 10, md: 0 }}
       >
-        <DummyPeople height={{ md: '100%' }} width={{ md: 'auto' }} />
+        <DummyPeople
+          height={{ sm: 'auto', md: '100%' }}
+          width={{ sm: '100%', md: 'auto' }}
+        />
       </GridItem>
-      <GridItem area="text">
-        <SubHeader size="lg" mb="4" textAlign={{ base: 'center', md: 'left' }}>
+      <GridItem area="text" as={Stack} spacing={2}>
+        <SubHeader size="lg" textAlign={{ base: 'center', md: 'left' }}>
           Looks like you’re ready to have a great time.
         </SubHeader>
         <SubTitle textAlign={{ base: 'center', md: 'left' }}>

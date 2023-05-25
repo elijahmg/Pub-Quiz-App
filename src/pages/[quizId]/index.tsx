@@ -1,5 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { FormControl, Heading, Input } from '@chakra-ui/react';
+import React, { useState, ChangeEvent } from 'react';
+import {
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Heading,
+  Input,
+  Stack,
+} from '@chakra-ui/react';
 import SubHeader from '../../components/headers/sub-header';
 import SubTitle from '../../components/headers/sub-title';
 import PrimaryButton from '../../components/buttons/primary-button';
@@ -8,12 +15,33 @@ import { useRouter } from 'next/router';
 import { trpc } from '../../utils/trcp';
 import { useQuizDataStore } from '../../state/quiz-data.state';
 
-const Welcome = (): JSX.Element => {
+enum FormError {
+  UNDEFINED = 'undefined',
+  TOO_SHORT = 'tooShort',
+  TOO_LONG = 'tooLong',
+}
+
+const ERROR_MESSAGES = {
+  undefined: "Please choose your team's name",
+  tooShort: "The team's name must be atleast 2 characters long",
+  tooLong: "The team's name can't be more than 20 characters long",
+};
+
+const MIN_TEAM_NAME_LENGTH = 2;
+const MAX_TEAM_NAME_LENGTH = 20;
+
+const Quiz = () => {
   const router = useRouter();
 
   const [teamName, setTeamName] = useState<string>(``);
-  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
-  const [errorMessage, setErrorMessage] = useState<string>(`Enter your name`);
+
+  const [error, setError] = useState<FormError | undefined>();
+
+  const handleTeamNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTeamName(e.target.value);
+
+    if (error) setError(undefined);
+  };
 
   const { id } = useQuizDataStore((state) => state.quizData);
 
@@ -21,61 +49,64 @@ const Welcome = (): JSX.Element => {
     onSuccess: () => null,
   });
 
-  useEffect(() => {
-    const isTeamNameInvalid = teamName.length < 2 || teamName.length > 32;
-
-    setIsButtonDisabled(isTeamNameInvalid);
-
-    if (isTeamNameInvalid) {
-      setErrorMessage(`Pleaaaase enter your team name`);
+  const handleSubmit = async () => {
+    if (!teamName) {
+      setError(FormError.UNDEFINED);
+      return;
     }
-  }, [teamName, isButtonDisabled]);
 
-  async function onSubmitHandler() {
+    if (teamName.length < MIN_TEAM_NAME_LENGTH) {
+      setError(FormError.TOO_SHORT);
+      return;
+    }
+
+    if (teamName.length > MAX_TEAM_NAME_LENGTH) {
+      setError(FormError.TOO_LONG);
+      return;
+    }
+
     if (!id) {
       throw new Error('Quiz has not been created');
     }
 
-    await createTeam({
-      name: teamName,
-      quizId: id,
-    });
+    await createTeam({ name: teamName, quizId: id });
 
     router.push(`/${id}/waiting`);
-  }
+  };
 
   return (
     <>
-      <SubHeader mb={2}>How about we add your team name?</SubHeader>
-      <SubTitle mb={10}>
-        You can name your team however you want. important thing is to have fun
-      </SubTitle>
-      <FormControl
-        id="first-name"
-        onSubmit={() => router.push(`/${id}/waiting`)}
-      >
-        <Heading as="h3" mb={4}>
-          Team name
-        </Heading>
-        <Input
-          placeholder="Your awesome team name"
-          value={teamName}
-          onChange={(e) => setTeamName(e.target.value)}
-        />
-      </FormControl>
-      <PrimaryButton
-        isDisabled={isButtonDisabled}
-        mt={4}
-        onClick={onSubmitHandler}
-      >
-        {isButtonDisabled ? errorMessage : 'Submit'}
-      </PrimaryButton>
+      <Stack>
+        <SubHeader textAlign="left">How about we add your team name?</SubHeader>
+        <SubTitle textAlign="left">
+          You can name your team however you want, important thing is to have
+          fun.
+        </SubTitle>
+      </Stack>
+      <Stack>
+        <FormControl onSubmit={handleSubmit} isInvalid={!!error} isRequired>
+          <FormLabel>
+            <Heading as="h3" size="md" display="inline">
+              Team name
+            </Heading>
+          </FormLabel>
+          <Input
+            placeholder="Your awesome team name"
+            value={teamName}
+            onChange={handleTeamNameChange}
+          />
+          <FormErrorMessage>{error && ERROR_MESSAGES[error]}</FormErrorMessage>
+        </FormControl>
+        <PrimaryButton isDisabled={!!error} onClick={handleSubmit}>
+          Submit
+        </PrimaryButton>
+      </Stack>
     </>
   );
 };
 
-Welcome.getLayout = function getLayout(pageContent: React.ReactElement) {
+Quiz.getLayout = function getLayout(pageContent: React.ReactElement) {
   return <MainPageWrapper header="Welcome">{pageContent}</MainPageWrapper>;
 };
 
-export default Welcome;
+export default Quiz;

@@ -1,51 +1,57 @@
 import {
-  Stack,
-  Text,
   Input,
   Button,
   InputGroup,
   InputRightElement,
+  FormControl,
+  FormLabel,
+  Flex,
 } from '@chakra-ui/react';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { STACK_SPACING } from '../../constants';
+import { ChangeEvent, useState } from 'react';
 import { CheckCircleIcon, EditIcon } from '@chakra-ui/icons';
-import PrimaryButton from './buttons/primary-button';
+import { Question } from '../../types';
+import SecondaryButton from './buttons/secondary-button';
+
+interface Props {
+  question: Question;
+  questionIndex: number;
+  answer: string;
+  onAnswerChange: (answer: string) => void;
+}
 
 // @TODO Rename component/file
 export default function QuestionsOverviewQuestion({
   question,
-  handleAnswer,
-  answer = '',
-}: {
-  question: string;
-  answer?: string;
-  handleAnswer: (s: string) => void;
-}) {
+  questionIndex,
+  answer,
+  onAnswerChange,
+}: Props) {
+  const { content } = question;
+
+  const [isEditable, setIsEditable] = useState(false);
+
   const [value, setValue] = useState(answer);
-  const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+
+  const handleAnswerChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
-  const [isEditable, setIsEditable] = useState(false);
   const toggleEditable = () => {
     setIsEditable((cur) => !cur);
   };
+
   const saveChange = () => {
-    handleAnswer(value);
     toggleEditable();
+    onAnswerChange(value);
   };
 
-  useEffect(() => {
-    setValue(answer);
-  }, [answer]);
-
   return (
-    <Stack spacing={STACK_SPACING}>
-      <Text>{question}</Text>
-      <InputGroup>
+    <FormControl as={Flex} flexDirection="column" gap={2}>
+      <FormLabel>{`Q${questionIndex + 1}: ${content}`}</FormLabel>
+      <InputGroup size="lg">
         <Input
           value={value}
-          onChange={inputHandler}
+          onChange={handleAnswerChange}
           readOnly={!isEditable}
           placeholder="Do you think you know the answer?"
         />
@@ -63,15 +69,15 @@ export default function QuestionsOverviewQuestion({
         ) : null}
       </InputGroup>
       {isEditable ? (
-        <PrimaryButton
+        <SecondaryButton
           leftIcon={<CheckCircleIcon />}
           size="xs"
           alignSelf="end"
           onClick={saveChange}
         >
           Save change
-        </PrimaryButton>
+        </SecondaryButton>
       ) : null}
-    </Stack>
+    </FormControl>
   );
 }

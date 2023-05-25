@@ -1,13 +1,7 @@
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { ReactElement, ReactNode } from 'react';
-
-// @TODO remove, this is 2nd instance of the same enum
-export enum MediaTypes {
-  IMAGE = 'IMAGE',
-  VIDEO = 'VIDEO',
-  AUDIO = 'AUDIO',
-}
+import { MediaTypes, QuizStatuses } from './src/server/types';
 
 export type Question = {
   id: number;
@@ -29,6 +23,7 @@ export interface Quiz {
   pin: string;
   password: string;
   rounds: Round[];
+  status: QuizStatuses;
 }
 
 export interface Team {
@@ -53,7 +48,7 @@ export type StoreRound = Required<Omit<Round, 'questions' | 'id'>> & {
   _id: number;
 };
 
-export type StoreQuiz = Required<Omit<Quiz, 'rounds' | 'id'>> & {
+export type StoreQuiz = Required<Omit<Quiz, 'rounds' | 'id' | 'status'>> & {
   rounds: StoreRound[];
 };
 

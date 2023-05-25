@@ -15,7 +15,8 @@ import AdminQuizControlWrapper from '../../../../components/wrappers/admin-quiz-
 const AdminQuizTeamCheck = () => {
   const router = useRouter();
 
-  const { quiz, teams, roundIndex } = useAdminQuizControlContext();
+  const { quiz, teams, roundIndex, questionIndex } =
+    useAdminQuizControlContext();
 
   const teamIndex = teams.findIndex(
     ({ id }) => id === Number(router.query.teamId),
@@ -51,7 +52,8 @@ const AdminQuizTeamCheck = () => {
       {questions.map((question) => (
         <OverviewQuestion
           key={question.id}
-          question={question.content}
+          question={question}
+          questionIndex={questionIndex}
           answer={question.answer}
           onPointsChange={(points) => handlePointsChange(question, points)}
         />

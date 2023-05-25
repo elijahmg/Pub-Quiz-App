@@ -1,12 +1,14 @@
 import {
-  Stack,
   Text,
   Input,
   InputGroup,
   InputRightElement,
   StackProps,
+  FormControl,
+  FormLabel,
 } from '@chakra-ui/react';
-import { POINTS_OPTIONS, STACK_SPACING } from '../../constants';
+import { POINTS_OPTIONS } from '../../constants';
+import { Question } from '../../types';
 
 const ACTIVE_POINTS_COLORS: { [key: number]: string } = {
   0: 'red.100',
@@ -17,19 +19,23 @@ const ACTIVE_POINTS_COLORS: { [key: number]: string } = {
 const DEFAULT_COLOR = 'brand.900';
 
 interface Props extends StackProps {
-  question: string;
-  points?: number;
+  question: Question;
+  questionIndex: number;
   answer?: string;
+  points?: number;
   onPointsChange?: (points: number) => void;
 }
 
 export default function OverviewQuestion({
   question,
+  questionIndex,
   answer,
   points,
   onPointsChange,
   ...props
 }: Props) {
+  const { content } = question;
+
   const isInteractive = !!onPointsChange;
 
   const handlePointsItemClick = (points: number) => {
@@ -39,26 +45,34 @@ export default function OverviewQuestion({
   };
 
   return (
-    <Stack spacing={STACK_SPACING} {...props}>
-      <Text>{question}</Text>
-      <InputGroup size="md">
+    <FormControl {...props}>
+      <FormLabel>{`Q${questionIndex + 1}: ${content}`}</FormLabel>
+      <InputGroup size="lg">
         <Input isReadOnly value={answer} />
-        <InputRightElement width="auto" pr={2} gap={2}>
-          {POINTS_OPTIONS.map((pointsOption) => (
-            <Text
-              key={pointsOption}
-              color={
-                points === pointsOption
-                  ? ACTIVE_POINTS_COLORS[pointsOption]
-                  : DEFAULT_COLOR
-              }
-              onClick={() => handlePointsItemClick(pointsOption)}
-            >
-              {`${pointsOption}pct`}
-            </Text>
-          ))}
+        <InputRightElement
+          width="auto"
+          pr={2}
+          gap={2}
+          flexDirection="row-reverse"
+        >
+          {POINTS_OPTIONS.map((pointsOption) => {
+            const isActive = points === pointsOption;
+
+            return (
+              <Text
+                key={pointsOption}
+                onClick={() => handlePointsItemClick(pointsOption)}
+                fontWeight={isActive ? 'semibold' : undefined}
+                color={
+                  isActive ? ACTIVE_POINTS_COLORS[pointsOption] : DEFAULT_COLOR
+                }
+              >
+                {`${pointsOption}pct`}
+              </Text>
+            );
+          })}
         </InputRightElement>
       </InputGroup>
-    </Stack>
+    </FormControl>
   );
 }

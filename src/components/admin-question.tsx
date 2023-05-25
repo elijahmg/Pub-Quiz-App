@@ -1,5 +1,4 @@
 import { Stack, Text, Input, StackProps } from '@chakra-ui/react';
-import { STACK_SPACING } from '../../constants';
 import { Question } from '../../types';
 
 interface Props extends StackProps {
@@ -15,7 +14,7 @@ export default function AdminQuestion({
   const { content, answer } = question;
 
   return (
-    <Stack spacing={STACK_SPACING} {...props}>
+    <Stack {...props}>
       <Text>{`Q${questionIndex + 1}: ${content}`}</Text>
       <Input value={answer} isReadOnly />
     </Stack>
