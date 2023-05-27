@@ -1,7 +1,7 @@
 import { procedure } from '../../trpc';
 import { z } from 'zod';
-import { QuizStatuses } from '../../types';
-import { selectQuizData } from '../../common-data-returns';
+import { fullQuizDataForTeam } from '../../../state/team/team-quiz-data.state';
+import { QuizStatusEnum } from '.prisma/client';
 
 export const getQuizByPin = procedure
   .input(
@@ -16,10 +16,10 @@ export const getQuizByPin = procedure
       where: {
         pin,
         quizStatus: {
-          status: QuizStatuses.JOINING,
+          status: QuizStatusEnum.JOINING,
         },
       },
-      select: selectQuizData,
+      select: fullQuizDataForTeam,
     });
 
     if (!quiz) {

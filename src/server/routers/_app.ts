@@ -1,4 +1,4 @@
-import { router } from '../trpc';
+import { procedure, router } from '../trpc';
 
 // Admin procedures
 import { createQuiz } from './admin/create-quiz';
@@ -16,6 +16,7 @@ import { getFullQuizData } from './admin/get-full-quiz-data';
 // Team procedures
 import { createTeam } from './team/create-team';
 import { getQuizByPin } from './team/get-quiz-by-pin';
+import { submitAnswer } from './team/submit-answer';
 
 // this a collection of routes
 // hello is only an example
@@ -36,6 +37,7 @@ export const appRouter = router({
   team: router({
     createTeam,
     getQuizByPin,
+    submitAnswer,
   }),
 });
 

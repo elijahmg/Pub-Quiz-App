@@ -15,6 +15,7 @@ const generateQuestion = (): StoreQuestion => ({
   _id: generateRandomId(),
   content: '',
   answer: '',
+  roundId: generateRandomId(),
 });
 
 export default function AdminQuizManageQuestionsForm({

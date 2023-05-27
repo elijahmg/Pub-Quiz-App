@@ -1,18 +1,18 @@
 import { z } from 'zod';
 import { procedure } from '../../trpc';
-import { QuizStatuses } from '../../types';
+import { QuizStatusEnum } from '.prisma/client';
 
 export const updateQuizStatus = procedure
   .input(
     z.object({
       id: z.number(),
       quizStatus: z.enum([
-        QuizStatuses.JOINING,
-        QuizStatuses.PLAYING,
-        QuizStatuses.END_ROUND,
-        QuizStatuses.EVALUATION,
-        QuizStatuses.SCORE_VIEWING,
-        QuizStatuses.END_QUIZ,
+        QuizStatusEnum.JOINING,
+        QuizStatusEnum.PLAYING,
+        QuizStatusEnum.END_ROUND,
+        QuizStatusEnum.EVALUATION,
+        QuizStatusEnum.SCORE_VIEWING,
+        QuizStatusEnum.END_QUIZ,
       ]),
     }),
   )

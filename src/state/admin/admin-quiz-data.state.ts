@@ -1,42 +1,61 @@
-import { MediaTypes, QuizStatuses } from '../../server/types';
 import { create } from 'zustand';
+import type { QuizStatus, Question, Round } from '@prisma/client';
 
-/**
- * All interfaces reflect fields selection in
- * src/server/routers/admin/get-full-quiz-data.ts
- * **/
+export const selectFullQuizAdminData = {
+  id: true,
+  name: true,
+  pin: true,
+  quizStatus: {
+    select: {
+      id: true,
+      status: true,
+      currentQuestion: {
+        select: {
+          id: true,
+          roundId: true,
+        },
+      },
+    },
+  },
+  rounds: {
+    select: {
+      id: true,
+      name: true,
+      questions: {
+        select: {
+          answer: true,
+          content: true,
+          id: true,
+          mediaType: true,
+          mediaURL: true,
+        },
+      },
+    },
+  },
+};
 
-interface QuizStatus {
-  id: number;
-  status: QuizStatuses;
-  currentQuestion: CurrentQuestion;
+type QuizStatusSelection = Pick<QuizStatus, 'id' | 'status'>;
+type CurrentQuestionSelection = Pick<Question, 'id' | 'roundId'>;
+type QuestionSelection = Pick<
+  Question,
+  'id' | 'content' | 'answer' | 'mediaURL' | 'mediaType'
+>;
+type RoundSelection = Pick<Round, 'id' | 'name'>;
+
+interface QuizStatusState extends QuizStatusSelection {
+  currentQuestion: CurrentQuestionSelection;
 }
 
-interface CurrentQuestion {
-  id: number;
-  roundId: number;
-}
-
-interface Question {
-  id: number;
-  content: string;
-  answer: string;
-  mediaURL: string | null;
-  mediaType: MediaTypes | null;
-}
-
-interface Round {
-  id: number;
-  name: string;
-  questions: Question[];
+interface RoundState extends RoundSelection {
+  questions: QuestionSelection[];
 }
 
 export interface QuizData {
   id: number;
   name: string;
   pin: string;
-  rounds: Round[];
-  quizStatus: QuizStatus | null;
+  rounds: RoundState[];
+  quizStatus: QuizStatusState | null;
 }
 
 interface AdminQuizDataState {

@@ -1,9 +1,9 @@
 import { Text, Input, Stack, StackProps } from '@chakra-ui/react';
 import { ChangeEvent } from 'react';
-import type { Question } from '../../types';
+import { CurrentQuestion } from '../state/team/team-quiz-data.state';
 
 interface Props extends StackProps {
-  question: Question;
+  question: CurrentQuestion;
   questionIndex: number;
   answer: string;
   onAnswerChange: (answer: string) => void;

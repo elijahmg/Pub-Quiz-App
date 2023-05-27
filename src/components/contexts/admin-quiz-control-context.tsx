@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useContext, useState } from 'react';
 import { QUIZ, TEAMS } from '../../../mock-data';
-import { Quiz, Team } from '../../../types';
+import { Quiz, Team } from '.prisma/client';
 import { useRouter } from 'next/router';
 import { trpc } from '../../utils/trcp';
 import {

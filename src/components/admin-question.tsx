@@ -1,5 +1,5 @@
 import { Stack, Text, Input, StackProps } from '@chakra-ui/react';
-import { Question } from '../../types';
+import { Question } from '.prisma/client';
 
 interface Props extends StackProps {
   question: Question;
