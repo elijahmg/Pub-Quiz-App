@@ -6,8 +6,11 @@ import PrimaryButton from '../../components/buttons/primary-button';
 import { useTeamQuizDataStore } from '../../state/team/team-quiz-data.state';
 import { trpc } from '../../utils/trcp';
 import { TeamAnswers } from '.prisma/client';
+import useResponseToast from '../../hooks/use-response-toast';
 
 const Play = () => {
+  const { handleTRPCError } = useResponseToast();
+
   const [questionIndex, setQuestionIndex] = useState(0);
 
   const [answer, setAnswer] = useState('');
@@ -20,12 +23,13 @@ const Play = () => {
     teamData: state.teamData,
   }));
 
-  const onSuccessfullySubmittedAnswer = (data: TeamAnswers) => {
+  const onSubmittedAnswerSuccessfully = (data: TeamAnswers) => {
     setCurrentTeamAnswerId(data.id);
   };
 
   const { mutate: submitAnswer } = trpc.team.submitAnswer.useMutation({
-    onSuccess: onSuccessfullySubmittedAnswer,
+    onSuccess: onSubmittedAnswerSuccessfully,
+    onError: handleTRPCError,
   });
 
   const handleAnswerChange = (answer: string) => {

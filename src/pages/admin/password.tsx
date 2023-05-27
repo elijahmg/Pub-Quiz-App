@@ -10,12 +10,15 @@ import {
   QuizData,
   useAdminQuizDataState,
 } from '../../state/admin/admin-quiz-data.state';
+import useResponseToast from '../../hooks/use-response-toast';
 
 const AdminHome = () => {
   const [password, setPassword] = useState('');
   const setQuizData = useAdminQuizDataState((state) => state.setQuizData);
 
   const router = useRouter();
+
+  const { handleTRPCError } = useResponseToast();
 
   const { refetch: getQuizByPassword } = trpc.admin.getQuizByPassword.useQuery(
     {
@@ -24,6 +27,7 @@ const AdminHome = () => {
     {
       enabled: false,
       onSuccess: (quizData: QuizData) => handleOnGetQuizSuccessfully(quizData),
+      onError: handleTRPCError,
     },
   );
 

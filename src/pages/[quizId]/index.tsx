@@ -16,6 +16,7 @@ import { trpc } from '../../utils/trcp';
 import { useTeamQuizDataStore } from '../../state/team/team-quiz-data.state';
 import { MAX_TEAM_NAME_LENGTH, MIN_TEAM_NAME_LENGTH } from '../../../constants';
 import { Team } from '.prisma/client';
+import useResponseToast from '../../hooks/use-response-toast';
 
 enum FormError {
   UNDEFINED = 'undefined',
@@ -31,6 +32,8 @@ const ERROR_MESSAGES = {
 
 const Quiz = () => {
   const router = useRouter();
+
+  const { handleTRPCError } = useResponseToast();
 
   const [teamName, setTeamName] = useState<string>(``);
 
@@ -57,6 +60,7 @@ const Quiz = () => {
 
   const { mutate: createTeam } = trpc.team.createTeam.useMutation({
     onSuccess: onSuccessfullyCreatedTeam,
+    onError: handleTRPCError,
   });
 
   const handleSubmit = async () => {
