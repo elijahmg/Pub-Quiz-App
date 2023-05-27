@@ -7,14 +7,12 @@ import { AdminQuizControlContextWrapper } from '../../../components/contexts/adm
 import Astronaut from '../../../components/images/astronaut';
 import Blobs2 from '../../../components/images/blobs-2';
 import AdminQuizWrapper from '../../../components/wrappers/admin-quiz-wrapper';
-import { useQuizDataStore } from '../../../state/quiz-data.state';
 import { trpc } from '../../../utils/trcp';
-import { QuizStatuses } from '../../../server/types';
+import { QuizStatusEnum } from '.prisma/client';
+import { useAdminQuizDataState } from '../../../state/admin/admin-quiz-data.state';
 
 const AdminQuiz = () => {
-  const { quizStatusId, id: quizId } = useQuizDataStore(
-    (state) => state.quizData,
-  );
+  const quizData = useAdminQuizDataState((state) => state.quizData);
 
   const { mutate: updateQuizStatus } = trpc.admin.updateQuizStatus.useMutation({
     onSuccess: () => handOnSuccessfullyUpdatedQuizStatus(),
@@ -24,22 +22,22 @@ const AdminQuiz = () => {
 
   const handleStartQuiz = async () => {
     // @TODO better handling
-    if (!quizStatusId) {
+    if (!quizData?.quizStatus?.id) {
       return;
     }
 
     await updateQuizStatus({
-      id: quizStatusId,
-      quizStatus: QuizStatuses.PLAYING,
+      id: quizData.quizStatus.id,
+      quizStatus: QuizStatusEnum.PLAYING,
     });
   };
 
   const handOnSuccessfullyUpdatedQuizStatus = () => {
-    router.push(`/admin/${quizId}/quiz-control`);
+    router.push(`/admin/${quizData?.id}/quiz-control`);
   };
 
   const handleEditQuiz = () => {
-    router.push(`/admin/edit/${quizId}`);
+    router.push(`/admin/edit/${quizData?.id}`);
   };
 
   const handleDeleteQuiz = () => {

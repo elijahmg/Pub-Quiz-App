@@ -1,58 +1,59 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Question from '../../components/question';
-import { QUESTIONS } from '../../../mock-data';
 import InQuizWrapper from '../../components/wrappers/in-quiz-wrapper';
-import { useRouter } from 'next/router';
 import { Stack } from '@chakra-ui/react';
 import PrimaryButton from '../../components/buttons/primary-button';
+import { useTeamQuizDataStore } from '../../state/team/team-quiz-data.state';
+import { trpc } from '../../utils/trcp';
+import { TeamAnswers } from '.prisma/client';
 
 const Play = () => {
-  const router = useRouter();
-
   const [questionIndex, setQuestionIndex] = useState(0);
 
   const [answer, setAnswer] = useState('');
+  const [currentTeamAnswerId, setCurrentTeamAnswerId] = useState<
+    number | undefined
+  >();
+
+  const { quizData, teamData } = useTeamQuizDataStore((state) => ({
+    quizData: state.quizData,
+    teamData: state.teamData,
+  }));
+
+  const onSuccessfullySubmittedAnswer = (data: TeamAnswers) => {
+    setCurrentTeamAnswerId(data.id);
+  };
+
+  const { mutate: submitAnswer } = trpc.team.submitAnswer.useMutation({
+    onSuccess: onSuccessfullySubmittedAnswer,
+  });
 
   const handleAnswerChange = (answer: string) => {
     setAnswer(answer);
   };
 
+  const currentQuestionId = quizData.quizStatus?.currentQuestion.id;
+
   useEffect(() => {
     setAnswer('');
-  }, [questionIndex]);
+  }, [currentQuestionId]);
 
-  // useEffect(() => {
-  //   channel.subscribe((status: any) => {
-  //     setStateIndex(Number(status));
-  //   });
-  //   return () => channel.unsubscribe();
-  // }, [setStateIndex, channel]);
+  const handleSubmit = async () => {
+    if (!teamData.id || !quizData.quizStatus!.currentQuestion.id) return;
 
-  // const userDidAnswer = useCallback(
-  //   (answer: string) => {
-  //     channel.send({
-  //       question: round.questions[stateIndex],
-  //       user: userName,
-  //       answer,
-  //     });
-  //   },
-  //   [channel, round.questions, stateIndex],
-  // );
-
-  const handleSubmit = () => {
-    // TODO Replace mock data
-    if (questionIndex < QUESTIONS.length - 1) {
-      setQuestionIndex((curr) => curr + 1);
-    } else {
-      router.push({ pathname: 'questions-overview', query: router.query });
-    }
+    // @TODO added notification and error handling
+    await submitAnswer({
+      answer,
+      questionId: quizData.quizStatus!.currentQuestion.id,
+      teamId: teamData.id,
+      teamAnswerId: currentTeamAnswerId,
+    });
   };
 
   return (
     <Stack spacing={2}>
       <Question
-        // TODO Replace mock data
-        question={QUESTIONS[questionIndex]}
+        question={quizData.quizStatus!.currentQuestion}
         questionIndex={questionIndex}
         answer={answer}
         onAnswerChange={handleAnswerChange}

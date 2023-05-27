@@ -1,5 +1,5 @@
 import { POINTS_OPTIONS } from './constants';
-import { Question, Quiz } from './types';
+import { Question, Quiz } from '.prisma/client';
 
 export const TEAM_NAME = 'Quirky Owls';
 
@@ -16,6 +16,7 @@ export const QUESTIONS: Question[] = [
     answer: 'Lima',
     mediaType: null,
     mediaURL: null,
+    roundId: 1,
   },
 ];
 
@@ -42,8 +43,5 @@ export const QUIZ: Quiz = {
   name: 'The Amazing Quiz',
   pin: '1234',
   password: 'qwerty',
-  rounds: ROUNDS,
-  quizStatus: {
-    id: 1,
-  },
+  quizStatusId: 1,
 };

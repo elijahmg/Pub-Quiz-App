@@ -20,7 +20,7 @@ enum QuizStatusEnum {
   END_QUIZ
 }
 
-enum MediaType {
+enum MediaTypeEnum {
   IMAGE
   VIDEO
   AUDIO
@@ -47,23 +47,23 @@ model Quiz {
 }
 
 model Round {
-  id          Int           @id @default(autoincrement())
-  name        String
-  questions   Question[]
-  quiz        Quiz          @relation(fields: [quizId], references: [id])
-  quizId      Int
-  teamAnswers TeamAnswers[]
+  id        Int        @id @default(autoincrement())
+  name      String
+  questions Question[]
+  quiz      Quiz       @relation(fields: [quizId], references: [id])
+  quizId    Int
 }
 
 model Question {
-  id         Int         @id @default(autoincrement())
-  content    String
-  answer     String
-  mediaType  MediaType?
-  mediaURL   String?
-  round      Round       @relation(fields: [roundId], references: [id])
-  roundId    Int
-  quizStatus QuizStatus?
+  id          Int            @id @default(autoincrement())
+  content     String
+  answer      String
+  mediaType   MediaTypeEnum?
+  mediaURL    String?
+  round       Round          @relation(fields: [roundId], references: [id])
+  roundId     Int
+  quizStatus  QuizStatus?
+  teamAnswers TeamAnswers[]
 }
 
 model Team {
@@ -75,11 +75,11 @@ model Team {
 }
 
 model TeamAnswers {
-  id      Int    @id @default(autoincrement())
-  roundId Int
-  round   Round  @relation(fields: [roundId], references: [id])
-  answer  String
-  score   Float
-  team    Team   @relation(fields: [teamId], references: [id])
-  teamId  Int
+  id         Int      @id @default(autoincrement())
+  questionId Int
+  question   Question @relation(fields: [questionId], references: [id])
+  answer     String
+  score      Float?
+  team       Team     @relation(fields: [teamId], references: [id])
+  teamId     Int
 }

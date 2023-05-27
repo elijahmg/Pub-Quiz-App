@@ -13,7 +13,9 @@ import PrimaryButton from '../../components/buttons/primary-button';
 import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
 import { useRouter } from 'next/router';
 import { trpc } from '../../utils/trcp';
-import { useQuizDataStore } from '../../state/quiz-data.state';
+import { useTeamQuizDataStore } from '../../state/team/team-quiz-data.state';
+import { MAX_TEAM_NAME_LENGTH, MIN_TEAM_NAME_LENGTH } from '../../../constants';
+import { Team } from '.prisma/client';
 
 enum FormError {
   UNDEFINED = 'undefined',
@@ -26,9 +28,6 @@ const ERROR_MESSAGES = {
   tooShort: "The team's name must be atleast 2 characters long",
   tooLong: "The team's name can't be more than 20 characters long",
 };
-
-const MIN_TEAM_NAME_LENGTH = 2;
-const MAX_TEAM_NAME_LENGTH = 20;
 
 const Quiz = () => {
   const router = useRouter();
@@ -43,10 +42,21 @@ const Quiz = () => {
     if (error) setError(undefined);
   };
 
-  const { id } = useQuizDataStore((state) => state.quizData);
+  const {
+    quizData: { id },
+    setTeamData,
+  } = useTeamQuizDataStore((state) => ({
+    quizData: state.quizData,
+    setTeamData: state.setTeamData,
+  }));
+
+  const onSuccessfullyCreatedTeam = (teamData: Team) => {
+    setTeamData(teamData);
+    router.push(`/${id}/waiting`);
+  };
 
   const { mutate: createTeam } = trpc.team.createTeam.useMutation({
-    onSuccess: () => null,
+    onSuccess: onSuccessfullyCreatedTeam,
   });
 
   const handleSubmit = async () => {
@@ -70,8 +80,6 @@ const Quiz = () => {
     }
 
     await createTeam({ name: teamName, quizId: id });
-
-    router.push(`/${id}/waiting`);
   };
 
   return (

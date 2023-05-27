@@ -1,12 +1,16 @@
 import { Badge, Box, Flex, Text } from '@chakra-ui/react';
-import { TEAM_NAME } from '../../../mock-data';
+import { useTeamQuizDataStore } from '../../state/team/team-quiz-data.state';
 
 export default function QuizHead() {
+  const { teamName, roundName } = useTeamQuizDataStore((state) => ({
+    teamName: state.teamData.name,
+    roundName: state.quizData.quizStatus?.currentQuestion.round.name,
+  }));
+
   return (
     <Box>
       <Flex justifyContent="space-between">
-        {/* TODO Replace mock data */}
-        <Text as="b">{TEAM_NAME}</Text>
+        <Text as="b">{teamName}</Text>
         <Badge
           borderRadius={6}
           px={2}
@@ -14,7 +18,7 @@ export default function QuizHead() {
           textTransform="none"
           fontWeight={400}
         >
-          Round {1}
+          Round: <b>{roundName}</b>
         </Badge>
       </Flex>
     </Box>

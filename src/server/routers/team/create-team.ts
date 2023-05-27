@@ -1,10 +1,14 @@
-import { procedure } from '../../trpc';
 import { z } from 'zod';
+import { procedure } from '../../trpc';
+import {
+  MIN_TEAM_NAME_LENGTH,
+  MAX_TEAM_NAME_LENGTH,
+} from '../../../../constants';
 
 export const createTeam = procedure
   .input(
     z.object({
-      name: z.string().max(32),
+      name: z.string().min(MIN_TEAM_NAME_LENGTH).max(MAX_TEAM_NAME_LENGTH),
       quizId: z.number(),
     }),
   )

@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { procedure } from '../../trpc';
+import { selectFullQuizAdminData } from '../../../state/admin/admin-quiz-data.state';
 
 export const getFullQuizData = procedure
   .input(
@@ -12,37 +13,6 @@ export const getFullQuizData = procedure
       where: {
         id: input.quizId,
       },
-      select: {
-        id: true,
-        name: true,
-        pin: true,
-        quizStatus: {
-          select: {
-            id: true,
-            status: true,
-            currentQuestion: {
-              select: {
-                id: true,
-                roundId: true,
-              },
-            },
-          },
-        },
-        rounds: {
-          select: {
-            id: true,
-            name: true,
-            questions: {
-              select: {
-                answer: true,
-                content: true,
-                id: true,
-                mediaType: true,
-                mediaURL: true,
-              },
-            },
-          },
-        },
-      },
+      select: selectFullQuizAdminData,
     });
   });

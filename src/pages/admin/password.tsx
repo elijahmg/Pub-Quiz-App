@@ -1,4 +1,4 @@
-import { Flex, Grid, Input, Stack } from '@chakra-ui/react';
+import { Flex, Input, Stack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 import PrimaryButton from '../../components/buttons/primary-button';
@@ -6,12 +6,14 @@ import SubHeader from '../../components/headers/sub-header';
 import Password from '../../components/images/password';
 import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
 import { trpc } from '../../utils/trcp';
-import { Quiz } from '@prisma/client';
-import { useQuizDataStore } from '../../state/quiz-data.state';
+import {
+  QuizData,
+  useAdminQuizDataState,
+} from '../../state/admin/admin-quiz-data.state';
 
 const AdminHome = () => {
   const [password, setPassword] = useState('');
-  const setQuizData = useQuizDataStore((state) => state.setQuizData);
+  const setQuizData = useAdminQuizDataState((state) => state.setQuizData);
 
   const router = useRouter();
 
@@ -25,9 +27,7 @@ const AdminHome = () => {
     },
   );
 
-  const handleOnGetQuizSuccessfully = (
-    quizData: Omit<Quiz, 'password'> | null,
-  ) => {
+  const handleOnGetQuizSuccessfully = (quizData: QuizData | null) => {
     if (quizData) {
       setQuizData(quizData);
       router.push(`${quizData.id}`);

@@ -2,7 +2,7 @@
 CREATE TYPE "QuizStatusEnum" AS ENUM ('JOINING', 'PLAYING', 'END_ROUND', 'EVALUATION', 'SCORE_VIEWING', 'END_QUIZ');
 
 -- CreateEnum
-CREATE TYPE "MediaType" AS ENUM ('IMAGE', 'VIDEO', 'AUDIO');
+CREATE TYPE "MediaTypeEnum" AS ENUM ('IMAGE', 'VIDEO', 'AUDIO');
 
 -- CreateTable
 CREATE TABLE "QuizStatus" (
@@ -38,7 +38,7 @@ CREATE TABLE "Question" (
     "id" SERIAL NOT NULL,
     "content" TEXT NOT NULL,
     "answer" TEXT NOT NULL,
-    "mediaType" "MediaType",
+    "mediaType" "MediaTypeEnum",
     "mediaURL" TEXT,
     "roundId" INTEGER NOT NULL,
 
@@ -57,9 +57,9 @@ CREATE TABLE "Team" (
 -- CreateTable
 CREATE TABLE "TeamAnswers" (
     "id" SERIAL NOT NULL,
-    "roundId" INTEGER NOT NULL,
+    "questionId" INTEGER NOT NULL,
     "answer" TEXT NOT NULL,
-    "score" DOUBLE PRECISION NOT NULL,
+    "score" DOUBLE PRECISION,
     "teamId" INTEGER NOT NULL,
 
     CONSTRAINT "TeamAnswers_pkey" PRIMARY KEY ("id")
@@ -87,7 +87,7 @@ ALTER TABLE "Question" ADD CONSTRAINT "Question_roundId_fkey" FOREIGN KEY ("roun
 ALTER TABLE "Team" ADD CONSTRAINT "Team_quizId_fkey" FOREIGN KEY ("quizId") REFERENCES "Quiz"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "TeamAnswers" ADD CONSTRAINT "TeamAnswers_roundId_fkey" FOREIGN KEY ("roundId") REFERENCES "Round"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "TeamAnswers" ADD CONSTRAINT "TeamAnswers_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "TeamAnswers" ADD CONSTRAINT "TeamAnswers_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES "Team"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

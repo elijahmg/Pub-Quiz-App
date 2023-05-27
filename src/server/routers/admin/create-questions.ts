@@ -1,6 +1,6 @@
 import { procedure } from '../../trpc';
 import { z } from 'zod';
-import { MediaTypes } from '../../types';
+import { MediaTypeEnum } from '.prisma/client';
 
 export const createQuestions = procedure
   .input(
@@ -11,7 +11,7 @@ export const createQuestions = procedure
         roundId: z.number(),
         mediaURL: z.string().nullable().default(null),
         mediaType: z
-          .enum([MediaTypes.VIDEO, MediaTypes.AUDIO, MediaTypes.IMAGE])
+          .enum([MediaTypeEnum.VIDEO, MediaTypeEnum.AUDIO, MediaTypeEnum.IMAGE])
           .nullable()
           .default(null),
       }),

@@ -27,4 +27,7 @@ export const ADMIN_EDIT_ROUTE_LIST = [
   `${ADMIN_EDIT_BASE_ROUTE}/final`,
 ];
 
+export const MIN_TEAM_NAME_LENGTH = 2;
+export const MAX_TEAM_NAME_LENGTH = 20;
+
 export const BOGUS_OBJECT = Object.freeze({}) as never;

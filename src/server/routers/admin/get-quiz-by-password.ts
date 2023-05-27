@@ -1,6 +1,6 @@
-import { procedure } from '../../trpc';
 import { z } from 'zod';
-import { selectQuizData } from '../../common-data-returns';
+import { procedure } from '../../trpc';
+import { selectFullQuizAdminData } from '../../../state/admin/admin-quiz-data.state';
 
 export const getQuizByPassword = procedure
   .input(
@@ -15,6 +15,6 @@ export const getQuizByPassword = procedure
       where: {
         password,
       },
-      select: selectQuizData,
+      select: selectFullQuizAdminData,
     });
   });

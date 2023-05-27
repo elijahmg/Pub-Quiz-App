@@ -3,12 +3,15 @@ import { PinInput, HStack, PinInputField, Center } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { MainPageWrapper } from '../components/wrappers/main-page-wrapper';
 import { trpc } from '../utils/trcp';
-import { QuizData, useQuizDataStore } from '../state/quiz-data.state';
+import {
+  QuizData,
+  useTeamQuizDataStore,
+} from '../state/team/team-quiz-data.state';
 import { PIN_LENGTH } from '../../constants';
 
 const Pin = () => {
   const [pin, setPin] = useState('');
-  const setQuizData = useQuizDataStore((state) => state.setQuizData);
+  const setQuizData = useTeamQuizDataStore((state) => state.setQuizData);
 
   const router = useRouter();
 

@@ -44,7 +44,7 @@ export default function AdminQuizManageRoundsForm({
       ...quizData,
       rounds: [
         ...rounds,
-        { _id: generateRandomId(), name: roundName, questions: [] },
+        { _id: generateRandomId(), name: roundName, questions: [], quizId: -1 },
       ],
     });
 
