@@ -10,12 +10,16 @@ import AdminQuizWrapper from '../../../components/wrappers/admin-quiz-wrapper';
 import { trpc } from '../../../utils/trcp';
 import { QuizStatusEnum } from '.prisma/client';
 import { useAdminQuizDataState } from '../../../state/admin/admin-quiz-data.state';
+import useResponseToast from '../../../hooks/use-response-toast';
 
 const AdminQuiz = () => {
   const quizData = useAdminQuizDataState((state) => state.quizData);
 
+  const { handleTRPCError } = useResponseToast();
+
   const { mutate: updateQuizStatus } = trpc.admin.updateQuizStatus.useMutation({
     onSuccess: () => handOnSuccessfullyUpdatedQuizStatus(),
+    onError: handleTRPCError,
   });
 
   const router = useRouter();

@@ -6,6 +6,7 @@ import {
   useAdminQuizDataState,
   QuizData,
 } from '../../state/admin/admin-quiz-data.state';
+import useResponseToast from '../../hooks/use-response-toast';
 
 interface AdminQuizControlContextType {
   quiz: QuizData;
@@ -26,6 +27,8 @@ interface Props {
 export const AdminQuizControlContextWrapper = ({ children }: Props) => {
   const { query } = useRouter();
 
+  const { handleTRPCError } = useResponseToast();
+
   const { quizData, setQuizData } = useAdminQuizDataState((state) => ({
     quizData: state.quizData,
     setQuizData: state.setQuizData,
@@ -39,8 +42,9 @@ export const AdminQuizControlContextWrapper = ({ children }: Props) => {
       {
         enabled: !!query.quizId,
         onSuccess: (data: QuizData) => handleOnSuccessGetFullQuizData(data),
-      },
-    );
+      onError: handleTRPCError,
+    },
+  );
 
   const handleOnSuccessGetFullQuizData = (quizData: QuizData | null) => {
     if (!quizData) return;

@@ -2,6 +2,7 @@ import { useAdminQuizManageContext } from '../components/contexts/admin-quiz-man
 import { trpc } from '../utils/trcp';
 import { Quiz, QuizStatus, Round } from '@prisma/client';
 import { Question } from '.prisma/client';
+import useResponseToast from './use-response-toast';
 
 /**
  * Order of function calls
@@ -19,6 +20,8 @@ import { Question } from '.prisma/client';
 export function useCreateFullQuiz(onQuizCreationSuccess: () => void) {
   const { quizData } = useAdminQuizManageContext();
 
+  const { handleTRPCError } = useResponseToast();
+
   // 1. First create quiz with main information (name, password, pim etc...)
   const {
     mutate: createQuiz,
@@ -26,13 +29,14 @@ export function useCreateFullQuiz(onQuizCreationSuccess: () => void) {
     isSuccess: isQuizCreatedSuccessfully,
   } = trpc.admin.createQuiz.useMutation({
     onSuccess: (data) => handleCreateRounds(data),
+    onError: handleTRPCError,
   });
 
   /**-------Rounds creation--------**/
 
   // 2. Create rounds/rounds [TRPC]
   const { mutate: creteRounds, isSuccess: isRoundsCreatedSuccessfully } =
-    trpc.admin.createRounds.useMutation();
+    trpc.admin.createRounds.useMutation({ onError: handleTRPCError });
 
   // 2. Create rounds/rounds [creation handler]
   const handleCreateRounds = async (createdQuiz: Quiz) => {
@@ -58,6 +62,7 @@ export function useCreateFullQuiz(onQuizCreationSuccess: () => void) {
       {
         enabled: isRoundsCreatedSuccessfully && isQuizCreatedSuccessfully,
         onSuccess: (data) => handleCreateQuestions(data),
+        onError: handleTRPCError,
       },
     );
 
@@ -65,7 +70,7 @@ export function useCreateFullQuiz(onQuizCreationSuccess: () => void) {
 
   // 4. Create questions [TRPC]
   const { mutate: createQuestions, isSuccess: isQuestionsCreatedSuccessfully } =
-    trpc.admin.createQuestions.useMutation();
+    trpc.admin.createQuestions.useMutation({ onError: handleTRPCError });
 
   // 4. Create questions [Creation handler]
   const handleCreateQuestions = async (createdRounds: Round[]) => {
@@ -116,6 +121,7 @@ export function useCreateFullQuiz(onQuizCreationSuccess: () => void) {
         isQuizCreatedSuccessfully,
       // parse is needed because of how prisma handles enums
       onSuccess: (data) => handleCreateQuizStatus(data as Question[]),
+      onError: handleTRPCError,
     },
   );
 
@@ -124,6 +130,7 @@ export function useCreateFullQuiz(onQuizCreationSuccess: () => void) {
   // 6. Create quiz status [TRPC]
   const { mutate: createQuizStatus } = trpc.admin.createQuizStatus.useMutation({
     onSuccess: (data) => handleEditQuiz(data),
+    onError: handleTRPCError,
   });
 
   // 6. Create quiz status [creation handler]
@@ -139,6 +146,7 @@ export function useCreateFullQuiz(onQuizCreationSuccess: () => void) {
   const { mutate: updateQuizWithQuizStatusId } =
     trpc.admin.updateQuizWithQuizStatusId.useMutation({
       onSuccess: onQuizCreationSuccess,
+      onError: handleTRPCError,
     });
 
   // 7. Edit quiz [creation handle]

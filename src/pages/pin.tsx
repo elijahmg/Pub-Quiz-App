@@ -8,12 +8,15 @@ import {
   useTeamQuizDataStore,
 } from '../state/team/team-quiz-data.state';
 import { PIN_LENGTH } from '../../constants';
+import useResponseToast from '../hooks/use-response-toast';
 
 const Pin = () => {
   const [pin, setPin] = useState('');
   const setQuizData = useTeamQuizDataStore((state) => state.setQuizData);
 
   const router = useRouter();
+
+  const { handleTRPCError } = useResponseToast();
 
   function onGettingQuizDataSuccessfully(quizData: QuizData) {
     setQuizData(quizData);
@@ -32,7 +35,8 @@ const Pin = () => {
     { pin },
     {
       enabled: pin.length === PIN_LENGTH,
-      onSuccess: (quizData) => onGettingQuizDataSuccessfully(quizData),
+      onSuccess: onGettingQuizDataSuccessfully,
+      onError: handleTRPCError,
     },
   );
 

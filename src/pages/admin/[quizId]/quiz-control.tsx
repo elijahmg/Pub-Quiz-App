@@ -8,16 +8,19 @@ import {
   useAdminQuizControlContext,
 } from '../../../components/contexts/admin-quiz-control-context';
 import AdminQuizControlWrapper from '../../../components/wrappers/admin-quiz-control-wrapper';
+import useResponseToast from '../../../hooks/use-response-toast';
 import { trpc } from '../../../utils/trcp';
 
 const QuizControl = () => {
   const router = useRouter();
 
+  const { handleTRPCError } = useResponseToast();
+
   const { quiz, roundIndex, questionIndex, setQuestionIndex } =
     useAdminQuizControlContext();
 
   const { mutate: updateCurrentQuestion } =
-    trpc.admin.updateCurrentQuestion.useMutation({});
+    trpc.admin.updateCurrentQuestion.useMutation({ onError: handleTRPCError });
 
   const roundQuestions = quiz.rounds[roundIndex].questions;
 
