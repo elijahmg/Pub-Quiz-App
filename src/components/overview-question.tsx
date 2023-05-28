@@ -8,7 +8,7 @@ import {
   FormLabel,
 } from '@chakra-ui/react';
 import { POINTS_OPTIONS } from '../../constants';
-import { Question } from '../../types';
+import { QuestionSelection } from '../state/admin/admin-quiz-data.state';
 
 const ACTIVE_POINTS_COLORS: { [key: number]: string } = {
   0: 'red.100',
@@ -19,7 +19,7 @@ const ACTIVE_POINTS_COLORS: { [key: number]: string } = {
 const DEFAULT_COLOR = 'brand.900';
 
 interface Props extends StackProps {
-  question: Question;
+  question: QuestionSelection;
   questionIndex: number;
   answer?: string;
   points?: number;

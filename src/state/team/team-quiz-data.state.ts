@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type { Quiz, Question, Round, Team } from '.prisma/client';
+import { GenericObj } from '../types';
 
 // prisma selection
 export const fullQuizDataForTeam = {
@@ -44,8 +45,6 @@ type QuizSelection = Pick<Quiz, 'id' | 'name' | 'pin'>;
 export interface QuizData extends QuizSelection {
   quizStatus: QuizStatusSelection | null;
 }
-
-type GenericObj = Record<string, undefined>;
 
 interface TeamQuizDataState {
   quizData: QuizData | GenericObj;

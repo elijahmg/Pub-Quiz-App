@@ -1,7 +1,7 @@
 import { useAdminQuizManageContext } from '../components/contexts/admin-quiz-manage-context';
 import { trpc } from '../utils/trcp';
 import { Quiz, QuizStatus, Round } from '@prisma/client';
-import { Question } from '../../types';
+import { Question } from '.prisma/client';
 
 /**
  * Order of function calls

@@ -1,6 +1,5 @@
 import React, { createContext, ReactNode, useContext, useState } from 'react';
-import { QUIZ, TEAMS } from '../../../mock-data';
-import { Quiz, Team } from '.prisma/client';
+import { Team } from '.prisma/client';
 import { useRouter } from 'next/router';
 import { trpc } from '../../utils/trcp';
 import {
@@ -9,7 +8,7 @@ import {
 } from '../../state/admin/admin-quiz-data.state';
 
 interface AdminQuizControlContextType {
-  quiz: Quiz;
+  quiz: QuizData;
   teams: Team[];
   roundIndex: number;
   setRoundIndex: (roundIndex: number) => void;
@@ -32,27 +31,27 @@ export const AdminQuizControlContextWrapper = ({ children }: Props) => {
     setQuizData: state.setQuizData,
   }));
 
-  trpc.admin.getFullQuizData.useQuery(
-    {
-      quizId: Number(query.quizId),
-    },
-    {
-      enabled: !!query.quizId,
-      onSuccess: (data) => handleOnSuccessGetFullQuizData(data as QuizData),
-    },
-  );
+  const { isLoading: isFullQuizDataLoading } =
+    trpc.admin.getFullQuizData.useQuery(
+      {
+        quizId: Number(query.quizId),
+      },
+      {
+        enabled: !!query.quizId,
+        onSuccess: (data: QuizData) => handleOnSuccessGetFullQuizData(data),
+      },
+    );
 
   const handleOnSuccessGetFullQuizData = (quizData: QuizData | null) => {
-    // @TODO better error handling
     if (!quizData) return;
 
     setQuizData(quizData);
   };
 
-  // @TODO this is bad
-  const quiz = { ...QUIZ, ...quizData };
+  // Parsing is forced here, since we have security on line 77
+  const quiz = { ...quizData } as QuizData;
 
-  const teams = TEAMS;
+  const teams = [] as Team[];
 
   const [roundIndex, setRoundIndex] = useState(0);
 
@@ -74,6 +73,8 @@ export const AdminQuizControlContextWrapper = ({ children }: Props) => {
     questionIndex,
     setQuestionIndex: handleSetQuestionIndex,
   };
+
+  if (isFullQuizDataLoading) return null;
 
   return (
     <AdminQuizControlContext.Provider value={contextValue}>

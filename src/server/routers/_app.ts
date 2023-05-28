@@ -1,4 +1,4 @@
-import { procedure, router } from '../trpc';
+import { router } from '../trpc';
 
 // Admin procedures
 import { createQuiz } from './admin/create-quiz';
