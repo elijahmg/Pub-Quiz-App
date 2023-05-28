@@ -1,8 +1,7 @@
 import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
-import { Question } from '../../../../../types';
 import SecondaryButton from '../../../../components/buttons/secondary-button';
 import {
   AdminQuizControlContextWrapper,
@@ -11,6 +10,7 @@ import {
 import HighlightHeader from '../../../../components/headers/highlight-header';
 import OverviewQuestion from '../../../../components/overview-question';
 import AdminQuizControlWrapper from '../../../../components/wrappers/admin-quiz-control-wrapper';
+import { QuestionSelection } from '../../../../state/admin/admin-quiz-data.state';
 
 const AdminQuizTeamCheck = () => {
   const router = useRouter();
@@ -26,7 +26,7 @@ const AdminQuizTeamCheck = () => {
 
   const questions = quiz.rounds[roundIndex].questions;
 
-  const handlePointsChange = (question: Question, points: number) => {
+  const handlePointsChange = (question: QuestionSelection, points: number) => {
     console.log(question, points);
   };
 
@@ -49,7 +49,7 @@ const AdminQuizTeamCheck = () => {
       <HighlightHeader>
         {`Team ${teamIndex + 1}: ${team?.name}`}
       </HighlightHeader>
-      {questions.map((question) => (
+      {questions?.map((question) => (
         <OverviewQuestion
           key={question.id}
           question={question}

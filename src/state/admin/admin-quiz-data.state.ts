@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type { QuizStatus, Question, Round } from '@prisma/client';
+import { GenericObj } from '../types';
 
 export const selectFullQuizAdminData = {
   id: true,
@@ -36,7 +37,7 @@ export const selectFullQuizAdminData = {
 
 type QuizStatusSelection = Pick<QuizStatus, 'id' | 'status'>;
 type CurrentQuestionSelection = Pick<Question, 'id' | 'roundId'>;
-type QuestionSelection = Pick<
+export type QuestionSelection = Pick<
   Question,
   'id' | 'content' | 'answer' | 'mediaURL' | 'mediaType'
 >;
@@ -55,15 +56,15 @@ export interface QuizData {
   name: string;
   pin: string;
   rounds: RoundState[];
-  quizStatus: QuizStatusState | null;
+  quizStatus: QuizStatusState;
 }
 
 interface AdminQuizDataState {
-  quizData: QuizData | null;
+  quizData: QuizData | GenericObj;
   setQuizData: (quizData: QuizData) => void;
 }
 
 export const useAdminQuizDataState = create<AdminQuizDataState>((set) => ({
-  quizData: null,
+  quizData: {},
   setQuizData: (quizData) => set({ quizData }),
 }));

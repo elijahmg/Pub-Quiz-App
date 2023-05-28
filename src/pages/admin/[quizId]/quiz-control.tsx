@@ -29,7 +29,7 @@ const QuizControl = () => {
 
     await updateCurrentQuestion({
       quizStatusId: quiz.quizStatus.id,
-      newCurrentQuestionId,
+      newCurrentQuestionId: newCurrentQuestionId || -1,
     });
 
     setQuestionIndex(newCurrentQuestionIndex);
@@ -44,7 +44,7 @@ const QuizControl = () => {
 
   return (
     <>
-      {roundQuestions.map(
+      {roundQuestions?.map(
         (question, i) =>
           i <= questionIndex && (
             <AdminQuestion
@@ -54,7 +54,7 @@ const QuizControl = () => {
             />
           ),
       )}
-      {questionIndex < roundQuestions.length - 1 ? (
+      {questionIndex < roundQuestions!.length - 1 ? (
         <PrimaryButton onClick={handleNextQuestion}>
           Next question
         </PrimaryButton>

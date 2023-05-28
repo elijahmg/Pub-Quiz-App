@@ -1,7 +1,7 @@
 import { Stack, Text, Input, Flex, Checkbox, Select } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
 import { StoreQuestion } from '../../types';
-import { MediaTypes } from '../server/types';
+import { MediaTypeEnum } from '.prisma/client';
 
 interface Props {
   title: string;
@@ -29,9 +29,9 @@ export default function CreatorQuestion({
   };
 
   const handleMediaTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value.toUpperCase() as MediaTypes;
+    const value = e.target.value.toUpperCase() as MediaTypeEnum;
 
-    if (!(value in MediaTypes)) return;
+    if (!(value in MediaTypeEnum)) return;
 
     onQuestionChange?.({ ...question, mediaType: value });
   };
@@ -73,7 +73,7 @@ export default function CreatorQuestion({
             onChange={handleMediaTypeChange}
             isReadOnly={isReadOnly}
           >
-            {Object.values(MediaTypes).map((mediaTypeItem) => (
+            {Object.values(MediaTypeEnum).map((mediaTypeItem) => (
               <option key={mediaTypeItem} value={mediaTypeItem}>
                 {mediaTypeItem.toLowerCase()}
               </option>

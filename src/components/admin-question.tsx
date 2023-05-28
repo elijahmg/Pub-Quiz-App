@@ -1,8 +1,8 @@
 import { Stack, Text, Input, StackProps } from '@chakra-ui/react';
-import { Question } from '.prisma/client';
+import { QuestionSelection } from '../state/admin/admin-quiz-data.state';
 
 interface Props extends StackProps {
-  question: Question;
+  question: QuestionSelection;
   questionIndex: number;
 }
 

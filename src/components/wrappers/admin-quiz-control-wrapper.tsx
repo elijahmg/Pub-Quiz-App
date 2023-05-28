@@ -2,7 +2,6 @@ import { ReactNode } from 'react';
 import { Props as WrapperProps } from './wrapper';
 import AdminQuizWrapper from './admin-quiz-wrapper';
 import Blobs3 from '../images/blobs-3';
-import { Stack } from '@chakra-ui/react';
 
 interface Props extends WrapperProps {
   children: ReactNode;

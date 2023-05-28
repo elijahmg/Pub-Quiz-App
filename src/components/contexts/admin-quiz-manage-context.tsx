@@ -1,7 +1,13 @@
 import React, { createContext, ReactNode, useContext, useState } from 'react';
 import { StoreQuiz } from '../../../types';
 
-const QUIZ_PRESET = { name: '', pin: '', password: '', rounds: [] };
+const QUIZ_PRESET: StoreQuiz = {
+  name: '',
+  pin: '',
+  password: '',
+  rounds: [],
+  quizStatusId: -1,
+};
 
 interface AdminQuizManageContextType {
   quizData: StoreQuiz;

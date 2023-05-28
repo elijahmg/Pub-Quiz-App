@@ -7,20 +7,13 @@ import {
   FormLabel,
   Flex,
 } from '@chakra-ui/react';
-import { ChangeEvent, useState, useEffect } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { CheckCircleIcon, EditIcon } from '@chakra-ui/icons';
-import { Question } from '../../types';
 import SecondaryButton from './buttons/secondary-button';
+import { QuestionSelection } from '../state/admin/admin-quiz-data.state';
 
 interface Props {
-  question: Question;
-  questionIndex: number;
-  answer: string;
-  onAnswerChange: (answer: string) => void;
-}
-
-interface Props {
-  question: Question;
+  question: QuestionSelection;
   questionIndex: number;
   answer: string;
   onAnswerChange: (answer: string) => void;

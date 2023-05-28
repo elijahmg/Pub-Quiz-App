@@ -23,7 +23,7 @@ const AdminHome = () => {
     },
     {
       enabled: false,
-      onSuccess: (quizData) => handleOnGetQuizSuccessfully(quizData),
+      onSuccess: (quizData: QuizData) => handleOnGetQuizSuccessfully(quizData),
     },
   );
 
