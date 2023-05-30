@@ -11,6 +11,7 @@ import {
   useAdminQuizDataState,
 } from '../../state/admin/admin-quiz-data.state';
 import useResponseToast from '../../hooks/use-response-toast';
+import { QuizStatusEnum } from '.prisma/client';
 
 const AdminHome = () => {
   const [password, setPassword] = useState('');
@@ -34,7 +35,13 @@ const AdminHome = () => {
   const handleOnGetQuizSuccessfully = (quizData: QuizData | null) => {
     if (quizData) {
       setQuizData(quizData);
-      router.push(`${quizData.id}`);
+
+      const path =
+        quizData.quizStatus.status === QuizStatusEnum.PLAYING
+          ? `${quizData.id}/quiz-control`
+          : `${quizData.id}`;
+
+      router.push(path);
     }
   };
 

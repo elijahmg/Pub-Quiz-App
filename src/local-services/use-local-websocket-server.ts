@@ -3,7 +3,12 @@ import { useEffect } from 'react';
 const WEBSOCKET_SERVER_URL = 'ws://localhost:5001';
 
 // @TODO fix payload type
-export function useLocalWebsocketServer(callback: (payload: any) => void) {
+export function useLocalWebsocketServer(
+  callback: (payload: any) => void,
+  deps?: any[],
+) {
+  const effectDependencies = [...(deps || []), callback];
+
   useEffect(() => {
     const wsInstance = new WebSocket(WEBSOCKET_SERVER_URL);
 
@@ -17,5 +22,7 @@ export function useLocalWebsocketServer(callback: (payload: any) => void) {
     return () => {
       wsInstance.close();
     };
-  }, []);
+    // I know better what's inside
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, effectDependencies);
 }

@@ -7,24 +7,30 @@ import SubHeader from '../../components/headers/sub-header';
 import SubTitle from '../../components/headers/sub-title';
 import { useLocalWebsocketServer } from '../../local-services/use-local-websocket-server';
 import { useRouter } from 'next/router';
-import { TEAM_NAME } from '../../../mock-data';
+import { useTeamQuizDataStore } from '../../state/team/team-quiz-data.state';
 
 const Waiting = () => {
   const router = useRouter();
 
-  useLocalWebsocketServer((data) => {
-    if (data.status === QuizStatusEnum.PLAYING) {
-      router.push(`/${router.query.quizId}/play`);
-    }
-  });
+  const { teamName } = useTeamQuizDataStore((state) => ({
+    teamName: state.teamData.name,
+  }));
+
+  useLocalWebsocketServer(
+    (data) => {
+      if (data.status === QuizStatusEnum.PLAYING) {
+        router.push(`/${router.query.quizId}/play`);
+      }
+    },
+    [router.query.quizId],
+  );
 
   return (
     <Stack as={Center} spacing={6}>
       <AlienTaken />
       <Stack>
         <SubHeader textAlign="left">
-          {/* TODO Replace mock data */}
-          {`Don't worry ${TEAM_NAME}, the quiz will start in a few moments.`}
+          {`Don't worry ${teamName}, the quiz will start in a few moments.`}
         </SubHeader>
         <SubTitle textAlign="left">Grab a drink in the meantime!</SubTitle>
       </Stack>

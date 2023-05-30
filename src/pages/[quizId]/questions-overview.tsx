@@ -3,6 +3,7 @@ import { useState } from 'react';
 import QuestionsOverviewQuestion from '../../components/questions-overview-question';
 import InQuizWrapper from '../../components/wrappers/in-quiz-wrapper';
 import { QUESTIONS } from '../../../mock-data';
+import { QuizStatusEnum } from '.prisma/client';
 
 const QuestionsOverview = () => {
   // TODO Replace mock data
@@ -36,7 +37,11 @@ const QuestionsOverview = () => {
 QuestionsOverview.getLayout = function getLayout(
   pageContent: React.ReactElement,
 ) {
-  return <InQuizWrapper>{pageContent}</InQuizWrapper>;
+  return (
+    <InQuizWrapper quizStatus={QuizStatusEnum.END_ROUND}>
+      {pageContent}
+    </InQuizWrapper>
+  );
 };
 
 export default QuestionsOverview;

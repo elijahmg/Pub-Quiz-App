@@ -51,6 +51,7 @@ const Quiz = () => {
   } = useTeamQuizDataStore((state) => ({
     quizData: state.quizData,
     setTeamData: state.setTeamData,
+    teamId: state.teamData.id,
   }));
 
   const onSuccessfullyCreatedTeam = (teamData: Team) => {

@@ -7,16 +7,26 @@ export const getQuizByPin = procedure
   .input(
     z.object({
       pin: z.string().min(4).max(4),
+      quizStatus: z
+        .enum([
+          QuizStatusEnum.JOINING,
+          QuizStatusEnum.PLAYING,
+          QuizStatusEnum.END_ROUND,
+          QuizStatusEnum.EVALUATION,
+          QuizStatusEnum.SCORE_VIEWING,
+          QuizStatusEnum.END_QUIZ,
+        ])
+        .optional(),
     }),
   )
   .query(async ({ input, ctx }) => {
-    const { pin } = input;
+    const { pin, quizStatus } = input;
 
     const quiz = await ctx.prisma.quiz.findFirst({
       where: {
         pin,
         quizStatus: {
-          status: QuizStatusEnum.JOINING,
+          status: quizStatus || QuizStatusEnum.JOINING,
         },
       },
       select: fullQuizDataForTeam,
