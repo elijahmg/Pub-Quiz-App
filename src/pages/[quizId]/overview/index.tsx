@@ -1,3 +1,4 @@
+import React from 'react';
 import { Text, Flex, Divider, Stack } from '@chakra-ui/react';
 import SubHeader from '../../../components/headers/sub-header';
 import Header from '../../../components/headers/header';
@@ -46,6 +47,7 @@ const Overview = () => {
 };
 
 Overview.getLayout = function getLayout(pageContent: React.ReactElement) {
+  // InQuizWrapper has prop to pass custom quiz status enum value
   return <InQuizWrapper>{pageContent}</InQuizWrapper>;
 };
 

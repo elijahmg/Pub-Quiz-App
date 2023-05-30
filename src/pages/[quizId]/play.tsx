@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Question from '../../components/question';
 import InQuizWrapper from '../../components/wrappers/in-quiz-wrapper';
 import { Stack } from '@chakra-ui/react';
 import PrimaryButton from '../../components/buttons/primary-button';
 import { useTeamQuizDataStore } from '../../state/team/team-quiz-data.state';
 import { trpc } from '../../utils/trcp';
-import { TeamAnswers } from '.prisma/client';
+import { QuizStatusEnum, TeamAnswers } from '.prisma/client';
 import useResponseToast from '../../hooks/use-response-toast';
+import { useSubscribeToQuizTeamUpdateStore } from '../../hooks/use-subscribe-to-quiz-team-update.store';
 
 const Play = () => {
+  const router = useRouter();
   const { handleTRPCError } = useResponseToast();
 
   const [questionIndex, setQuestionIndex] = useState(0);
@@ -22,6 +25,15 @@ const Play = () => {
     quizData: state.quizData,
     teamData: state.teamData,
   }));
+
+  // for update of the quiz status through websocket
+  useSubscribeToQuizTeamUpdateStore();
+
+  useEffect(() => {
+    if (quizData.quizStatus?.status === QuizStatusEnum.END_ROUND) {
+      router.push(`/${router.query.quizId}/questions-overview`);
+    }
+  }, [quizData.quizStatus?.status]);
 
   const onSubmittedAnswerSuccessfully = (data: TeamAnswers) => {
     setCurrentTeamAnswerId(data.id);
@@ -40,6 +52,7 @@ const Play = () => {
 
   useEffect(() => {
     setAnswer('');
+    setCurrentTeamAnswerId(0);
   }, [currentQuestionId]);
 
   const handleSubmit = async () => {

@@ -1,11 +1,15 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import type { Quiz, Question, Round, Team } from '.prisma/client';
 import { GenericObj } from '../types';
+import { QuizStatus } from '@prisma/client';
 
 // prisma selection
 export const fullQuizDataForTeam = {
   quizStatus: {
     select: {
+      status: true,
+      id: true,
       currentQuestion: {
         select: {
           id: true,
@@ -36,14 +40,16 @@ export interface CurrentQuestion extends QuestionSelection {
   round: Pick<Round, 'name'>;
 }
 
-interface QuizStatusSelection {
+type QuizStatusSelection = Pick<QuizStatus, 'id' | 'status'>;
+
+interface QuizStatusState extends QuizStatusSelection {
   currentQuestion: CurrentQuestion;
 }
 
 type QuizSelection = Pick<Quiz, 'id' | 'name' | 'pin'>;
 
 export interface QuizData extends QuizSelection {
-  quizStatus: QuizStatusSelection | null;
+  quizStatus: QuizStatusState | null;
 }
 
 interface TeamQuizDataState {
@@ -54,9 +60,14 @@ interface TeamQuizDataState {
 }
 
 // State setup
-export const useTeamQuizDataStore = create<TeamQuizDataState>((set) => ({
-  quizData: {},
-  setQuizData: (quizData: QuizData) => set(() => ({ quizData })),
-  teamData: {},
-  setTeamData: (teamData: Team) => set(() => ({ teamData })),
-}));
+export const useTeamQuizDataStore = create(
+  persist<TeamQuizDataState>(
+    (set) => ({
+      quizData: {},
+      setQuizData: (quizData: QuizData) => set(() => ({ quizData })),
+      teamData: {},
+      setTeamData: (teamData: Team) => set(() => ({ teamData })),
+    }),
+    { name: 'team-quiz-data' },
+  ),
+);
