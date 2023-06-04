@@ -95,7 +95,7 @@ export default function AdminQuizManageRoundsForm({
             </Tag>
           ))}
         </InputLeftElement>
-        <Input size="lg" />
+        <Input size="lg" readOnly />
       </InputGroup>
     </Flex>
   );
