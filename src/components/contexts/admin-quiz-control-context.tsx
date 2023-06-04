@@ -42,14 +42,26 @@ export const AdminQuizControlContextWrapper = ({ children }: Props) => {
       {
         enabled: !!query.quizId,
         onSuccess: (data: QuizData) => handleOnSuccessGetFullQuizData(data),
-      onError: handleTRPCError,
-    },
-  );
+        onError: handleTRPCError,
+      },
+    );
 
   const handleOnSuccessGetFullQuizData = (quizData: QuizData | null) => {
     if (!quizData) return;
 
+    const { quizStatus, rounds } = quizData;
+    const { currentQuestion } = quizStatus;
+    const { roundId, id } = currentQuestion;
+
     setQuizData(quizData);
+
+    const roundIndex = rounds.findIndex((round) => round.id === roundId);
+    setRoundIndex(roundIndex);
+
+    const questionIndex = rounds[roundIndex].questions.findIndex(
+      (question) => question.id === id,
+    );
+    setQuestionIndex(questionIndex);
   };
 
   // Parsing is forced here, since we have security on line 77
