@@ -1,32 +1,54 @@
+import React from 'react';
 import { Stack } from '@chakra-ui/react';
-import { useState } from 'react';
 import QuestionsOverviewQuestion from '../../components/questions-overview-question';
 import InQuizWrapper from '../../components/wrappers/in-quiz-wrapper';
-import { QUESTIONS } from '../../../mock-data';
 import { QuizStatusEnum } from '.prisma/client';
+import { trpc } from '../../utils/trcp';
+import { useTeamQuizDataStore } from '../../state/team/team-quiz-data.state';
+import useResponseToast from '../../hooks/use-response-toast';
 
 const QuestionsOverview = () => {
-  // TODO Replace mock data
-  const [questionsState, setQuestionsState] = useState(QUESTIONS);
+  const { showSuccessToast } = useResponseToast();
 
-  const handleAnswerChange = (questionIndex: number, answer: string) => {
-    setQuestionsState((curQuestions) =>
-      curQuestions.map((question, i) =>
-        i === questionIndex ? { ...question, answer } : question,
-      ),
+  const { teamId } = useTeamQuizDataStore((state) => ({
+    teamId: state.teamData.id,
+  }));
+
+  const { data: teamAnswers, isLoading } =
+    trpc.team.getTeamAnswersByTeamId.useQuery(
+      {
+        teamId: teamId!,
+      },
+      {
+        enabled: !!teamId,
+      },
     );
+
+  const { mutate: updateTeamAnswer } = trpc.team.updateTeamAnswer.useMutation({
+    onSuccess: () => showSuccessToast('New answer has been submitted'),
+  });
+
+  const handleAnswerChange = (teamAnswerId: number, answer: string) => {
+    updateTeamAnswer({
+      newAnswer: answer,
+      teamAnswerId,
+    });
   };
+
+  if (isLoading || !teamAnswers) return null;
 
   return (
     <Stack spacing={6}>
-      {questionsState.map((question, index) => {
+      {teamAnswers.map((teamAnswerData, index) => {
         return (
           <QuestionsOverviewQuestion
-            key={question.id}
-            question={question}
+            key={teamAnswerData.id}
+            question={teamAnswerData.question}
             questionIndex={index}
-            answer={'answer quess'} // @TODO Here goes the answer of the team
-            onAnswerChange={(answer) => handleAnswerChange(index, answer)}
+            answer={teamAnswerData.answer}
+            onAnswerChange={(answer) =>
+              handleAnswerChange(teamAnswerData.id, answer)
+            }
           />
         );
       })}
