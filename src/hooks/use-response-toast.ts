@@ -17,6 +17,15 @@ const useResponseToast = () => {
     });
   };
 
+  const showSuccessToast = (description: string, opts?: ToastOpts) => {
+    toast({
+      description,
+      title: 'Success',
+      status: 'success',
+      ...opts,
+    });
+  };
+
   const showErrorToast = (description: string, opts?: ToastOpts) => {
     showResponseToast(description, {
       title: 'Error',
@@ -37,7 +46,12 @@ const useResponseToast = () => {
     showErrorToast(message);
   };
 
-  return { showErrorToast, showWarningToast, handleTRPCError };
+  return {
+    showErrorToast,
+    showWarningToast,
+    showSuccessToast,
+    handleTRPCError,
+  };
 };
 
 export default useResponseToast;

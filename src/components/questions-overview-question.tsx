@@ -13,7 +13,7 @@ import SecondaryButton from './buttons/secondary-button';
 import { QuestionSelection } from '../state/admin/admin-quiz-data.state';
 
 interface Props {
-  question: QuestionSelection;
+  question: Pick<QuestionSelection, 'content'>;
   questionIndex: number;
   answer: string;
   onAnswerChange: (answer: string) => void;
