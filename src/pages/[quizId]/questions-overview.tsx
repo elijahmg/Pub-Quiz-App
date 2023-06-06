@@ -10,19 +10,20 @@ import useResponseToast from '../../hooks/use-response-toast';
 const QuestionsOverview = () => {
   const { showSuccessToast } = useResponseToast();
 
-  const { teamId } = useTeamQuizDataStore((state) => ({
+  const { teamId, roundId } = useTeamQuizDataStore((state) => ({
     teamId: state.teamData.id,
+    roundId: state.quizData.quizStatus?.currentQuestion.roundId,
   }));
 
-  const { data: teamAnswers, isLoading } =
-    trpc.team.getTeamAnswersByTeamId.useQuery(
-      {
-        teamId: teamId!,
-      },
-      {
-        enabled: !!teamId,
-      },
-    );
+  const { data, isLoading } = trpc.team.getTeamAnswersByTeamId.useQuery(
+    {
+      teamId: teamId!,
+      roundId: roundId!,
+    },
+    {
+      enabled: !!teamId && !!roundId,
+    },
+  );
 
   const { mutate: updateTeamAnswer } = trpc.team.updateTeamAnswer.useMutation({
     onSuccess: () => showSuccessToast('New answer has been submitted'),
@@ -35,11 +36,11 @@ const QuestionsOverview = () => {
     });
   };
 
-  if (isLoading || !teamAnswers) return null;
+  if (isLoading || !data) return null;
 
   return (
     <Stack spacing={6}>
-      {teamAnswers.map((teamAnswerData, index) => {
+      {data.filteredTeamAnswersByRoundId.map((teamAnswerData, index) => {
         return (
           <QuestionsOverviewQuestion
             key={teamAnswerData.id}

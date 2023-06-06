@@ -16,6 +16,7 @@ export const fullQuizDataForTeam = {
           content: true,
           mediaType: true,
           mediaURL: true,
+          roundId: true,
           round: {
             select: {
               name: true,
@@ -33,7 +34,7 @@ export const fullQuizDataForTeam = {
 // State types
 type QuestionSelection = Pick<
   Question,
-  'id' | 'content' | 'mediaType' | 'mediaURL'
+  'id' | 'content' | 'mediaType' | 'mediaURL' | 'roundId'
 >;
 
 export interface CurrentQuestion extends QuestionSelection {
