@@ -1,18 +1,19 @@
+import { useState } from 'react';
 import {
-  Text,
   Input,
   InputGroup,
   InputRightElement,
   StackProps,
   FormControl,
   FormLabel,
+  Button,
 } from '@chakra-ui/react';
 import { POINTS_OPTIONS } from '../../constants';
 import { QuestionSelection } from '../state/admin/admin-quiz-data.state';
 
 const ACTIVE_POINTS_COLORS: { [key: number]: string } = {
   0: 'red.100',
-  0.5: 'green.100',
+  0.5: 'yellow.500',
   1: 'green.100',
 };
 
@@ -22,7 +23,7 @@ interface Props extends StackProps {
   question: QuestionSelection;
   questionIndex: number;
   answer?: string;
-  points?: number;
+  points: number | null;
   onPointsChange?: (points: number) => void;
 }
 
@@ -34,19 +35,21 @@ export default function OverviewQuestion({
   onPointsChange,
   ...props
 }: Props) {
-  const { content } = question;
+  const { content, answer: correctAnswer } = question;
 
-  const isInteractive = !!onPointsChange;
+  const [pointsState, setPointsState] = useState(points);
 
   const handlePointsItemClick = (points: number) => {
-    if (!isInteractive) return;
+    onPointsChange?.(points);
 
-    onPointsChange(points);
+    setPointsState(points);
   };
 
   return (
     <FormControl {...props}>
-      <FormLabel>{`Q${questionIndex + 1}: ${content}`}</FormLabel>
+      <FormLabel>{`Q${
+        questionIndex + 1
+      }: ${content} - ${correctAnswer}`}</FormLabel>
       <InputGroup size="lg">
         <Input isReadOnly value={answer} />
         <InputRightElement
@@ -56,19 +59,20 @@ export default function OverviewQuestion({
           flexDirection="row-reverse"
         >
           {POINTS_OPTIONS.map((pointsOption) => {
-            const isActive = points === pointsOption;
+            const isActive = pointsState === pointsOption;
 
             return (
-              <Text
-                key={pointsOption}
-                onClick={() => handlePointsItemClick(pointsOption)}
-                fontWeight={isActive ? 'semibold' : undefined}
+              <Button
                 color={
                   isActive ? ACTIVE_POINTS_COLORS[pointsOption] : DEFAULT_COLOR
                 }
+                onClick={() => handlePointsItemClick(pointsOption)}
+                size="xs"
+                variant="ghost"
+                key={pointsOption}
               >
                 {`${pointsOption}pct`}
-              </Text>
+              </Button>
             );
           })}
         </InputRightElement>

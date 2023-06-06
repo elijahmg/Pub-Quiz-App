@@ -2,13 +2,27 @@ import { CheckCircleIcon } from '@chakra-ui/icons';
 import { Flex, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { ReactElement, useMemo } from 'react';
-import { TEAMS } from '../../../../mock-data';
 import PrimaryButton from '../../../components/buttons/primary-button';
 import { AdminQuizControlContextWrapper } from '../../../components/contexts/admin-quiz-control-context';
 import AdminQuizControlWrapper from '../../../components/wrappers/admin-quiz-control-wrapper';
+import { useAdminQuizDataState } from '../../../state/admin/admin-quiz-data.state';
+import { trpc } from '../../../utils/trcp';
 
 const TeamsOverview = () => {
   const router = useRouter();
+  const { quizData } = useAdminQuizDataState((state) => ({
+    quizData: state.quizData,
+  }));
+
+  const { data: teams, isLoading: isTeamsLoading } =
+    trpc.admin.getTeamsByQuizId.useQuery(
+      {
+        quizId: quizData.id!,
+      },
+      {
+        enabled: !!quizData.id,
+      },
+    );
 
   const handleTeamClick = (teamId: number) => {
     router.push({
@@ -28,9 +42,11 @@ const TeamsOverview = () => {
     return true;
   }, []);
 
+  if (isTeamsLoading || !teams) return null;
+
   return (
     <>
-      {TEAMS.map(({ id, name }, i) => (
+      {teams.map(({ id, name }, i) => (
         <Text
           key={id}
           as={Flex}
@@ -45,6 +61,7 @@ const TeamsOverview = () => {
           onClick={() => handleTeamClick(id)}
         >
           {`Team ${i + 1}: ${name}`}
+          {/** @TODO check circle must indicate if team has been scored **/}
           <CheckCircleIcon />
         </Text>
       ))}

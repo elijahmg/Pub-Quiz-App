@@ -1,7 +1,7 @@
+import { ReactElement } from 'react';
 import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
 import { Flex } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { ReactElement } from 'react';
 import SecondaryButton from '../../../../components/buttons/secondary-button';
 import {
   AdminQuizControlContextWrapper,
@@ -10,24 +10,39 @@ import {
 import HighlightHeader from '../../../../components/headers/highlight-header';
 import OverviewQuestion from '../../../../components/overview-question';
 import AdminQuizControlWrapper from '../../../../components/wrappers/admin-quiz-control-wrapper';
-import { QuestionSelection } from '../../../../state/admin/admin-quiz-data.state';
+import { trpc } from '../../../../utils/trcp';
 
 const AdminQuizTeamCheck = () => {
   const router = useRouter();
 
-  const { quiz, teams, roundIndex, questionIndex } =
-    useAdminQuizControlContext();
+  const { data: teams, isLoading: isTeamAnswerLoading } =
+    trpc.admin.getTeamsWithAnswers.useQuery(
+      {
+        quizId: Number(router.query.quizId),
+      },
+      {
+        enabled: !!router.query.quizId,
+      },
+    );
 
-  const teamIndex = teams.findIndex(
-    ({ id }) => id === Number(router.query.teamId),
-  );
-  const team = teams[teamIndex];
-  const nextTeamId = teams[teamIndex + 1]?.id;
+  const { mutate: handleTeamScoreUpdate } =
+    trpc.admin.handleTeamScore.useMutation({
+      onSuccess: (data) => console.log({ data }),
+    });
 
-  const questions = quiz.rounds[roundIndex].questions;
+  const { questionIndex } = useAdminQuizControlContext();
 
-  const handlePointsChange = (question: QuestionSelection, points: number) => {
-    console.log(question, points);
+  const teamIndex =
+    teams?.findIndex(({ id }) => id === Number(router.query.teamId)) ?? -1;
+
+  const team = teams?.[teamIndex];
+  const nextTeamId = teams?.[teamIndex + 1]?.id;
+
+  const handlePointsChange = (teamAnswerId: number, points: number) => {
+    handleTeamScoreUpdate({
+      teamAnswerId,
+      score: points,
+    });
   };
 
   const handleBack = () => {
@@ -44,18 +59,19 @@ const AdminQuizTeamCheck = () => {
     });
   };
 
+  if (isTeamAnswerLoading || !teams) return null;
+
   return (
     <>
-      <HighlightHeader>
-        {`Team ${teamIndex + 1}: ${team?.name}`}
-      </HighlightHeader>
-      {questions?.map((question) => (
+      <HighlightHeader>{`Team: ${team?.name}`}</HighlightHeader>
+      {team?.answers.map((teamAnswer) => (
         <OverviewQuestion
-          key={question.id}
-          question={question}
+          key={teamAnswer.question.id}
+          question={teamAnswer.question}
           questionIndex={questionIndex}
-          answer={question.answer}
-          onPointsChange={(points) => handlePointsChange(question, points)}
+          answer={teamAnswer.answer}
+          points={teamAnswer.score}
+          onPointsChange={(points) => handlePointsChange(teamAnswer.id, points)}
         />
       ))}
       <Flex gap={2} justifyContent="center" alignItems="center">

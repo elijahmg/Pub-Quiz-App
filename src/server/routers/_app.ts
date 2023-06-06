@@ -12,6 +12,9 @@ import { getRounds } from './admin/get-rounds';
 import { getQuestions } from './admin/get-questions';
 import { getQuizByPassword } from './admin/get-quiz-by-password';
 import { getFullQuizData } from './admin/get-full-quiz-data';
+import { getTeamsByQuizId } from './admin/get-teams-by-quiz-id';
+import { getTeamsWithAnswers } from './admin/get-teams-with-answers';
+import { handleTeamScore } from './admin/handle-team-score';
 
 // Team procedures
 import { createTeam } from './team/create-team';
@@ -35,6 +38,9 @@ export const appRouter = router({
     getQuestions,
     getQuizByPassword,
     getFullQuizData,
+    getTeamsByQuizId,
+    getTeamsWithAnswers,
+    handleTeamScore,
   }),
   team: router({
     createTeam,
