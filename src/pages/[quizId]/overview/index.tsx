@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, Flex, Divider, Stack } from '@chakra-ui/react';
 import SubHeader from '../../../components/headers/sub-header';
 import Header from '../../../components/headers/header';
@@ -7,11 +7,16 @@ import OverviewQuestion from '../../../components/overview-question';
 import { QuizStatusEnum } from '.prisma/client';
 import { trpc } from '../../../utils/trcp';
 import { useTeamQuizDataStore } from '../../../state/team/team-quiz-data.state';
+import { useSubscribeToQuizTeamUpdateStore } from '../../../hooks/use-subscribe-to-quiz-team-update.store';
+import { useRouter } from 'next/router';
 
 const Overview = () => {
-  const { teamData, roundId } = useTeamQuizDataStore((state) => ({
+  const router = useRouter();
+
+  const { teamData, roundId, quizData } = useTeamQuizDataStore((state) => ({
     teamData: state.teamData,
     roundId: state.quizData.quizStatus?.currentQuestion.roundId,
+    quizData: state.quizData,
   }));
 
   const { data, isLoading: isTeamAnswersLoading } =
@@ -25,6 +30,15 @@ const Overview = () => {
         enabled: !!teamData.id && !!roundId,
       },
     );
+
+  // for update of the quiz status through websocket
+  useSubscribeToQuizTeamUpdateStore();
+
+  useEffect(() => {
+    if (quizData.quizStatus?.status === QuizStatusEnum.PLAYING) {
+      router.push(`/${router.query.quizId}/play`);
+    }
+  }, [quizData.quizStatus?.status]);
 
   if (isTeamAnswersLoading || !data) return null;
 

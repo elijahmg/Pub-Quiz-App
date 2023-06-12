@@ -5,10 +5,11 @@ export const getTeamsWithAnswers = procedure
   .input(
     z.object({
       quizId: z.number(),
+      roundId: z.number(),
     }),
   )
   .query(async ({ input, ctx }) => {
-    const { quizId } = input;
+    const { quizId, roundId } = input;
 
     return await ctx.prisma.team.findMany({
       where: {
@@ -18,6 +19,11 @@ export const getTeamsWithAnswers = procedure
         id: true,
         name: true,
         answers: {
+          where: {
+            question: {
+              roundId,
+            },
+          },
           orderBy: {
             questionId: 'asc',
           },

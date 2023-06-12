@@ -15,20 +15,57 @@ import {
   useAdminQuizControlContext,
 } from '../../../components/contexts/admin-quiz-control-context';
 import AdminQuizControlWrapper from '../../../components/wrappers/admin-quiz-control-wrapper';
+import { trpc } from '../../../utils/trcp';
+import useResponseToast from '../../../hooks/use-response-toast';
+import { QuizStatusEnum } from '.prisma/client';
 
 const TeamsOverview = () => {
+  const { handleTRPCError } = useResponseToast();
   const router = useRouter();
 
-  const { quiz, teams, roundIndex, setRoundIndex } =
-    useAdminQuizControlContext();
+  const {
+    teams,
+    roundIndex,
+    setRoundIndex,
+    setQuestionIndex,
+    quiz: quizState,
+  } = useAdminQuizControlContext();
 
-  const { rounds } = quiz;
+  const { mutate: updateCurrentQuestion } =
+    trpc.admin.updateCurrentQuestion.useMutation({ onError: handleTRPCError });
 
-  const handleStartNextRound = () => {
+  const { mutate: updateQuizStatus } = trpc.admin.updateQuizStatus.useMutation({
+    onSuccess: () => handOnSuccessfullyUpdatedQuizStatus(),
+    onError: handleTRPCError,
+  });
+
+  const isNextRoundExist = !!quizState.rounds?.[roundIndex + 1];
+
+  const { rounds } = quizState;
+
+  const handOnSuccessfullyUpdatedQuizStatus = () => {
     setRoundIndex(roundIndex + 1);
+    setQuestionIndex(0);
+
     router.push({
       pathname: '/admin/[quizId]/quiz-control',
       query: router.query,
+    });
+  };
+
+  const handleStartNextRound = async () => {
+    const nextQuestionId = quizState.rounds?.[roundIndex + 1].questions[0].id;
+
+    if (!quizState.quizStatus?.id || !nextQuestionId) return;
+
+    await updateCurrentQuestion({
+      quizStatusId: quizState.quizStatus.id,
+      newCurrentQuestionId: nextQuestionId,
+    });
+
+    await updateQuizStatus({
+      id: quizState.quizStatus.id,
+      quizStatus: QuizStatusEnum.PLAYING,
     });
   };
 
@@ -43,7 +80,7 @@ const TeamsOverview = () => {
           <Thead>
             <Tr>
               <Th>NAME</Th>
-              {rounds.map(({ id, name }) => (
+              {rounds?.map(({ id, name }) => (
                 <Th key={id}>{name}</Th>
               ))}
               <Th>Total</Th>
@@ -53,7 +90,7 @@ const TeamsOverview = () => {
             {teams.map((team, teamI) => (
               <Tr key={team.id}>
                 <Td>{`Team ${teamI + 1}: ${team.name}`}</Td>
-                {rounds.map((round) => (
+                {rounds?.map((round) => (
                   <Td key={round.id}>-</Td>
                 ))}
                 <Td>-</Td>
@@ -62,7 +99,7 @@ const TeamsOverview = () => {
           </Tbody>
         </Table>
       </TableContainer>
-      {roundIndex < rounds.length - 1 ? (
+      {isNextRoundExist ? (
         <PrimaryButton onClick={handleStartNextRound}>
           Start next round
         </PrimaryButton>

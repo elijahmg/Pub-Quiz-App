@@ -7,12 +7,20 @@ import { AdminQuizControlContextWrapper } from '../../../components/contexts/adm
 import AdminQuizControlWrapper from '../../../components/wrappers/admin-quiz-control-wrapper';
 import { useAdminQuizDataState } from '../../../state/admin/admin-quiz-data.state';
 import { trpc } from '../../../utils/trcp';
+import useResponseToast from '../../../hooks/use-response-toast';
+import { QuizStatusEnum } from '.prisma/client';
 
 const TeamsOverview = () => {
   const router = useRouter();
+  const { handleTRPCError } = useResponseToast();
+
   const { quizData } = useAdminQuizDataState((state) => ({
     quizData: state.quizData,
   }));
+
+  const { mutate: updateQuizStatus } = trpc.admin.updateQuizStatus.useMutation({
+    onError: handleTRPCError,
+  });
 
   const { data: teams, isLoading: isTeamsLoading } =
     trpc.admin.getTeamsByQuizId.useQuery(
@@ -31,7 +39,16 @@ const TeamsOverview = () => {
     });
   };
 
-  const handleEndRound = () => {
+  const handleEndRound = async () => {
+    if (!quizData?.quizStatus?.id) {
+      return;
+    }
+
+    await updateQuizStatus({
+      id: quizData.quizStatus.id,
+      quizStatus: QuizStatusEnum.SCORE_VIEWING,
+    });
+
     router.push({
       pathname: '/admin/[quizId]/round-overview',
       query: { ...router.query },

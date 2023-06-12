@@ -1,19 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Stack } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+
 import QuestionsOverviewQuestion from '../../components/questions-overview-question';
 import InQuizWrapper from '../../components/wrappers/in-quiz-wrapper';
 import { QuizStatusEnum } from '.prisma/client';
 import { trpc } from '../../utils/trcp';
 import { useTeamQuizDataStore } from '../../state/team/team-quiz-data.state';
 import useResponseToast from '../../hooks/use-response-toast';
+import { useSubscribeToQuizTeamUpdateStore } from '../../hooks/use-subscribe-to-quiz-team-update.store';
 
 const QuestionsOverview = () => {
+  const router = useRouter();
   const { showSuccessToast } = useResponseToast();
 
-  const { teamId, roundId } = useTeamQuizDataStore((state) => ({
+  const { teamId, roundId, quizStatus } = useTeamQuizDataStore((state) => ({
     teamId: state.teamData.id,
     roundId: state.quizData.quizStatus?.currentQuestion.roundId,
+    quizStatus: state.quizData.quizStatus?.status,
   }));
+
+  // for update of the quiz status through websocket
+  useSubscribeToQuizTeamUpdateStore();
+
+  useEffect(() => {
+    if (quizStatus === QuizStatusEnum.EVALUATION) {
+      router.push(`/${router.query.quizId}/break`);
+    }
+  }, [quizStatus]);
 
   const { data, isLoading } = trpc.team.getTeamAnswersByTeamId.useQuery(
     {

@@ -11,24 +11,29 @@ import HighlightHeader from '../../../../components/headers/highlight-header';
 import OverviewQuestion from '../../../../components/overview-question';
 import AdminQuizControlWrapper from '../../../../components/wrappers/admin-quiz-control-wrapper';
 import { trpc } from '../../../../utils/trcp';
+import { useAdminQuizDataState } from '../../../../state/admin/admin-quiz-data.state';
 
 const AdminQuizTeamCheck = () => {
   const router = useRouter();
+  const { quizData } = useAdminQuizDataState((state) => ({
+    quizData: state.quizData,
+  }));
 
   const { data: teams, isLoading: isTeamAnswerLoading } =
     trpc.admin.getTeamsWithAnswers.useQuery(
       {
         quizId: Number(router.query.quizId),
+        roundId: quizData.quizStatus!.currentQuestion.roundId,
       },
       {
-        enabled: !!router.query.quizId,
+        enabled:
+          !!router.query.quizId &&
+          !!quizData.quizStatus?.currentQuestion.roundId,
       },
     );
 
   const { mutate: handleTeamScoreUpdate } =
-    trpc.admin.handleTeamScore.useMutation({
-      onSuccess: (data) => console.log({ data }),
-    });
+    trpc.admin.handleTeamScore.useMutation();
 
   const { questionIndex } = useAdminQuizControlContext();
 

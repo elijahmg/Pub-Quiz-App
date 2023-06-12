@@ -3,15 +3,35 @@ import SubHeader from '../../components/headers/sub-header';
 import SubTitle from '../../components/headers/sub-title';
 import { Alcoholism } from '../../components/images/alcoholism';
 import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
+import { useTeamQuizDataStore } from '../../state/team/team-quiz-data.state';
+import { useSubscribeToQuizTeamUpdateStore } from '../../hooks/use-subscribe-to-quiz-team-update.store';
+import { useEffect } from 'react';
+import { QuizStatusEnum } from '.prisma/client';
+import { useRouter } from 'next/router';
 
 const Break = () => {
+  const router = useRouter();
+
+  const { quizData } = useTeamQuizDataStore((state) => ({
+    quizData: state.quizData,
+  }));
+
+  // for update of the quiz status through websocket
+  useSubscribeToQuizTeamUpdateStore();
+
+  useEffect(() => {
+    if (quizData.quizStatus?.status === QuizStatusEnum.SCORE_VIEWING) {
+      router.push(`/${router.query.quizId}/overview`);
+    }
+  }, [quizData.quizStatus?.status]);
+
   return (
     <Stack as={Center} spacing={6}>
       <Alcoholism />
       <Stack>
         <SubHeader>Time for a break.</SubHeader>
         <SubTitle>
-          Your quizmasters is checking your answers. In the meantime, have a
+          Your quiz master is checking your answers. In the meantime, have a
           chat and/or drink, we don&apos;t judge :)
         </SubTitle>
       </Stack>
