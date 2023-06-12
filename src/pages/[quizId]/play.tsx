@@ -12,7 +12,7 @@ import { useSubscribeToQuizTeamUpdateStore } from '../../hooks/use-subscribe-to-
 
 const Play = () => {
   const router = useRouter();
-  const { handleTRPCError } = useResponseToast();
+  const { handleTRPCError, showSuccessToast } = useResponseToast();
 
   const [questionIndex, setQuestionIndex] = useState(0);
 
@@ -36,6 +36,7 @@ const Play = () => {
   }, [quizData.quizStatus?.status]);
 
   const onSubmittedAnswerSuccessfully = (data: TeamAnswers) => {
+    showSuccessToast('Answer has been saved');
     setCurrentTeamAnswerId(data.id);
   };
 

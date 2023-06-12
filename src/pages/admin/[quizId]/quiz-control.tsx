@@ -3,15 +3,16 @@ import { ReactElement, useState } from 'react';
 import AdminQuestion from '../../../components/admin-question';
 import AdminQuizControlRoundHead from '../../../components/admin-quiz-control-round-head';
 import PrimaryButton from '../../../components/buttons/primary-button';
-import {
-  AdminQuizControlContextWrapper,
-  useAdminQuizControlContext,
-} from '../../../components/contexts/admin-quiz-control-context';
 import AdminQuizControlWrapper from '../../../components/wrappers/admin-quiz-control-wrapper';
 import useResponseToast from '../../../hooks/use-response-toast';
 import { trpc } from '../../../utils/trcp';
 import { useAdminQuizDataState } from '../../../state/admin/admin-quiz-data.state';
 import { QuizStatusEnum } from '.prisma/client';
+import { QuizStatus } from '@prisma/client';
+import {
+  useAdminQuizControlContext,
+  AdminQuizControlContextWrapper,
+} from '../../../components/contexts/admin-quiz-control-context';
 
 const QuizControl = () => {
   const router = useRouter();
@@ -20,28 +21,34 @@ const QuizControl = () => {
 
   const [isRoundEnded, setIsRoundEnded] = useState(false);
 
-  const { quiz, roundIndex, questionIndex, setQuestionIndex } =
-    useAdminQuizControlContext();
-
-  const quizData = useAdminQuizDataState((state) => state.quizData);
+  const {
+    roundIndex,
+    setQuestionIndex,
+    questionIndex,
+    quiz: quizData,
+  } = useAdminQuizControlContext();
 
   const { mutate: updateQuizStatus } = trpc.admin.updateQuizStatus.useMutation({
     onError: handleTRPCError,
   });
 
   const { mutate: updateCurrentQuestion } =
-    trpc.admin.updateCurrentQuestion.useMutation({ onError: handleTRPCError });
+    trpc.admin.updateCurrentQuestion.useMutation({
+      onError: handleTRPCError,
+    });
 
-  const roundQuestions = quiz.rounds[roundIndex].questions;
+  const roundQuestions = quizData.rounds?.[roundIndex].questions;
 
   const handleNextQuestion = async () => {
     const newCurrentQuestionIndex = questionIndex + 1;
 
     const newCurrentQuestionId =
-      quiz.rounds[roundIndex].questions[newCurrentQuestionIndex].id;
+      quizData.rounds?.[roundIndex].questions[newCurrentQuestionIndex].id;
+
+    if (!quizData.quizStatus?.id) return;
 
     await updateCurrentQuestion({
-      quizStatusId: quiz.quizStatus.id,
+      quizStatusId: quizData.quizStatus?.id,
       newCurrentQuestionId: newCurrentQuestionId || -1,
     });
 
@@ -91,6 +98,7 @@ const QuizControl = () => {
             />
           ),
       )}
+      {/** @TODO should be done better then ! **/}
       {questionIndex < roundQuestions!.length - 1 ? (
         <PrimaryButton onClick={handleNextQuestion}>
           Next question

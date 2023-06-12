@@ -5,9 +5,9 @@ const WEBSOCKET_SERVER_URL = 'ws://localhost:5001';
 // @TODO fix payload type
 export function useLocalWebsocketServer(
   callback: (payload: any) => void,
-  deps?: any[],
+  deps: any[] = [],
 ) {
-  const effectDependencies = [...(deps || []), callback];
+  const effectDependencies = [...deps];
 
   useEffect(() => {
     const wsInstance = new WebSocket(WEBSOCKET_SERVER_URL);
@@ -20,7 +20,11 @@ export function useLocalWebsocketServer(
     };
 
     return () => {
-      wsInstance.close();
+      // Close only if open
+      // https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
+      if (wsInstance.readyState === 1) {
+        wsInstance.close();
+      }
     };
     // I know better what's inside
     // eslint-disable-next-line react-hooks/exhaustive-deps

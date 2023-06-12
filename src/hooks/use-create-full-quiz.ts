@@ -79,7 +79,7 @@ export function useCreateFullQuiz(onQuizCreationSuccess: () => void) {
     const parsedQuestions = storeRounds.reduce(
       (acc, round) => {
         const createdRound = createdRounds!.find(
-          (round) => round.name === round.name,
+          (createdRound) => createdRound.name === round.name,
         );
 
         round.questions.forEach((question) => {

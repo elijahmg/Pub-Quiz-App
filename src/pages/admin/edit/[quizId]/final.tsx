@@ -19,7 +19,6 @@ const QuizEditFinal = () => {
   };
 
   const handleCreate = () => {
-    console.log(quizData);
     router.push({ pathname: 'success', query: router.query });
   };
 

@@ -2,7 +2,7 @@ import { procedure } from '../../trpc';
 import { z } from 'zod';
 import { calculatePoints } from '../../../utils/helpers';
 
-const teamAnswersSelection = (withAnswer?: boolean) => ({
+const teamAnswersSelection = (withAnswer = false) => ({
   id: true,
   answer: true,
   score: true,
