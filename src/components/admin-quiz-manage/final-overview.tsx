@@ -36,7 +36,7 @@ export default function AdminQuizManageFinalOverview({
       <Input value={pin} isReadOnly />
       <CSRWrapper>
         {rounds.length > 0 && (
-          <Accordion>
+          <Accordion allowToggle>
             {rounds.map(({ _id, name, questions }, i) => (
               <AccordionItem key={_id}>
                 <h2>
