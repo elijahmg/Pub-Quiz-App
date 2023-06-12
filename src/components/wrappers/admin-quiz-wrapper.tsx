@@ -3,16 +3,14 @@ import { Props as WrapperProps, Wrapper } from './wrapper';
 import { Grid, Tag } from '@chakra-ui/react';
 import SubHeader from '../headers/sub-header';
 import SubTitle from '../headers/sub-title';
-import { useAdminQuizDataState } from '../../state/admin/admin-quiz-data.state';
+import { useAdminQuizControlContext } from '../contexts/admin-quiz-control-context';
 
 interface Props extends WrapperProps {
   children: ReactNode;
 }
 
 export default function AdminQuizWrapper({ children, ...props }: Props) {
-  const { quizData } = useAdminQuizDataState((state) => ({
-    quizData: state.quizData,
-  }));
+  const { quiz } = useAdminQuizControlContext();
 
   // @TODO teams
 
@@ -23,9 +21,9 @@ export default function AdminQuizWrapper({ children, ...props }: Props) {
         templateRows="1fr 1fr"
         alignItems="center"
       >
-        <SubHeader>{quizData.name}</SubHeader>
+        <SubHeader>{quiz.name}</SubHeader>
         <Tag gridRow="span 2">{`Teams online: ${56666}`}</Tag>
-        <SubTitle>{`PIN: ${quizData.pin}`}</SubTitle>
+        <SubTitle>{`PIN: ${quiz.pin}`}</SubTitle>
       </Grid>
       {children}
     </Wrapper>

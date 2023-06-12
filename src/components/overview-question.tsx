@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Input,
   InputGroup,
@@ -38,6 +38,10 @@ export default function OverviewQuestion({
   const { content, answer: correctAnswer } = question;
 
   const [pointsState, setPointsState] = useState(points);
+
+  useEffect(() => {
+    setPointsState(points);
+  }, [points]);
 
   const handlePointsItemClick = (points: number) => {
     onPointsChange?.(points);

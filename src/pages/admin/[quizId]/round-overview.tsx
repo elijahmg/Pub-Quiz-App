@@ -24,26 +24,30 @@ const TeamsOverview = () => {
   const router = useRouter();
 
   const {
-    teams,
     roundIndex,
     setRoundIndex,
     setQuestionIndex,
     quiz: quizState,
   } = useAdminQuizControlContext();
 
+  const { rounds } = quizState;
+
+  const { data: teamsSummary } = trpc.admin.getTeamsSummary.useQuery({
+    quizId: quizState.id,
+    rounds,
+  });
+
   const { mutate: updateCurrentQuestion } =
     trpc.admin.updateCurrentQuestion.useMutation({ onError: handleTRPCError });
 
   const { mutate: updateQuizStatus } = trpc.admin.updateQuizStatus.useMutation({
-    onSuccess: () => handOnSuccessfullyUpdatedQuizStatus(),
+    onSuccess: () => handleOnSuccessfullyUpdatedQuizStatus(),
     onError: handleTRPCError,
   });
 
   const isNextRoundExist = !!quizState.rounds?.[roundIndex + 1];
 
-  const { rounds } = quizState;
-
-  const handOnSuccessfullyUpdatedQuizStatus = () => {
+  const handleOnSuccessfullyUpdatedQuizStatus = () => {
     setRoundIndex(roundIndex + 1);
     setQuestionIndex(0);
 
@@ -87,13 +91,20 @@ const TeamsOverview = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {teams.map((team, teamI) => (
+            {teamsSummary?.map((team, teamI) => (
               <Tr key={team.id}>
                 <Td>{`Team ${teamI + 1}: ${team.name}`}</Td>
-                {rounds?.map((round) => (
-                  <Td key={round.id}>-</Td>
-                ))}
-                <Td>-</Td>
+                {rounds?.map((round) => {
+                  const roundSummary = team.rounds.find(
+                    (roundSummary) => roundSummary.id === round.id,
+                  );
+                  return (
+                    <Td key={round.id}>
+                      {roundSummary?.totalRoundScore || '-'}
+                    </Td>
+                  );
+                })}
+                <Td>{team.totalScore}</Td>
               </Tr>
             ))}
           </Tbody>

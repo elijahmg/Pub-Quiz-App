@@ -1,22 +1,15 @@
 import { TextProps } from '@chakra-ui/react';
+import { useAdminQuizControlContext } from './contexts/admin-quiz-control-context';
 import HighlightHeader from './headers/highlight-header';
-import { useAdminQuizDataState } from '../state/admin/admin-quiz-data.state';
 
 export default function AdminQuizControlRoundHead(props: TextProps) {
-  const { quizData } = useAdminQuizDataState((state) => ({
-    quizData: state.quizData,
-  }));
+  const { quiz, roundIndex } = useAdminQuizControlContext();
 
-  const roundIndex =
-    quizData.rounds?.findIndex(
-      (round) => round.id === quizData.quizStatus?.currentQuestion.roundId,
-    ) ?? -1;
-
-  const roundName = quizData.rounds?.[roundIndex].name;
+  const round = quiz.rounds[roundIndex];
 
   return (
     <HighlightHeader {...props}>
-      {`Round ${roundIndex + 1}: ${roundName}`}
+      {`Round ${roundIndex + 1}: ${round.name}`}
     </HighlightHeader>
   );
 }
