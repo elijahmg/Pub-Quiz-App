@@ -15,6 +15,7 @@ import { getFullQuizData } from './admin/get-full-quiz-data';
 import { getTeamsByQuizId } from './admin/get-teams-by-quiz-id';
 import { getTeamsWithAnswers } from './admin/get-teams-with-answers';
 import { handleTeamScore } from './admin/handle-team-score';
+import { getTeamsSummary } from './admin/get-teams-summary';
 
 // Team procedures
 import { createTeam } from './team/create-team';
@@ -41,6 +42,7 @@ export const appRouter = router({
     getTeamsByQuizId,
     getTeamsWithAnswers,
     handleTeamScore,
+    getTeamsSummary,
   }),
   team: router({
     createTeam,
