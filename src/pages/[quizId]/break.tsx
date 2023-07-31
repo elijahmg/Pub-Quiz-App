@@ -4,10 +4,10 @@ import SubTitle from '../../components/headers/sub-title';
 import { Alcoholism } from '../../components/images/alcoholism';
 import { MainPageWrapper } from '../../components/wrappers/main-page-wrapper';
 import { useTeamQuizDataStore } from '../../state/team/team-quiz-data.state';
-import { useSubscribeToQuizTeamUpdateStore } from '../../hooks/use-subscribe-to-quiz-team-update.store';
 import { useEffect } from 'react';
 import { QuizStatusEnum } from '.prisma/client';
 import { useRouter } from 'next/router';
+import { useSubscribeToDataChange } from '../../supabase-utils/use-subscribe-to-data-change';
 
 const Break = () => {
   const router = useRouter();
@@ -17,7 +17,7 @@ const Break = () => {
   }));
 
   // for update of the quiz status through websocket
-  useSubscribeToQuizTeamUpdateStore();
+  useSubscribeToDataChange();
 
   useEffect(() => {
     if (quizData.quizStatus?.status === QuizStatusEnum.SCORE_VIEWING) {

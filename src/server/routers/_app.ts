@@ -23,6 +23,7 @@ import { getQuizByPin } from './team/get-quiz-by-pin';
 import { submitAnswer } from './team/submit-answer';
 import { getTeamAnswersByTeamId } from './team/get-team-answers-by-team-id';
 import { updateTeamAnswer } from './team/update-team-answer';
+import { getQuizStatusById } from './team/get-quiz-status-by-id';
 
 // this a collection of routes
 // hello is only an example
@@ -50,6 +51,7 @@ export const appRouter = router({
     submitAnswer,
     getTeamAnswersByTeamId,
     updateTeamAnswer,
+    getQuizStatusById,
   }),
 });
 

@@ -9,6 +9,7 @@ import { trpc } from '../../../utils/trcp';
 import { useTeamQuizDataStore } from '../../../state/team/team-quiz-data.state';
 import { useSubscribeToQuizTeamUpdateStore } from '../../../hooks/use-subscribe-to-quiz-team-update.store';
 import { useRouter } from 'next/router';
+import { useSubscribeToDataChange } from '../../../supabase-utils/use-subscribe-to-data-change';
 
 const Overview = () => {
   const router = useRouter();
@@ -32,7 +33,7 @@ const Overview = () => {
     );
 
   // for update of the quiz status through websocket
-  useSubscribeToQuizTeamUpdateStore();
+  useSubscribeToDataChange();
 
   useEffect(() => {
     if (quizData.quizStatus?.status === QuizStatusEnum.PLAYING) {

@@ -43,7 +43,7 @@ export interface CurrentQuestion extends QuestionSelection {
 
 type QuizStatusSelection = Pick<QuizStatus, 'id' | 'status'>;
 
-interface QuizStatusState extends QuizStatusSelection {
+export interface QuizStatusState extends QuizStatusSelection {
   currentQuestion: CurrentQuestion;
 }
 

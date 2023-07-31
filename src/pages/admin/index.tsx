@@ -33,7 +33,7 @@ const AdminHome = () => {
             Create new quiz
           </PrimaryButton>
           <SecondaryButton onClick={() => router.push('admin/password')}>
-            Input quiz password
+            Start quiz
           </SecondaryButton>
         </Flex>
       </GridItem>

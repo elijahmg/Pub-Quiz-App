@@ -8,7 +8,7 @@ import { useTeamQuizDataStore } from '../../state/team/team-quiz-data.state';
 import { trpc } from '../../utils/trcp';
 import { QuizStatusEnum, TeamAnswers } from '.prisma/client';
 import useResponseToast from '../../hooks/use-response-toast';
-import { useSubscribeToQuizTeamUpdateStore } from '../../hooks/use-subscribe-to-quiz-team-update.store';
+import { useSubscribeToDataChange } from '../../supabase-utils/use-subscribe-to-data-change';
 
 const Play = () => {
   const router = useRouter();
@@ -27,7 +27,7 @@ const Play = () => {
   }));
 
   // for update of the quiz status through websocket
-  useSubscribeToQuizTeamUpdateStore();
+  useSubscribeToDataChange();
 
   useEffect(() => {
     if (quizData.quizStatus?.status === QuizStatusEnum.END_ROUND) {

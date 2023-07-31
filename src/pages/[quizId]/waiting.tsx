@@ -7,7 +7,11 @@ import SubHeader from '../../components/headers/sub-header';
 import SubTitle from '../../components/headers/sub-title';
 import { useLocalWebsocketServer } from '../../local-services/use-local-websocket-server';
 import { useRouter } from 'next/router';
-import { useTeamQuizDataStore } from '../../state/team/team-quiz-data.state';
+import {
+  QuizStatusState,
+  useTeamQuizDataStore,
+} from '../../state/team/team-quiz-data.state';
+import { useSubscribeToDataChange } from '../../supabase-utils/use-subscribe-to-data-change';
 
 const Waiting = () => {
   const router = useRouter();
@@ -16,14 +20,13 @@ const Waiting = () => {
     teamName: state.teamData.name,
   }));
 
-  useLocalWebsocketServer(
-    (data) => {
-      if (data.status === QuizStatusEnum.PLAYING) {
-        router.push(`/${router.query.quizId}/play`);
-      }
-    },
-    [router.query.quizId],
-  );
+  useSubscribeToDataChange(dataChangesCallback);
+
+  function dataChangesCallback(data: QuizStatusState) {
+    if (data.status === QuizStatusEnum.PLAYING) {
+      router.push(`/${router.query.quizId}/play`);
+    }
+  }
 
   return (
     <Stack as={Center} spacing={6}>

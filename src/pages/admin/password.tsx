@@ -56,6 +56,7 @@ const AdminHome = () => {
           Input quiz password
         </SubHeader>
         <Input
+          type="password"
           placeholder="Type in the password"
           value={password}
           onChange={handleChangePassword}
