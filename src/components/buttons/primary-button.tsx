@@ -10,7 +10,14 @@ export default function PrimaryButton({
   ...props
 }: ButtonProps & ChakraButtonProps) {
   return (
-    <Button color="white" bgColor="green.100" {...props}>
+    <Button
+      color="white"
+      bgColor="green.100"
+      _hover={{
+        bg: 'green.300',
+      }}
+      {...props}
+    >
       {children}
     </Button>
   );

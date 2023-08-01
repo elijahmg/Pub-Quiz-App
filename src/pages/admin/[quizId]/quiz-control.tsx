@@ -6,9 +6,7 @@ import PrimaryButton from '../../../components/buttons/primary-button';
 import AdminQuizControlWrapper from '../../../components/wrappers/admin-quiz-control-wrapper';
 import useResponseToast from '../../../hooks/use-response-toast';
 import { trpc } from '../../../utils/trcp';
-import { useAdminQuizDataState } from '../../../state/admin/admin-quiz-data.state';
 import { QuizStatusEnum } from '.prisma/client';
-import { QuizStatus } from '@prisma/client';
 import {
   useAdminQuizControlContext,
   AdminQuizControlContextWrapper,
@@ -35,6 +33,10 @@ const QuizControl = () => {
   const { mutate: updateCurrentQuestion } =
     trpc.admin.updateCurrentQuestion.useMutation({
       onError: handleTRPCError,
+      onSuccess: () => {
+        const newCurrentQuestionIndex = questionIndex + 1;
+        setQuestionIndex(newCurrentQuestionIndex);
+      },
     });
 
   const roundQuestions = quizData.rounds?.[roundIndex].questions;
@@ -47,12 +49,10 @@ const QuizControl = () => {
 
     if (!quizData.quizStatus?.id) return;
 
-    await updateCurrentQuestion({
+    updateCurrentQuestion({
       quizStatusId: quizData.quizStatus?.id,
       newCurrentQuestionId: newCurrentQuestionId || -1,
     });
-
-    setQuestionIndex(newCurrentQuestionIndex);
   };
 
   const handleEndRound = async () => {
@@ -60,7 +60,7 @@ const QuizControl = () => {
 
     setIsRoundEnded(true);
 
-    await updateQuizStatus({
+    updateQuizStatus({
       id: quizData.id,
       quizStatus: QuizStatusEnum.END_ROUND,
     });
@@ -69,12 +69,12 @@ const QuizControl = () => {
   const handleCheckAnswers = async () => {
     if (!quizData.id) return;
 
-    await updateQuizStatus({
+    updateQuizStatus({
       id: quizData.id,
       quizStatus: QuizStatusEnum.EVALUATION,
     });
 
-    router.push({
+    await router.push({
       pathname: '/admin/[quizId]/teams-overview',
       query: router.query,
     });

@@ -29,6 +29,7 @@ const AdminQuizTeamCheck = () => {
         enabled:
           !!router.query.quizId &&
           !!quizData.quizStatus?.currentQuestion.roundId,
+        cacheTime: 0,
       },
     );
 

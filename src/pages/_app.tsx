@@ -18,10 +18,10 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
       },
       green: {
         100: '#38A169',
+        300: '#2d8054',
       },
       brand: {
         100: '#f7fafc',
-        // ...
         900: '#1a202c',
       },
     },
