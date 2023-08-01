@@ -7,7 +7,6 @@ import OverviewQuestion from '../../../components/overview-question';
 import { QuizStatusEnum } from '.prisma/client';
 import { trpc } from '../../../utils/trcp';
 import { useTeamQuizDataStore } from '../../../state/team/team-quiz-data.state';
-import { useSubscribeToQuizTeamUpdateStore } from '../../../hooks/use-subscribe-to-quiz-team-update.store';
 import { useRouter } from 'next/router';
 import { useSubscribeToDataChange } from '../../../supabase-utils/use-subscribe-to-data-change';
 
