@@ -10,6 +10,10 @@ import { trpc } from '../../../utils/trcp';
 import useResponseToast from '../../../hooks/use-response-toast';
 import { QuizStatusEnum } from '.prisma/client';
 
+interface Answer {
+  score: null | number;
+}
+
 const TeamsOverview = () => {
   const router = useRouter();
   const { handleTRPCError } = useResponseToast();
@@ -22,13 +26,15 @@ const TeamsOverview = () => {
     onError: handleTRPCError,
   });
 
-  const { data: teams, isLoading: isTeamsLoading } =
-    trpc.admin.getTeamsByQuizId.useQuery(
+  const { data: teamsWithAnswers, isLoading: isTeamsLoading } =
+    trpc.admin.getTeamsWithAnswers.useQuery(
       {
         quizId: quizData.id!,
+        roundId: quizData.quizStatus!.currentQuestion.roundId,
       },
       {
-        enabled: !!quizData.id,
+        enabled:
+          !!quizData.id && !!quizData.quizStatus!.currentQuestion.roundId,
       },
     );
 
@@ -44,7 +50,7 @@ const TeamsOverview = () => {
       return;
     }
 
-    await updateQuizStatus({
+    updateQuizStatus({
       id: quizData.quizStatus.id,
       quizStatus: QuizStatusEnum.SCORE_VIEWING,
     });
@@ -59,27 +65,32 @@ const TeamsOverview = () => {
     return true;
   }, []);
 
-  if (isTeamsLoading || !teams) return null;
+  function isTeamScored(answers: Answer[]) {
+    if (!answers.length) return false;
+
+    return answers.every((answer) => answer.score !== null);
+  }
+
+  if (isTeamsLoading || !teamsWithAnswers) return null;
 
   return (
     <>
-      {teams.map(({ id, name }, i) => (
+      {teamsWithAnswers.map((team, i) => (
         <Text
-          key={id}
+          key={team.id}
           as={Flex}
           alignItems="center"
           justifyContent="space-between"
           px={4}
           py={3}
           borderRadius="md"
-          bgColor="secondary.100"
-          color="white"
+          bgColor={isTeamScored(team.answers) ? 'secondary.100' : 'gray.100'}
+          color={isTeamScored(team.answers) ? 'white' : 'black'}
           fontWeight={600}
-          onClick={() => handleTeamClick(id)}
+          onClick={() => handleTeamClick(team.id)}
         >
-          {`Team ${i + 1}: ${name}`}
-          {/** @TODO check circle must indicate if team has been scored **/}
-          <CheckCircleIcon />
+          {`Team ${i + 1}: ${team.name}`}
+          {isTeamScored(team.answers) && <CheckCircleIcon />}
         </Text>
       ))}
       <PrimaryButton onClick={handleEndRound} isDisabled={!canEndRound}>

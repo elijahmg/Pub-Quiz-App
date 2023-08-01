@@ -62,12 +62,12 @@ const TeamsOverview = () => {
 
     if (!quizState.quizStatus?.id || !nextQuestionId) return;
 
-    await updateCurrentQuestion({
+    updateCurrentQuestion({
       quizStatusId: quizState.quizStatus.id,
       newCurrentQuestionId: nextQuestionId,
     });
 
-    await updateQuizStatus({
+    updateQuizStatus({
       id: quizState.quizStatus.id,
       quizStatus: QuizStatusEnum.PLAYING,
     });
@@ -100,7 +100,7 @@ const TeamsOverview = () => {
                   );
                   return (
                     <Td key={round.id}>
-                      {roundSummary?.totalRoundScore || '-'}
+                      {roundSummary?.totalRoundScore ?? '-'}
                     </Td>
                   );
                 })}
