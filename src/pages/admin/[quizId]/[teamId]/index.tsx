@@ -15,6 +15,7 @@ import { useAdminQuizDataState } from '../../../../state/admin/admin-quiz-data.s
 
 const AdminQuizTeamCheck = () => {
   const router = useRouter();
+
   const { quizData } = useAdminQuizDataState((state) => ({
     quizData: state.quizData,
   }));
@@ -38,12 +39,6 @@ const AdminQuizTeamCheck = () => {
 
   const { questionIndex } = useAdminQuizControlContext();
 
-  const teamIndex =
-    teams?.findIndex(({ id }) => id === Number(router.query.teamId)) ?? -1;
-
-  const team = teams?.[teamIndex];
-  const nextTeamId = teams?.[teamIndex + 1]?.id;
-
   const handlePointsChange = (teamAnswerId: number, points: number) => {
     handleTeamScoreUpdate({
       teamAnswerId,
@@ -51,28 +46,34 @@ const AdminQuizTeamCheck = () => {
     });
   };
 
-  const handleBack = () => {
+  function handleBack() {
     router.push({
       pathname: '/admin/[quizId]/teams-overview',
-      query: router.query,
+      query: { quizId: router.query.quizId },
     });
-  };
+  }
 
-  const handleNext = () => {
+  function handleNext() {
     router.push({
       pathname: '/admin/[quizId]/[teamId]',
       query: { ...router.query, teamId: nextTeamId },
     });
-  };
+  }
 
   if (isTeamAnswerLoading || !teams) return null;
+
+  const teamIndex =
+    teams.findIndex(({ id }) => id === Number(router.query.teamId)) ?? -1;
+
+  const team = teams[teamIndex];
+  const nextTeamId = teams[teamIndex + 1]?.id;
 
   return (
     <>
       <HighlightHeader>{`Team: ${team?.name}`}</HighlightHeader>
-      {team?.answers.map((teamAnswer) => (
+      {team!.answers.map((teamAnswer) => (
         <OverviewQuestion
-          key={teamAnswer.question.id}
+          key={teamAnswer.id}
           question={teamAnswer.question}
           questionIndex={questionIndex}
           answer={teamAnswer.answer}

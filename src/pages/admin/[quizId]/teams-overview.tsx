@@ -73,6 +73,10 @@ const TeamsOverview = () => {
 
   if (isTeamsLoading || !teamsWithAnswers) return null;
 
+  const isAllTeamsHaveBeenScored = teamsWithAnswers.every(
+    ({ answers }) => !isTeamScored(answers),
+  );
+
   return (
     <>
       {teamsWithAnswers.map((team, i) => (
@@ -94,6 +98,7 @@ const TeamsOverview = () => {
         </Text>
       ))}
       <PrimaryButton
+        disabled={isAllTeamsHaveBeenScored}
         testId="AdminEndRound_Button"
         onClick={handleEndRound}
         isDisabled={!canEndRound}

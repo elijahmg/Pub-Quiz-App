@@ -33,16 +33,15 @@ export default function OverviewQuestion({
   answer,
   points,
   onPointsChange,
-  ...props
 }: Props) {
   const { content, answer: correctAnswer } = question;
 
-  const [pointsState, setPointsState] = useState(points);
+  const [pointsState, setPointsState] = useState<number | null>(null);
 
   useEffect(() => {
     setPointsState(points);
   }, [points]);
-
+  //
   const handlePointsItemClick = (points: number) => {
     onPointsChange?.(points);
 
@@ -50,7 +49,7 @@ export default function OverviewQuestion({
   };
 
   return (
-    <FormControl {...props}>
+    <FormControl>
       <FormLabel>{`Q${
         questionIndex + 1
       }: ${content} - ${correctAnswer}`}</FormLabel>
