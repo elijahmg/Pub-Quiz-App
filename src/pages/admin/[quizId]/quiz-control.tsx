@@ -82,7 +82,12 @@ const QuizControl = () => {
 
   if (isRoundEnded) {
     return (
-      <PrimaryButton onClick={handleCheckAnswers}>Check answers</PrimaryButton>
+      <PrimaryButton
+        testId="AdminCheckAnswers_Button"
+        onClick={handleCheckAnswers}
+      >
+        Check answers
+      </PrimaryButton>
     );
   }
 
@@ -100,11 +105,19 @@ const QuizControl = () => {
       )}
       {/** @TODO should be done better then ! **/}
       {questionIndex < roundQuestions!.length - 1 ? (
-        <PrimaryButton onClick={handleNextQuestion}>
+        <PrimaryButton
+          testId="AdminNextQuestion_Button"
+          onClick={handleNextQuestion}
+        >
           Next question
         </PrimaryButton>
       ) : (
-        <PrimaryButton onClick={handleEndRound}>End round</PrimaryButton>
+        <PrimaryButton
+          testId="AdminNextQuestion_Button"
+          onClick={handleEndRound}
+        >
+          End round
+        </PrimaryButton>
       )}
     </>
   );

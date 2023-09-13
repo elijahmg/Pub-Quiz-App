@@ -12,8 +12,8 @@ test.describe('Main game flow', () => {
     await userPage.goto('http://localhost:3000');
     await adminPage.goto('http://localhost:3000');
 
-    const enterPinButton = userPage.getByTestId('enter_pin');
-    const adminDashboardButton = adminPage.getByTestId('admin-dashboard');
+    const enterPinButton = userPage.getByTestId('EnterPin_Button');
+    const adminDashboardButton = adminPage.getByTestId('AdminDashboard_Button');
 
     await enterPinButton.click();
     await adminDashboardButton.click();

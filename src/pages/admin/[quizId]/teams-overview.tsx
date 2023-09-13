@@ -93,7 +93,11 @@ const TeamsOverview = () => {
           {isTeamScored(team.answers) && <CheckCircleIcon />}
         </Text>
       ))}
-      <PrimaryButton onClick={handleEndRound} isDisabled={!canEndRound}>
+      <PrimaryButton
+        testId="AdminEndRound_Button"
+        onClick={handleEndRound}
+        isDisabled={!canEndRound}
+      >
         End round
       </PrimaryButton>
     </>

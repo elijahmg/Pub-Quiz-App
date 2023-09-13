@@ -111,11 +111,16 @@ const TeamsOverview = () => {
         </Table>
       </TableContainer>
       {isNextRoundExist ? (
-        <PrimaryButton onClick={handleStartNextRound}>
+        <PrimaryButton
+          testId="StartNextRound_Button"
+          onClick={handleStartNextRound}
+        >
           Start next round
         </PrimaryButton>
       ) : (
-        <PrimaryButton onClick={handleEndQuiz}>End quiz</PrimaryButton>
+        <PrimaryButton testId="EndQuiz_Button" onClick={handleEndQuiz}>
+          End quiz
+        </PrimaryButton>
       )}
     </>
   );

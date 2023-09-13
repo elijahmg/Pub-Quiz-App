@@ -61,7 +61,11 @@ const AdminHome = () => {
           value={password}
           onChange={handleChangePassword}
         />
-        <PrimaryButton onClick={() => getQuizByPassword()} alignSelf="start">
+        <PrimaryButton
+          testId="AdminSubmitQuizPassword_Button"
+          onClick={() => getQuizByPassword()}
+          alignSelf="start"
+        >
           Submit
         </PrimaryButton>
       </Stack>

@@ -39,6 +39,7 @@ export default function RouteNavigation({
     <Flex gap={2} mt="auto" alignSelf="end" {...props}>
       {routeIndex > 0 && (
         <SecondaryButton
+          testId="PreviousStep_Button"
           borderColor="secondary.100"
           color="secondary.100"
           leftIcon={<ArrowBackIcon />}
@@ -49,6 +50,7 @@ export default function RouteNavigation({
       )}
       {routeIndex < routeList.length - 1 && (
         <SecondaryButton
+          testId="NextStep_Button"
           borderColor="secondary.100"
           color="secondary.100"
           rightIcon={<ArrowForwardIcon />}

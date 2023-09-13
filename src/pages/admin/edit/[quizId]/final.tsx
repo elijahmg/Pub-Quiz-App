@@ -31,6 +31,7 @@ const QuizEditFinal = () => {
       <AdminQuizManageFinalOverview quizData={quizData} />
       <Flex gap={2} mt="auto" alignSelf="end">
         <SecondaryButton
+          testId="FinalPreviousStep_Button"
           borderColor="secondary.100"
           color="secondary.100"
           leftIcon={<ArrowBackIcon />}
@@ -38,7 +39,9 @@ const QuizEditFinal = () => {
         >
           Previous step
         </SecondaryButton>
-        <PrimaryButton onClick={handleCreate}>Save changes</PrimaryButton>
+        <PrimaryButton testId="FinalSaveChanges_Button" onClick={handleCreate}>
+          Save changes
+        </PrimaryButton>
       </Flex>
     </Flex>
   );

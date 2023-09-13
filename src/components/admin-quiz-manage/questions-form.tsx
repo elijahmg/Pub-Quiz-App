@@ -105,6 +105,7 @@ export default function AdminQuizManageQuestionsForm({
         ))}
       {selectedRoundId && (
         <SecondaryButton
+          testId="AdminAddQuestion_Button"
           size="sm"
           borderColor="secondary.100"
           color="secondary.100"

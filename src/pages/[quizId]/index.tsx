@@ -26,7 +26,7 @@ enum FormError {
 
 const ERROR_MESSAGES = {
   undefined: "Please choose your team's name",
-  tooShort: "The team's name must be atleast 2 characters long",
+  tooShort: "The team's name must be at least 2 characters long",
   tooLong: "The team's name can't be more than 20 characters long",
 };
 
@@ -110,7 +110,11 @@ const Quiz = () => {
           />
           <FormErrorMessage>{error && ERROR_MESSAGES[error]}</FormErrorMessage>
         </FormControl>
-        <PrimaryButton isDisabled={!!error} onClick={handleSubmit}>
+        <PrimaryButton
+          testId="SubmitTeamName_Button"
+          isDisabled={!!error}
+          onClick={handleSubmit}
+        >
           Submit
         </PrimaryButton>
       </Stack>

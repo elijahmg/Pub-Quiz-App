@@ -23,6 +23,7 @@ const QuizCreateSuccess = () => {
       <Text>You can always edit it or create a new one. Have fun!</Text>
       <Flex gap={2}>
         <SecondaryButton
+          testId="AdminEditCurrentQuiz_Button"
           borderColor="secondary.100"
           color="secondary.100"
           onClick={handleEdit}
@@ -30,6 +31,7 @@ const QuizCreateSuccess = () => {
           Edit current quiz
         </SecondaryButton>
         <SecondaryButton
+          testId="AdminGoToHomePage_Button"
           borderColor="secondary.100"
           color="secondary.100"
           onClick={handleGoToHomepage}

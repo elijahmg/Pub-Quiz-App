@@ -29,10 +29,16 @@ const AdminHome = () => {
           </SubTitle>
         </Stack>
         <Flex gap={2}>
-          <PrimaryButton onClick={() => router.push('admin/create')}>
+          <PrimaryButton
+            testId="AdminCreateQuiz_Button"
+            onClick={() => router.push('admin/create')}
+          >
             Create new quiz
           </PrimaryButton>
-          <SecondaryButton onClick={() => router.push('admin/password')}>
+          <SecondaryButton
+            testId="NavigateToPassword_Button"
+            onClick={() => router.push('admin/password')}
+          >
             Start quiz
           </SecondaryButton>
         </Flex>

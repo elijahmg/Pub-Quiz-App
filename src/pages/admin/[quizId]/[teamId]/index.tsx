@@ -82,6 +82,7 @@ const AdminQuizTeamCheck = () => {
       ))}
       <Flex gap={2} justifyContent="center" alignItems="center">
         <SecondaryButton
+          testId="AdminBackToOverview_Button"
           color="secondary.100"
           borderColor="secondary.100"
           leftIcon={<ArrowBackIcon />}
@@ -91,6 +92,7 @@ const AdminQuizTeamCheck = () => {
         </SecondaryButton>
         {nextTeamId && (
           <SecondaryButton
+            testId="AdminNextTeam_Button"
             color="secondary.100"
             borderColor="secondary.100"
             rightIcon={<ArrowForwardIcon />}

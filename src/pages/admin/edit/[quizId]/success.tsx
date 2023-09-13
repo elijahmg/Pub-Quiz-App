@@ -17,6 +17,7 @@ const QuizEditSuccess = () => {
       <Text>You’ve edited the quiz.</Text>
       <Flex gap={2}>
         <SecondaryButton
+          testId="Success_GoToHomepage_Button"
           borderColor="secondary.100"
           color="secondary.100"
           onClick={handleGoToHomepage}

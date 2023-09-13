@@ -52,10 +52,17 @@ const AdminQuiz = () => {
     <Stack alignItems="center" justifyContent="start" spacing={10}>
       <Astronaut />
       <Stack>
-        <PrimaryButton size="lg" px={16} py={10} onClick={handleStartQuiz}>
+        <PrimaryButton
+          testId="AdminStartQuiz_Button"
+          size="lg"
+          px={16}
+          py={10}
+          onClick={handleStartQuiz}
+        >
           Start QUIZ
         </PrimaryButton>
         <SecondaryButton
+          testId="AdminEditQuiz_Button"
           color="secondary.100"
           borderColor="secondary.100"
           leftIcon={<EditIcon />}
@@ -64,6 +71,7 @@ const AdminQuiz = () => {
           Edit Quiz
         </SecondaryButton>
         <Button
+          data-testid="AdminDeleteQuiz_Button"
           color="#E53E3E"
           bgColor="rgba(229, 62, 62, 0.1)"
           leftIcon={<DeleteIcon />}

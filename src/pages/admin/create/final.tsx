@@ -38,6 +38,7 @@ const QuizCreateFinal = () => {
       <AdminQuizManageFinalOverview quizData={quizData} />
       <Flex gap={2} mt="auto" alignSelf="end">
         <SecondaryButton
+          testId="AdminPreviousStep_Button"
           borderColor="secondary.100"
           color="secondary.100"
           leftIcon={<ArrowBackIcon />}
@@ -45,7 +46,9 @@ const QuizCreateFinal = () => {
         >
           Previous step
         </SecondaryButton>
-        <PrimaryButton onClick={handleCreate}>Create quiz</PrimaryButton>
+        <PrimaryButton testId="AdminCreateQuiz_Button" onClick={handleCreate}>
+          Create quiz
+        </PrimaryButton>
       </Flex>
     </Flex>
   );

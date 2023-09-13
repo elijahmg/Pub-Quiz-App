@@ -76,7 +76,9 @@ const Play = () => {
         answer={answer}
         onAnswerChange={handleAnswerChange}
       />
-      <PrimaryButton onClick={handleSubmit}>Submit</PrimaryButton>
+      <PrimaryButton testId="SubmitTeamAnswer_Button" onClick={handleSubmit}>
+        Submit
+      </PrimaryButton>
     </Stack>
   );
 };
