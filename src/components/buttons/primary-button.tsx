@@ -3,14 +3,17 @@ import { ReactNode } from 'react';
 
 interface ButtonProps {
   children: ReactNode;
+  testId: string;
 }
 
 export default function PrimaryButton({
   children,
+  testId,
   ...props
 }: ButtonProps & ChakraButtonProps) {
   return (
     <Button
+      data-testid={testId}
       color="white"
       bgColor="green.100"
       _hover={{

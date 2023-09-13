@@ -62,10 +62,13 @@ const Home: NextPageWithLayout = () => {
         gap={2}
         mt={{ base: 14, md: 0 }}
       >
-        <PrimaryButton onClick={() => router.push('pin')}>
+        <PrimaryButton testId="enter_pin" onClick={() => router.push('pin')}>
           Enter PIN
         </PrimaryButton>
-        <SecondaryButton onClick={() => router.push('admin')}>
+        <SecondaryButton
+          testId="admin-dashboard"
+          onClick={() => router.push('admin')}
+        >
           ADMIN dashboard
         </SecondaryButton>
       </GridItem>
