@@ -3,7 +3,9 @@ import { expect } from '@playwright/test';
 
 export class AdminCreatePage {
   readonly page: Page;
-  readonly urlAddress: string = 'http://localhost:3000';
+  //readonly urlAddress: string = 'http://localhost:3000';
+  readonly urlAddress: string =
+    'https://pub-quiz-app-git-feat-testids-playwright-elijahmg.vercel.app';
   readonly landingPageHeader: Locator;
   readonly adminDashboardButton: Locator;
   readonly adminCreateQuizButton: Locator;

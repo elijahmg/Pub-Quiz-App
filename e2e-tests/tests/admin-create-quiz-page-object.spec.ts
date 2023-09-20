@@ -1,5 +1,6 @@
 import { test } from '@playwright/test';
-import { AdminCreatePage } from './page-objects/admin-page-object';
+import { AdminCreatePage } from './pages/admin-page-object';
+import { UtilsPage } from './pages/utils-page-object';
 
 const quizName = 'My Fancy Quizz Name';
 const quizPassword = '2023';
@@ -10,35 +11,45 @@ const roundAnswer = 'Hell yeah!';
 
 test('Admin Create Quizz Page Object ', async ({ page }) => {
   const adminCreatePage = new AdminCreatePage(page);
+  const utilsPage = new UtilsPage(page);
   //open landing page and check the header
   await adminCreatePage.goToLandingPage();
 
   //click the Admin dashboard button
   await adminCreatePage.clickAdminDashboardButton();
 
-  //to do: add method to the admin page object to check for the URL when transition happens, needs to be dynamic
+  //transition check using url
+  await utilsPage.checkCurrentUrl('admin');
+
   //click create the quiz button
   await adminCreatePage.clickAdminCreateQuizButton();
 
-  //to do: add method to the admin page object to check for the URL when transition happens, needs to be dynamic
+  //transition check using url
+  await utilsPage.checkCurrentUrl('admin/create');
+
   //type quiz name
   await adminCreatePage.typeAdminMainInfoName(quizName);
 
   //type quiz password
   await adminCreatePage.typeAdminMainInfoPassword(quizPassword);
 
-  //type quiz password
+  //type quiz pin
   await adminCreatePage.typeAdminMainInfoPin(quizPin);
 
   //click next step button from main info
   await adminCreatePage.clickNextStepButton();
 
-  //to do: add method to the admin page object to check for the URL when transition happens, needs to be dynamic
+  //transition check using url
+  await utilsPage.checkCurrentUrl('admin/create/rounds');
+
   //type the round name and click enter
   await adminCreatePage.typeAdminRoundName(roundName);
 
   //click next step button from rounds overview
   await adminCreatePage.clickNextStepButton();
+
+  //transition check using url
+  await utilsPage.checkCurrentUrl('admin/create/questions');
 
   //select round from dropdown
   await adminCreatePage.selectRoundsDropdown(roundName);
@@ -51,6 +62,9 @@ test('Admin Create Quizz Page Object ', async ({ page }) => {
 
   //click next step button from questions overview
   await adminCreatePage.clickNextStepButton();
+
+  //transition check using url
+  await utilsPage.checkCurrentUrl('admin/create/final');
 
   //check for quiz name
   await adminCreatePage.checkAdminOverviewName(quizName);
