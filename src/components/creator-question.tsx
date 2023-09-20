@@ -60,6 +60,7 @@ export default function CreatorQuestion({
         )}
       </Flex>
       <Input
+        data-testid="AdminQuizQuestionsTypeQuestion_InputField"
         placeholder="Type in your question"
         value={content}
         onChange={handleContentChange}
@@ -88,6 +89,7 @@ export default function CreatorQuestion({
         </>
       )}
       <Input
+        data-testid="AdminQuizQuestionsTypeAnswer_InputField"
         placeholder="Type in your answer"
         value={answer}
         onChange={handleAnswerChange}

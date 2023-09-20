@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import Question from '../../components/question';
 import InQuizWrapper from '../../components/wrappers/in-quiz-wrapper';
@@ -21,6 +21,8 @@ const Play = () => {
     number | undefined
   >();
 
+  const isToastActive = useRef(true);
+
   const { quizData, teamData } = useTeamQuizDataStore((state) => ({
     quizData: state.quizData,
     teamData: state.teamData,
@@ -35,19 +37,19 @@ const Play = () => {
     }
   }, [quizData.quizStatus?.status]);
 
-  const onSubmittedAnswerSuccessfully = (data: TeamAnswers) => {
+  function onSubmittedAnswerSuccessfully(data: TeamAnswers) {
     showSuccessToast('Answer has been saved');
     setCurrentTeamAnswerId(data.id);
-  };
+  }
 
   const { mutate: submitAnswer } = trpc.team.submitAnswer.useMutation({
     onSuccess: onSubmittedAnswerSuccessfully,
     onError: handleTRPCError,
   });
 
-  const handleAnswerChange = (answer: string) => {
+  function handleAnswerChange(answer: string) {
     setAnswer(answer);
-  };
+  }
 
   const currentQuestionId = quizData.quizStatus?.currentQuestion.id;
 
@@ -56,17 +58,17 @@ const Play = () => {
     setCurrentTeamAnswerId(0);
   }, [currentQuestionId]);
 
-  const handleSubmit = async () => {
+  function handleSubmit() {
     if (!teamData.id || !quizData.quizStatus!.currentQuestion.id) return;
 
     // @TODO added notification and error handling
-    await submitAnswer({
+    submitAnswer({
       answer,
       questionId: quizData.quizStatus!.currentQuestion.id,
       teamId: teamData.id,
       teamAnswerId: currentTeamAnswerId,
     });
-  };
+  }
 
   return (
     <Stack spacing={2}>

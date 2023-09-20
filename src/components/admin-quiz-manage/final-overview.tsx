@@ -29,11 +29,19 @@ export default function AdminQuizManageFinalOverview({
     <Flex direction="column" gap={4} {...props}>
       <SubHeader size="md">Main info</SubHeader>
       <Text>Quiz name</Text>
-      <Input value={name} isReadOnly />
+      <Input
+        data-testid="AdminQuizFinalCheck_QuizName"
+        value={name}
+        isReadOnly
+      />
       <Text>Quiz password</Text>
-      <Input value={password} isReadOnly />
+      <Input
+        data-testid="AdminQuizFinalCheck_QuizPassword"
+        value={password}
+        isReadOnly
+      />
       <Text>Quiz PIN</Text>
-      <Input value={pin} isReadOnly />
+      <Input data-testid="AdminQuizFinalCheck_QuizPIN" value={pin} isReadOnly />
       <CSRWrapper>
         {rounds.length > 0 && (
           <Accordion allowToggle>
@@ -41,7 +49,12 @@ export default function AdminQuizManageFinalOverview({
               <AccordionItem key={_id}>
                 <h2>
                   <AccordionButton>
-                    <Box as="span" flex="1" textAlign="left">
+                    <Box
+                      as="span"
+                      flex="1"
+                      textAlign="left"
+                      data-testid="AdminQuizFinalCheck_RoundBox"
+                    >
                       {`Round ${i + 1} Questions`}
                     </Box>
                     <AccordionIcon />
@@ -49,7 +62,11 @@ export default function AdminQuizManageFinalOverview({
                 </h2>
                 <AccordionPanel pb={4}>
                   <Text>Name of this round</Text>
-                  <Input value={name} isReadOnly />
+                  <Input
+                    data-testid="AdminQuizFinalCheck_RoundName"
+                    value={name}
+                    isReadOnly
+                  />
                   {questions.map((question, i) => (
                     <CreatorQuestion
                       key={question._id}

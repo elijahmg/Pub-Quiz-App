@@ -74,7 +74,7 @@ const AdminHome = () => {
             You will need a password to go to the dashboard!
           </Text>
           <Input
-            testId="AdminQuizPassword_InputField"
+            data-testid="AdminQuizPassword_InputField"
             type="password"
             placeholder="Quiz password"
             value={password}

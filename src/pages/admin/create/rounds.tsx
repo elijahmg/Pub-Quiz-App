@@ -20,7 +20,7 @@ const QuizCreateRounds = () => {
       <Heading as="h3" size="sm" color="#A0A2A4">
         Creating a new quiz
       </Heading>
-      <SubHeader>Rounds</SubHeader>
+      <SubHeader testId="AdminCreateQuizRounds_Header">Rounds</SubHeader>
       <AdminQuizManageRoundsForm
         quizData={quizData}
         onQuizDataChange={handleQuizDataChange}

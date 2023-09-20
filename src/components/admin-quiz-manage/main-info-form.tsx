@@ -71,6 +71,7 @@ export default function AdminQuizManageMainInfoForm({
             <FormControl isInvalid={!!(errors.name && touched.name)}>
               <FormLabel>Please name your quiz</FormLabel>
               <Input
+                data-testid="AdminQuizMainInfoName_InputField"
                 {...field}
                 placeholder="E.g.: I hate Mondays"
                 onChange={getCombinedFunction(onChange, handleNameChange)}
@@ -86,6 +87,7 @@ export default function AdminQuizManageMainInfoForm({
             <FormControl isInvalid={!!(errors.password && touched.password)}>
               <FormLabel>Add the password</FormLabel>
               <Input
+                data-testid="AdminQuizMainInfoPassword_InputField"
                 {...field}
                 placeholder="E.g.: AmazingQuiz1!"
                 onChange={getCombinedFunction(onChange, handlePasswordChange)}
@@ -101,6 +103,7 @@ export default function AdminQuizManageMainInfoForm({
             <FormControl isInvalid={!!(errors.pin && touched.pin)}>
               <FormLabel>Add the PIN</FormLabel>
               <Input
+                data-testid="AdminQuizMainInfoPIN_InputField"
                 {...field}
                 placeholder="E.g.: 1234"
                 onChange={getCombinedFunction(onChange, handlePinChange)}

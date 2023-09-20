@@ -62,6 +62,7 @@ export default function AdminQuizManageRoundsForm({
     <Flex direction="column" gap={4} {...props}>
       <Text>Please add your name of the round</Text>
       <Input
+        data-testid="AdminQuizRoundsTopic_InputField"
         value={roundName}
         placeholder="E.g.: World Leaders"
         onChange={handleRoundNameChange}
@@ -71,6 +72,7 @@ export default function AdminQuizManageRoundsForm({
       <Text>Rounds created</Text>
       <InputGroup>
         <InputLeftElement
+          data-testid="AdminQuizRoundsTopicsCreated_TagField"
           width="auto"
           height="100%"
           alignItems="center"
@@ -91,7 +93,9 @@ export default function AdminQuizManageRoundsForm({
                 onClick={() => handleRoundRemove(i)}
                 cursor="pointer"
               />
-              <TagLabel>{name}</TagLabel>
+              <TagLabel data-testid="AdminQuizRoundsTopicsCreated_Tag">
+                {name}
+              </TagLabel>
             </Tag>
           ))}
         </InputLeftElement>

@@ -4,7 +4,7 @@ import useIsAdmin from '../../hooks/use-is-admin';
 
 export interface Props extends HeadingProps {
   children: ReactNode;
-  testId: string;
+  testId?: string;
 }
 
 export default function Header({ children, testId, ...props }: Props) {
