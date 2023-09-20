@@ -79,7 +79,7 @@ model TeamAnswers {
   id         Int      @id @default(autoincrement())
   questionId Int
   question   Question @relation(fields: [questionId], references: [id])
-  answer     String   @default("-")
+  answer     String
   score      Float?
   team       Team     @relation(fields: [teamId], references: [id])
   teamId     Int

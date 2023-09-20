@@ -56,21 +56,21 @@ const QuizControl = () => {
   };
 
   const handleEndRound = async () => {
-    if (!quizData.id) return;
+    if (!quizData.quizStatus.id) return;
 
     setIsRoundEnded(true);
 
     updateQuizStatus({
-      id: quizData.id,
+      id: quizData.quizStatus.id,
       quizStatus: QuizStatusEnum.END_ROUND,
     });
   };
 
   const handleCheckAnswers = async () => {
-    if (!quizData.id) return;
+    if (!quizData.quizStatus.id) return;
 
     updateQuizStatus({
-      id: quizData.id,
+      id: quizData.quizStatus.id,
       quizStatus: QuizStatusEnum.EVALUATION,
     });
 
