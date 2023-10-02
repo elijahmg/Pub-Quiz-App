@@ -50,9 +50,9 @@ export default function OverviewQuestion({
 
   return (
     <FormControl>
-      <FormLabel>{`Q${
-        questionIndex + 1
-      }: ${content} - ${correctAnswer}`}</FormLabel>
+      <FormLabel>
+        Q{questionIndex + 1}: {content}. Correct answer: <b>{correctAnswer}</b>
+      </FormLabel>
       <InputGroup size="lg">
         <Input isReadOnly value={answer} />
         <InputRightElement

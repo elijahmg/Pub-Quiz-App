@@ -33,6 +33,8 @@ const TeamsOverview = () => {
         roundId: quizData.quizStatus!.currentQuestion.roundId,
       },
       {
+        refetchOnMount: 'always',
+        networkMode: 'online',
         enabled:
           !!quizData.id && !!quizData.quizStatus!.currentQuestion.roundId,
       },
@@ -61,10 +63,7 @@ const TeamsOverview = () => {
     });
   };
 
-  const canEndRound = useMemo(() => {
-    return true;
-  }, []);
-
+  // @TODO util
   function isTeamScored(answers: Answer[]) {
     if (!answers.length) return false;
 
@@ -101,7 +100,6 @@ const TeamsOverview = () => {
         disabled={isAllTeamsHaveBeenScored}
         testId="AdminEndRound_Button"
         onClick={handleEndRound}
-        isDisabled={!canEndRound}
       >
         End round
       </PrimaryButton>

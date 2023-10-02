@@ -5,14 +5,12 @@ import QuestionMedia from './question-media';
 
 interface Props extends StackProps {
   question: CurrentQuestion;
-  questionIndex: number;
   answer: string;
   onAnswerChange: (answer: string) => void;
 }
 
 export default function Question({
   question,
-  questionIndex,
   answer,
   onAnswerChange,
   ...props
@@ -25,7 +23,7 @@ export default function Question({
 
   return (
     <Stack spacing={2} {...props}>
-      <Text>{`Q${questionIndex + 1}: ${content}`}</Text>
+      <Text>Q: {content}</Text>
       {!!mediaURL && !!mediaType && (
         <QuestionMedia url={mediaURL} type={mediaType} />
       )}

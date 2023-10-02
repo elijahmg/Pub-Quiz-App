@@ -3,10 +3,7 @@ import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
 import { Flex } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import SecondaryButton from '../../../../components/buttons/secondary-button';
-import {
-  AdminQuizControlContextWrapper,
-  useAdminQuizControlContext,
-} from '../../../../components/contexts/admin-quiz-control-context';
+import { AdminQuizControlContextWrapper } from '../../../../components/contexts/admin-quiz-control-context';
 import HighlightHeader from '../../../../components/headers/highlight-header';
 import OverviewQuestion from '../../../../components/overview-question';
 import AdminQuizControlWrapper from '../../../../components/wrappers/admin-quiz-control-wrapper';
@@ -36,8 +33,6 @@ const AdminQuizTeamCheck = () => {
 
   const { mutate: handleTeamScoreUpdate } =
     trpc.admin.handleTeamScore.useMutation();
-
-  const { questionIndex } = useAdminQuizControlContext();
 
   const handlePointsChange = (teamAnswerId: number, points: number) => {
     handleTeamScoreUpdate({
@@ -71,11 +66,11 @@ const AdminQuizTeamCheck = () => {
   return (
     <>
       <HighlightHeader>{`Team: ${team?.name}`}</HighlightHeader>
-      {team!.answers.map((teamAnswer) => (
+      {team!.answers.map((teamAnswer, index) => (
         <OverviewQuestion
           key={teamAnswer.id}
           question={teamAnswer.question}
-          questionIndex={questionIndex}
+          questionIndex={index}
           answer={teamAnswer.answer}
           points={teamAnswer.score}
           onPointsChange={(points) => handlePointsChange(teamAnswer.id, points)}

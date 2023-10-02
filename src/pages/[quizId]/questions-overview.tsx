@@ -51,8 +51,6 @@ const QuestionsOverview = () => {
 
   if (isLoading || !data) return null;
 
-  console.log(data);
-
   return (
     <Stack spacing={6}>
       {data.filteredTeamAnswersByRoundId.map((teamAnswerData, index) => {
