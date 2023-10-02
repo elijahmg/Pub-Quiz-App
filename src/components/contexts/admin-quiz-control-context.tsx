@@ -27,6 +27,9 @@ interface Props {
 export const AdminQuizControlContextWrapper = ({ children }: Props) => {
   const { query } = useRouter();
 
+  const [roundIndex, setRoundIndex] = useState(0);
+  const [questionIndex, setQuestionIndex] = useState(0);
+
   const { handleTRPCError } = useResponseToast();
 
   const { quizData, setQuizData } = useAdminQuizDataState((state) => ({
@@ -34,7 +37,7 @@ export const AdminQuizControlContextWrapper = ({ children }: Props) => {
     setQuizData: state.setQuizData,
   }));
 
-  const { isLoading: isFullQuizDataLoading } =
+  const { isLoading: isFullQuizDataLoading, refetch } =
     trpc.admin.getFullQuizData.useQuery(
       {
         quizId: Number(query.quizId),
@@ -61,6 +64,7 @@ export const AdminQuizControlContextWrapper = ({ children }: Props) => {
     const questionIndex = rounds[roundIndex].questions.findIndex(
       (question) => question.id === id,
     );
+
     setQuestionIndex(questionIndex);
   };
 
@@ -69,25 +73,17 @@ export const AdminQuizControlContextWrapper = ({ children }: Props) => {
 
   const teams = [] as Team[];
 
-  const [roundIndex, setRoundIndex] = useState(0);
-
-  const [questionIndex, setQuestionIndex] = useState(0);
-
-  const handleSetRoundIndex = (roundIndex: number) => {
-    setRoundIndex(roundIndex);
-  };
-
-  const handleSetQuestionIndex = (questionIndex: number) => {
-    setQuestionIndex(questionIndex);
-  };
-
   const contextValue = {
     quiz,
     teams,
     roundIndex,
-    setRoundIndex: handleSetRoundIndex,
+    setRoundIndex: (roundIndex: number) => setRoundIndex(roundIndex),
     questionIndex,
-    setQuestionIndex: handleSetQuestionIndex,
+    setQuestionIndex: (questionIndex: number) => {
+      setQuestionIndex(questionIndex);
+      // I dont like it
+      refetch();
+    },
   };
 
   if (isFullQuizDataLoading) return null;

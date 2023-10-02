@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Question from '../../components/question';
 import InQuizWrapper from '../../components/wrappers/in-quiz-wrapper';
@@ -20,8 +20,6 @@ const Play = () => {
   const [currentTeamAnswerId, setCurrentTeamAnswerId] = useState<
     number | undefined
   >();
-
-  const isToastActive = useRef(true);
 
   const { quizData, teamData } = useTeamQuizDataStore((state) => ({
     quizData: state.quizData,
@@ -74,7 +72,6 @@ const Play = () => {
     <Stack spacing={2}>
       <Question
         question={quizData.quizStatus!.currentQuestion}
-        questionIndex={questionIndex}
         answer={answer}
         onAnswerChange={handleAnswerChange}
       />

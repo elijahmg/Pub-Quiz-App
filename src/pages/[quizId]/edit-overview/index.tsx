@@ -43,7 +43,6 @@ const questions = [
 
 const handleChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
   questions[index].answer = e.target.value;
-  console.log(questions);
 };
 
 function QuestionList() {
