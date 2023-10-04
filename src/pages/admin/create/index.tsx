@@ -44,7 +44,7 @@ const QuizCreate = () => {
       <Heading as="h3" size="sm" color="#A0A2A4">
         Creating a new quiz
       </Heading>
-      <SubHeader>Main info</SubHeader>
+      <SubHeader testId="AdminCreateQuizMainInfo_Header">Main info</SubHeader>
       <AdminQuizManageMainInfoForm
         quizData={quizData}
         onQuizDataChange={handleQuizDataChange}

@@ -34,7 +34,9 @@ const QuizCreateFinal = () => {
       <Heading as="h3" size="sm" color="#A0A2A4">
         Creating a new quiz
       </Heading>
-      <SubHeader>Final check & create</SubHeader>
+      <SubHeader testId="AdminCreateQuizFinalCheck_Header">
+        Final check & create
+      </SubHeader>
       <AdminQuizManageFinalOverview quizData={quizData} />
       <Flex gap={2} mt="auto" alignSelf="end">
         <SecondaryButton

@@ -54,7 +54,7 @@ const AdminHome = () => {
   return (
     <Grid gap={8} gridTemplateColumns="repeat(2, 1fr)" alignItems="center">
       <GridItem as={Stack} spacing={8}>
-        <Header>
+        <Header testId="AdminCreateQuiz_Header">
           <Text as="span" color="secondary.100">
             Welcome to
           </Text>
@@ -74,6 +74,7 @@ const AdminHome = () => {
             You will need a password to go to the dashboard!
           </Text>
           <Input
+            data-testid="AdminQuizPassword_InputField"
             type="password"
             placeholder="Quiz password"
             value={password}

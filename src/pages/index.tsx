@@ -32,7 +32,11 @@ const Home: NextPageWithLayout = () => {
       gap={8}
     >
       <GridItem area="header">
-        <Header textAlign={{ base: 'center', md: 'left' }} whiteSpace="nowrap">
+        <Header
+          textAlign={{ base: 'center', md: 'left' }}
+          whiteSpace="nowrap"
+          testId="LandingPage_Header"
+        >
           Hello there! 👋
         </Header>
       </GridItem>
